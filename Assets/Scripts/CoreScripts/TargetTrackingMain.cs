@@ -28,6 +28,8 @@ public class TargetTrackingMain : MonoBehaviour
     [Range(1, 100), Tooltip("Set the level of difficulty for this task. Higher difficulty increases field size, movement speed, number of targets and number of marked targets gradually.")]
     public int difficultyLevel = 1;
 
+
+
     // ### Editor input ###
     [Header("Editor input")]
 
@@ -45,6 +47,9 @@ public class TargetTrackingMain : MonoBehaviour
     public Texture2D unmarkedImage;
 
     //UI and canvas
+    [Tooltip("Enter the layer mask of the UI.")]
+    public LayerMask UILayer;
+
     [Tooltip("Enter the canvas for the UI interface.")]
     public GameObject infoCanvas;
 
@@ -86,6 +91,14 @@ public class TargetTrackingMain : MonoBehaviour
     [Tooltip("Enter the material of the background screen.")]
     public Material screenSizeMaterial;
 
+    [Tooltip("Enter the debug text output.")]
+    public TextMeshPro text;
+
+    [Tooltip("Set the amount of blur for the scene to simulate low visual acuity.")]
+    public float blurAmount;
+
+
+
     // ### Output variables ###
     [Header("Output variables")]
 
@@ -101,6 +114,8 @@ public class TargetTrackingMain : MonoBehaviour
     [Tooltip("Shows the total duration during which the gaze rested on a marked target.")]
     public float timeDuringTracking;
 
+
+
     // ### Debug info ###
     [Header("Debug info")]
 
@@ -109,17 +124,25 @@ public class TargetTrackingMain : MonoBehaviour
 
     enum CurrentStep { menu, initiate, track, findTargets, restart };
 
+
+
     // ### Private variables ###
     [Header("Private variables")]
     
     //Counts the time until
     private float timer;
 
+    //The Dynamic Field of View (Dfov) value. Defines how much visual area was covered by the limited visual field over a fixed duration.
+    float dfov;
+
     //Should be true if the last trial was selected as failed trial.
     bool failSelected;
 
     //Should be true if at least one trial was executed this session
     bool firstTrialDone;
+
+    //Checks if the trigger of one of the VR controllers was pressed.
+    bool hasPressedTrigger;
 
     //List of targets.
     [HideInInspector]
@@ -129,20 +152,19 @@ public class TargetTrackingMain : MonoBehaviour
     [HideInInspector]
     public int progress = 0;
 
-
+    [Tooltip("Enter the main camera, found in the VR player rig.")]
     public Camera cam;
 
+    [Tooltip("Enter the VR_Input_Script from the ScriptManager.")]
     public VR_Input_Manager vrInput;
+
 
     public LayerMask targetTrackingLayer;
 
-    public LayerMask UILayer;
 
-    public TextMeshPro text;
 
-    bool hasPressedTrigger;
 
-    float dfov;
+
 
     //no scripts yet
 
@@ -154,7 +176,7 @@ public class TargetTrackingMain : MonoBehaviour
 
     //[SerializeField] ForwardRendererData forwardRendererData;
 
-    public float blurAmount;
+
 
     void Start()
     {
