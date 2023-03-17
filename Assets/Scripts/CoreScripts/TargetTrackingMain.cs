@@ -132,7 +132,7 @@ public class TargetTrackingMain : MonoBehaviour
 
     public Camera cam;
 
-    //public ControllerClickManager vrInput;
+    public VR_Input_Manager vrInput;
 
     public LayerMask targetTrackingLayer;
 
@@ -163,7 +163,15 @@ public class TargetTrackingMain : MonoBehaviour
 
     void Update()
     {
-        
+        InputCheck();
+    }
+
+    void InputCheck()
+    {
+        if (vrInput.GetPrimaryButtonDown)
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     //Function to adjust screensize according to set maximum field size and difficulty modifier.
