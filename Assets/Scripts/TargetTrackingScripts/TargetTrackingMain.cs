@@ -84,6 +84,10 @@ public class TargetTrackingMain : MonoBehaviour
     [Tooltip("Enter the audioClip for selecting a wrong target.")]
     public AudioClip errorClip;
 
+    //Scripts
+    [Tooltip("Enter the TrialManager Script.")]
+    public TrialManager trialManager;
+
     //Others
     [Tooltip("Enter both visual pointer rays of the controllers that are disabled during trials.")]
     public GameObject[] controllerRays = new GameObject[2];
@@ -159,9 +163,6 @@ public class TargetTrackingMain : MonoBehaviour
     public VR_Input_Manager vrInput;
 
 
-    public LayerMask targetTrackingLayer;
-
-
 
 
 
@@ -186,6 +187,11 @@ public class TargetTrackingMain : MonoBehaviour
     void Update()
     {
         InputCheck();
+
+        if(currentStep == CurrentStep.initiate)
+        {
+            InitiateTrial();
+        }
     }
 
     void InputCheck()
@@ -194,6 +200,107 @@ public class TargetTrackingMain : MonoBehaviour
         {
             SceneManager.LoadScene(0);
         }
+    }
+
+    private void InitiateTrial()
+    {
+        correctTargetCounter = 0;
+
+        timeDuringTracking = 0;
+
+        SetBlurValue(0);
+
+        difficultyLevel = trialManager.GetDifficulty();
+
+        difficultyText.text = "Level: " + trialManager.GetLevel().ToString() + " (aktuelle Schwierigkeit: " + difficultyLevel.ToString() + ")";
+
+        //dfovScript.tunnelVision = false; // (Random.value > 0.5f);
+
+        timer = duration * Random.Range(0.75f, 1.33f);
+
+        totalTargets = 5 + Mathf.RoundToInt(difficultyLevel / 2.0f);
+
+        markedTargets = 2 + Mathf.RoundToInt(0.25f + difficultyLevel / 20.0f);
+
+        if (firstTrialDone)
+        {
+            currentTrialText.text = "Runden absolviert: " + (trialManager.GetCurrentTrials() + 1).ToString() + "/20";
+
+            resultText.text = "Fehler: " + errors.ToString() + "\nSichtfeld: " + dfov.ToString("f1") + "%";
+        }
+        else
+        {
+            currentTrialText.text = "Runden absolviert: " + (trialManager.GetCurrentTrials()).ToString() + "/20";
+        }
+
+        progress = trialManager.GetProgress();
+
+        progressBar.fillAmount = progress / 100.0f;
+
+        AdjustScreensize();
+
+        if (targets.Length != totalTargets)
+        {
+            for (int i = 0; i < targets.Length; i++)
+            {
+                if (targets[i] != null)
+                    targets[i].SetActive(false);
+            }
+
+            targets = new GameObject[totalTargets];
+        }
+
+        for (int i = 0; i < totalTargets; i++)
+        {
+            GameObject target;
+            if (targets[i] == null)
+            {
+                target = GameObject.Instantiate(targetPrefab);
+                target.transform.parent = transform;
+                targets[i] = target;
+            }
+            else
+            {
+                target = targets[i];
+            }
+
+            TargetTracking_TargetMovement moveTarget = targets[i].GetComponentInChildren<TargetTracking_TargetMovement>();
+
+            moveTarget.errorMarker.SetActive(false);
+
+            target.tag = "incorrectTarget";
+            //target.GetComponent<KartesianToRadial>().XY_angles = new Vector2(Random.Range(-fieldDimensions.x / 2, fieldDimensions.x / 2), Random.Range(-fieldDimensions.y / 2, fieldDimensions.y / 2));
+            target.GetComponent<KartesianToRadialTransform>().XY_angles = new Vector2(Random.Range(-10, 10), Random.Range(-10, 10));
+            target.GetComponent<KartesianToRadialTransform>().zDistance = 1.9f;
+
+            target.SetActive(false);
+        }
+
+        for (int i = 0; i < markedTargets; i++)
+        {
+            TargetTracking_TargetMovement moveTarget = targets[i].GetComponentInChildren<TargetTracking_TargetMovement>();
+
+            moveTarget.correctTargetIndicator.SetActive(true);
+
+            targets[i].tag = "correctTarget";
+        }
+
+        //remove cheese in case of difficulty downgrade
+        targets[markedTargets].GetComponentInChildren<TargetTracking_TargetMovement>().correctTargetIndicator.SetActive(false);
+
+        vrInput.GetMainTriggerDown = false;
+
+        currentStep = CurrentStep.track;
+    }
+
+    private void ProceedToNextStage()
+    {
+
+    }
+
+    private void SetBlurValue(float blurValue)
+    {
+
     }
 
     //Function to adjust screensize according to set maximum field size and difficulty modifier.

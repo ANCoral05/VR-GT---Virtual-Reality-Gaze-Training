@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class VR_Input_Manager : MonoBehaviour
 {
+    [HideInInspector] //Is true if the primary button (A or X) is pressed on the controller.
     public bool GetPrimaryButtonDown;
+
+    [HideInInspector] //Is true if the trigger of the currently active controller is pressed.
+    public bool GetMainTriggerDown;
 
     // Start is called before the first frame update
     void Start()
