@@ -9,11 +9,42 @@ using UnityEngine;
 
 public class TargetTracking_TargetMovement : MonoBehaviour
 {
+    // ### Input variables ###
+    [Header("Input variables")]
+
+    [Tooltip("The distance at which a target will turn around to avoid collisions.")]
+    public float bounceDistance = 0.15f;
+
+    [Tooltip("The movement speed of the target.")]
+    public float speed;
+
+    // ### Editor input ###
+    [Header("Editor input")]
+
     [Tooltip("Enter the ImageGameObject of the target prefab showing the indicator when a wrong target was selected.")]
     public GameObject errorMarker;
 
     [Tooltip("Enter the ImageGameObject of the target prefab that marks a correct target during the \"tracking\" stage.")]
     public GameObject correctTargetIndicator;
+
+    // ### Debug info ###
+    [Header("Debug info")]
+
+
+
+    // ### Private variables ###
+    [Header("Private variables")]
+
+    [HideInInspector]
+    public bool allowedToMove;
+
+    private Vector2 xy_angles;
+
+    [HideInInspector] //TODO: Rename and potentially change to private; The Vector2 by which the target moves over one frame
+    public Vector2 shiftingAngles;
+
+    //The shifting angle of the previous frame.
+    private Vector2 previousAngles;
 
 
     void Start()

@@ -202,43 +202,16 @@ public class TargetTrackingMain : MonoBehaviour
         }
     }
 
+    // This function initializes the trial by placing the required number of targets, 
+    // marking some targets as "correct targets" and resetting all floats and ints from 
+    // the last trial.
     private void InitiateTrial()
     {
-        correctTargetCounter = 0;
-
-        timeDuringTracking = 0;
-
-        SetBlurValue(0);
-
-        difficultyLevel = trialManager.GetDifficulty();
-
-        difficultyText.text = "Level: " + trialManager.GetLevel().ToString() + " (aktuelle Schwierigkeit: " + difficultyLevel.ToString() + ")";
-
-        //dfovScript.tunnelVision = false; // (Random.value > 0.5f);
-
-        timer = duration * Random.Range(0.75f, 1.33f);
-
-        totalTargets = 5 + Mathf.RoundToInt(difficultyLevel / 2.0f);
-
-        markedTargets = 2 + Mathf.RoundToInt(0.25f + difficultyLevel / 20.0f);
-
-        if (firstTrialDone)
-        {
-            currentTrialText.text = "Runden absolviert: " + (trialManager.GetCurrentTrials() + 1).ToString() + "/20";
-
-            resultText.text = "Fehler: " + errors.ToString() + "\nSichtfeld: " + dfov.ToString("f1") + "%";
-        }
-        else
-        {
-            currentTrialText.text = "Runden absolviert: " + (trialManager.GetCurrentTrials()).ToString() + "/20";
-        }
-
-        progress = trialManager.GetProgress();
-
-        progressBar.fillAmount = progress / 100.0f;
+        ResetParametersAfterTrial();
 
         AdjustScreensize();
 
+        //Set the number of total targets (=all targets, with or without marker)
         if (targets.Length != totalTargets)
         {
             for (int i = 0; i < targets.Length; i++)
@@ -249,7 +222,7 @@ public class TargetTrackingMain : MonoBehaviour
 
             targets = new GameObject[totalTargets];
         }
-
+        //Set all targets to unmarked first
         for (int i = 0; i < totalTargets; i++)
         {
             GameObject target;
@@ -275,7 +248,7 @@ public class TargetTrackingMain : MonoBehaviour
 
             target.SetActive(false);
         }
-
+        //Add markers to specified number of targets
         for (int i = 0; i < markedTargets; i++)
         {
             TargetTracking_TargetMovement moveTarget = targets[i].GetComponentInChildren<TargetTracking_TargetMovement>();
@@ -285,12 +258,49 @@ public class TargetTrackingMain : MonoBehaviour
             targets[i].tag = "correctTarget";
         }
 
-        //remove cheese in case of difficulty downgrade
+        //Remove cheese in case of difficulty downgrade
         targets[markedTargets].GetComponentInChildren<TargetTracking_TargetMovement>().correctTargetIndicator.SetActive(false);
 
         vrInput.GetMainTriggerDown = false;
 
         currentStep = CurrentStep.track;
+    }
+
+    private void ResetParametersAfterTrial()
+    {
+        correctTargetCounter = 0;
+
+        timeDuringTracking = 0;
+
+        SetBlurValue(0);
+
+        difficultyLevel = trialManager.GetDifficulty();
+
+        //dfovScript.tunnelVision = false; // (Random.value > 0.5f);
+
+        timer = duration * Random.Range(0.75f, 1.33f);
+
+        totalTargets = 5 + Mathf.RoundToInt(difficultyLevel / 2.0f);
+
+        markedTargets = 2 + Mathf.RoundToInt(0.25f + difficultyLevel / 20.0f);
+
+        progress = trialManager.GetProgress();
+
+        progressBar.fillAmount = progress / 100.0f;
+
+        //Change Text of UI interface to show the updated parameters
+        difficultyText.text = "Level: " + trialManager.GetLevel().ToString() + " (aktuelle Schwierigkeit: " + difficultyLevel.ToString() + ")";
+
+        if (firstTrialDone)
+        {
+            currentTrialText.text = "Runden absolviert: " + (trialManager.GetCurrentTrials() + 1).ToString() + "/20";
+
+            resultText.text = "Fehler: " + errors.ToString() + "\nSichtfeld: " + dfov.ToString("f1") + "%";
+        }
+        else
+        {
+            currentTrialText.text = "Runden absolviert: " + (trialManager.GetCurrentTrials()).ToString() + "/20";
+        }
     }
 
     private void ProceedToNextStage()
