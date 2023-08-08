@@ -1,0 +1,9 @@
+cff-version: 1.0.0
+message: "If you want to cite this software, you can use the following information."
+authors:
+  - family-names: Neugebauer
+    given-names: Alexander
+    orcid: https://orcid.org/0000-0002-3254-2168
+title: "VR-GT - Virtual Reality Gaze Training"
+version: 0.1.0
+date-released: 2023-03-11
