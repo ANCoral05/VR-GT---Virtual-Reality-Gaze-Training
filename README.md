@@ -1,4 +1,4 @@
-# GazeQuest - A Virtual Reality Framework for Rehabilitation, Simulation, and Research of Visual Field Defects
+# GazeQuest - A Virtual Reality Framework for Rehabilitation, Simulation, and Research of Visual Field Defects (work in progress)
 
 ## Overview
 
@@ -47,7 +47,7 @@ Currently, the only Virtual Reality device supported by the GazeQuest is the Pic
 
 ### Clinical Trial
 
-The software has been experimentally tested and evaluated in a clinical trial, retrospectively approved by the German Registry of Clinical Trials (DRKS) under the ID DRKS00032628 (https://drks.de/search/de/trial/DRKS00032628). Results of the clinical trial are reported in the second publication listed above.
+The software has been experimentally tested and evaluated in a clinical trial, retrospectively approved by the German Registry of Clinical Trials (DRKS) under the ID DRKS00032628 [(link)](https://drks.de/search/de/trial/DRKS00032628). Results of the clinical trial are reported in the second publication listed above.
 
 ## Contributing
 
