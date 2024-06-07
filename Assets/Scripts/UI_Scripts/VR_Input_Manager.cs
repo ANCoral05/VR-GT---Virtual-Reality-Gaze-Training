@@ -15,6 +15,9 @@ public class VR_Input_Manager : MonoBehaviour
     private InputDevice leftDevice;
     private InputDevice rightDevice;
 
+    //The currently active controller, defined by which controller was last used
+    private InputDevice activeDevice;
+
     //Is true if the trigger button of the left or right controller is pressed
     private bool leftTriggerPressed;
     private bool rightTriggerPressed;
@@ -36,6 +39,9 @@ public class VR_Input_Manager : MonoBehaviour
     //TODO: Description
     public bool controllerTracking;
 
+    //Bools to store key and trigger states
+    public bool GetMainTrigger;
+
     public RaycastHit controllerClickRaycast(LayerMask UILayer)
     {
         RaycastHit hitPosition = new RaycastHit();
@@ -50,6 +56,67 @@ public class VR_Input_Manager : MonoBehaviour
             }
         }
         return hitPosition;
+    }
+
+    private void OnEnable()
+    {
+        if (!leftDevice.isValid || !rightDevice.isValid)
+        {
+            GetDevices();
+        }
+    }
+
+    private void GetMainTriggerData()
+    {
+        if (leftDevice.TryGetFeatureValue(CommonUsages.triggerButton, out leftTriggerPressed))
+        {
+            if (leftTriggerPressed)
+            {
+                if (!GetMainTrigger)
+                {
+                    activePointer = leftPointer;
+
+                    activeDevice = leftDevice;
+
+                    leftPointer.SetActive(true);
+
+                    rightPointer.SetActive(false);
+
+                    GetMainTriggerDown = true;
+                }
+                else
+                {
+                    GetMainTriggerDown = false;
+                }
+
+                GetMainTrigger = true;
+            }
+        }
+
+        if (rightDevice.TryGetFeatureValue(CommonUsages.triggerButton, out rightTriggerPressed))
+        {
+            if (rightTriggerPressed)
+            {
+                if (!GetMainTrigger)
+                {
+                    activePointer = rightPointer;
+
+                    activeDevice = rightDevice;
+
+                    leftPointer.SetActive(false);
+
+                    rightPointer.SetActive(true);
+
+                    GetMainTriggerDown = true;
+                }
+                else
+                {
+                    GetMainTriggerDown = false;
+                }
+
+                GetMainTrigger = true;
+            }
+        }
     }
 
     void GetDevices()
