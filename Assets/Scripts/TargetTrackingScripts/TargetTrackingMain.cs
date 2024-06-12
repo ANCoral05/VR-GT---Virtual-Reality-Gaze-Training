@@ -266,6 +266,21 @@ public class TargetTrackingMain : MonoBehaviour
         currentStep = CurrentStep.track;
     }
 
+    private void TrackingPhase()
+    {
+        if (vrInput.controllerClickRaycast(UILayer).collider != null && vrInput.controllerClickRaycast(UILayer).transform.gameObject == nextButton)
+        {
+
+        }
+
+            currentStep = CurrentStep.findTargets;
+    }
+
+    private void SelectionPhase()
+    {
+
+    }
+
     private void ResetParametersAfterTrial()
     {
         correctTargetCounter = 0;

@@ -68,44 +68,23 @@ public class VR_Input_Manager : MonoBehaviour
 
     private void GetMainTriggerData()
     {
-        if (leftDevice.TryGetFeatureValue(CommonUsages.triggerButton, out leftTriggerPressed))
+        CheckTrigger(leftDevice, leftPointer, rightPointer);
+        CheckTrigger(rightDevice, rightPointer, leftPointer);
+    }
+
+    private void CheckTrigger(InputDevice device, GameObject pointerToActivate, GameObject pointerToDeactivate)
+    {
+        if (device.TryGetFeatureValue(CommonUsages.triggerButton, out bool triggerPressed))
         {
-            if (leftTriggerPressed)
+            if (triggerPressed)
             {
                 if (!GetMainTrigger)
                 {
-                    activePointer = leftPointer;
+                    activePointer = pointerToActivate;
+                    activeDevice = device;
 
-                    activeDevice = leftDevice;
-
-                    leftPointer.SetActive(true);
-
-                    rightPointer.SetActive(false);
-
-                    GetMainTriggerDown = true;
-                }
-                else
-                {
-                    GetMainTriggerDown = false;
-                }
-
-                GetMainTrigger = true;
-            }
-        }
-
-        if (rightDevice.TryGetFeatureValue(CommonUsages.triggerButton, out rightTriggerPressed))
-        {
-            if (rightTriggerPressed)
-            {
-                if (!GetMainTrigger)
-                {
-                    activePointer = rightPointer;
-
-                    activeDevice = rightDevice;
-
-                    leftPointer.SetActive(false);
-
-                    rightPointer.SetActive(true);
+                    pointerToActivate.SetActive(true);
+                    pointerToDeactivate.SetActive(false);
 
                     GetMainTriggerDown = true;
                 }
@@ -118,6 +97,7 @@ public class VR_Input_Manager : MonoBehaviour
             }
         }
     }
+
 
     void GetDevices()
     {
