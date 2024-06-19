@@ -1,5 +1,45 @@
 {
     "name": "InputManager",
-    "maps": [],
+    "maps": [
+        {
+            "name": "MenuInputs",
+            "id": "2177f0fc-f872-4e43-b498-197d23d3cbbb",
+            "actions": [
+                {
+                    "name": "Select",
+                    "type": "Button",
+                    "id": "921dc40e-c7b3-454d-aaf7-79efcc2d658b",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "473a82d1-f84e-4e5a-8cd4-b43e1b6aeddc",
+                    "path": "<XRController>{RightHand}/{PrimaryTrigger}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "194b24db-c522-4562-a9ba-e1ca5a39b5f1",
+                    "path": "<XRController>{LeftHand}/{PrimaryTrigger}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
     "controlSchemes": []
 }

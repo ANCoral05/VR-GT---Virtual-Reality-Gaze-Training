@@ -6,9 +6,11 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/Tasks/MovingTargetTrackingTask.unity
+    guid: 762bcf4279ca90a4598e576b9d2b630c
   m_configObjects:
+    Unity.XR.PXR.Settings: {fileID: 11400000, guid: 7ecf7e590c9d57a4ebf6840d42194ee1,
+      type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 57d0c931f8ee7a24892a83b51743dc78,
       type: 2}
     com.unity.xr.openxr.settings4: {fileID: 11400000, guid: b7134e62e4d5b4d4e9abde2dee644e4d,
