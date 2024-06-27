@@ -268,12 +268,15 @@ public class TargetTrackingMain : MonoBehaviour
 
     private void TrackingPhase()
     {
+        //TODO: Replace with automated function from Input System Core Script
         if (vrInput.controllerClickRaycast(UILayer).collider != null && vrInput.controllerClickRaycast(UILayer).transform.gameObject == nextButton)
         {
 
         }
 
-            currentStep = CurrentStep.findTargets;
+
+
+        currentStep = CurrentStep.findTargets;
     }
 
     private void SelectionPhase()
