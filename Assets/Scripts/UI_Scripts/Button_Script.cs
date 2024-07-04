@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Button_Script : MonoBehaviour
 {
+    [SerializeField]
+    private Texture2D hover_texture;
+
+    [SerializeField]
+    private Texture2D idle_texture;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -14,5 +20,20 @@ public class Button_Script : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void onPress()
+    {
+
+    }
+
+    void onHover()
+    {
+        this.GetComponentInChildren<Renderer>().material.mainTexture = hover_texture;
+    }
+
+    void onHoverEnd()
+    {
+        this.GetComponentInChildren<Renderer>().material.mainTexture = idle_texture;
     }
 }
