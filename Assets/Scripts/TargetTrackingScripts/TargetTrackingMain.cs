@@ -88,7 +88,13 @@ public class TargetTrackingMain : MonoBehaviour
     [Tooltip("Enter the TrialManager Script.")]
     public TrialManager trialManager;
 
+    [Tooltip("Enter the VR_Input_Script from the ScriptManager.")]
+    public VR_Input_Manager vrInput;
+
     //Others
+    [Tooltip("Enter the main camera, found in the VR player rig.")]
+    public Camera cam;
+
     [Tooltip("Enter both visual pointer rays of the controllers that are disabled during trials.")]
     public GameObject[] controllerRays = new GameObject[2];
 
@@ -126,7 +132,7 @@ public class TargetTrackingMain : MonoBehaviour
     [SerializeField, Tooltip("Displays the current stage of this script.")]
     private CurrentStep currentStep;
 
-    enum CurrentStep { menu, initiate, track, findTargets, restart };
+    enum CurrentStep { menu, initiate, ready, track, findTargets, restart };
 
 
 
@@ -156,11 +162,7 @@ public class TargetTrackingMain : MonoBehaviour
     [HideInInspector]
     public int progress = 0;
 
-    [Tooltip("Enter the main camera, found in the VR player rig.")]
-    public Camera cam;
 
-    [Tooltip("Enter the VR_Input_Script from the ScriptManager.")]
-    public VR_Input_Manager vrInput;
 
 
 
@@ -261,14 +263,22 @@ public class TargetTrackingMain : MonoBehaviour
         //Remove cheese in case of difficulty downgrade
         targets[markedTargets].GetComponentInChildren<TargetTracking_TargetMovement>().correctTargetIndicator.SetActive(false);
 
-        vrInput.GetMainTriggerDown = false;
+        currentStep = CurrentStep.ready;
+    }
 
-        currentStep = CurrentStep.track;
+    //The scene is readily set up and waiting for the player to start the game
+    private void ReadyPhase()
+    {
+        vrInput.controllerTracking = true;
     }
 
     private void TrackingPhase()
     {
         //TODO: Replace with automated function from Input System Core Script
+        timeDuringTracking += Time.deltaTime;
+
+        vrInput.controllerTracking = false;
+
         if (vrInput.controllerClickRaycast(UILayer).collider != null && vrInput.controllerClickRaycast(UILayer).transform.gameObject == nextButton)
         {
 
