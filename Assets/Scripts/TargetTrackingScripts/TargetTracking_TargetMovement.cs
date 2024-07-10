@@ -27,6 +27,10 @@ public class TargetTracking_TargetMovement : MonoBehaviour
     [Tooltip("Enter the ImageGameObject of the target prefab that marks a correct target during the \"tracking\" stage.")]
     public GameObject correctTargetIndicator;
 
+    //Scripts
+    [Tooltip("Enter the 'TargetTrackingMain' script from the script manager.")]
+    public TargetTrackingMain targetTrackingMain;
+
     // ### Debug info ###
     [Header("Debug info")]
 
@@ -46,6 +50,9 @@ public class TargetTracking_TargetMovement : MonoBehaviour
     //The shifting angle of the previous frame.
     private Vector2 previousAngles;
 
+    //Position of the point the target moves towards.
+    private Vector3 destinationPosition;
+
 
     void Start()
     {
@@ -55,5 +62,18 @@ public class TargetTracking_TargetMovement : MonoBehaviour
     void Update()
     {
         
+    }
+
+    void SetNewTargetPosition()
+    {
+
+
+        float azimuth = Random.Range(-targetTrackingMain.fieldDimensions.x, targetTrackingMain.fieldDimensions.x);
+
+        float elevation = Random.Range(-targetTrackingMain.fieldDimensions.y, targetTrackingMain.fieldDimensions.y);
+
+        float distance = Random.Range(targetTrackingMain.fieldDistance * 0.8f, targetTrackingMain.fieldDistance * 1.25f);
+
+        destinationPosition = new Vector3(azimuth, elevation, distance);
     }
 }

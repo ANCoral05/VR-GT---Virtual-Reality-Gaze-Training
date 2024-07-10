@@ -25,6 +25,9 @@ public class TargetTrackingMain : MonoBehaviour
     [Tooltip("Set the maximum field dimensions of the field in which the targets will randomly move around.")]
     public Vector2 fieldDimensions;
 
+    [Range(0.5f, 10), Tooltip("Set the average distance of the field in which the targets will move around.")]
+    public float fieldDistance;
+
     [Range(1, 100), Tooltip("Set the level of difficulty for this task. Higher difficulty increases field size, movement speed, number of targets and number of marked targets gradually.")]
     public int difficultyLevel = 1;
 
