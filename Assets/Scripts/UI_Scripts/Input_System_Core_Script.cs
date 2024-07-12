@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
+using UnityEngine.XR;
 
-public class ControllerVariables
+public class XRController
 {
+    public bool isActive;
+
     public enum IsLeftRight
     {
         Left,
@@ -18,44 +20,43 @@ public class ControllerVariables
     public Vector3 position;
 
     public bool rayActive;
+
+    public GameObject raycastTarget;
 }
 
 public class Input_System_Core_Script : MonoBehaviour
 {
+    [Header("Editor Input")]
+    public InputDevice rightControllerInput;
+    public InputDevice leftControllerInput;
+
     [Header("Accessible Variables")]
-    public Vector3 directionLeftController;
-    public Vector3 directionRightController;
-
-    public Vector3 originLeftController;
-    public Vector3 originRightController;
-
-    private ControllerVariables controller;
-
-    public GameObject hoveredObject;
+    public XRController leftController;
+    public XRController rightController;
 
     //List of subscribed objects that are informed whenever a controller hovers over a new object.
     public List<GameObject> hoverListeners = new List<GameObject>();
 
     public List<GameObject> buttonTriggerListeners = new List<GameObject>();
+
     public List<GameObject> buttonPrimaryListeners = new List<GameObject>();
 
-    public InputActionReference triggerInputActionReference;
-
-    public bool getTrigger()
-    {
-        return triggerInputActionReference.action.ReadValue<bool>();
-    }
+    public List<GameObject> joystickListeners = new List<GameObject>();
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
+
+        leftController.isLeftRight = XRController.IsLeftRight.Left;
+
+        rightController.isLeftRight = XRController.IsLeftRight.Right;
     }
 
     // Update is called once per frame
     void Update()
     {
-        controller.isLeftRight = ControllerVariables.IsLeftRight.Left;
+        
     }
 
     
