@@ -17,9 +17,6 @@ public class TestBox : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(inputScript.getTrigger())
-        {
-            cube.SetActive(!cube.activeSelf);
-        }
+
     }
 }

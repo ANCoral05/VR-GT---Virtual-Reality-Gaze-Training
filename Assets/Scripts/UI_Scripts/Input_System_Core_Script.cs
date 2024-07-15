@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR;
+using UnityEngine.InputSystem;
 
 public class XRController
 {
@@ -27,6 +27,8 @@ public class XRController
 public class Input_System_Core_Script : MonoBehaviour
 {
     [Header("Editor Input")]
+    public InputActionReference trigger = null;
+
     public InputDevice rightControllerInput;
     public InputDevice leftControllerInput;
 
