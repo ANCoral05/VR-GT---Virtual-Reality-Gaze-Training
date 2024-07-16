@@ -27,10 +27,9 @@ public class XRController
 public class Input_System_Core_Script : MonoBehaviour
 {
     [Header("Editor Input")]
-    public InputActionReference trigger = null;
+    public InputActionReference triggerReference = null;
 
-    public InputDevice rightControllerInput;
-    public InputDevice leftControllerInput;
+    public GameObject testCube;
 
     [Header("Accessible Variables")]
     public XRController leftController;
@@ -45,11 +44,14 @@ public class Input_System_Core_Script : MonoBehaviour
 
     public List<GameObject> joystickListeners = new List<GameObject>();
 
+    private void Awake()
+    {
+        triggerReference.action.started += Toggle;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-
-
         leftController.isLeftRight = XRController.IsLeftRight.Left;
 
         rightController.isLeftRight = XRController.IsLeftRight.Right;
@@ -61,6 +63,10 @@ public class Input_System_Core_Script : MonoBehaviour
         
     }
 
+    public void Toggle(InputAction.CallbackContext context)
+    {
+        testCube.SetActive(!testCube.activeSelf);
+    }
     
     
 }
