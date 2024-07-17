@@ -19,7 +19,7 @@ public class XRController
 
     public Vector3 position;
 
-    public bool rayActive;
+    public bool rayActive = true;
 
     public GameObject raycastTarget;
 }
@@ -28,6 +28,10 @@ public class Input_System_Core_Script : MonoBehaviour
 {
     [Header("Editor Input")]
     public InputActionReference triggerReference = null;
+    
+    public GameObject leftControllerObject;
+
+    public GameObject rightControllerObject;
 
     public GameObject testCube;
 
@@ -49,18 +53,38 @@ public class Input_System_Core_Script : MonoBehaviour
         triggerReference.action.started += Toggle;
     }
 
-    // Start is called before the first frame update
+
     void Start()
+    {
+        InitializeControllers();
+    }
+
+
+    void Update()
+    {
+        
+    }
+
+    private void InitializeControllers()
     {
         leftController.isLeftRight = XRController.IsLeftRight.Left;
 
         rightController.isLeftRight = XRController.IsLeftRight.Right;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void TrackControllerVariables(XRController controller, GameObject controllerObject)
     {
-        
+        controller.direction = (controllerObject.transform.rotation * Vector3.forward).normalized;
+        controller.position = controllerObject.transform.position;
+
+        Ray ray = new Ray(controller.position, controller.direction);
+        RaycastHit hit;
+
+        // Perform the raycast
+        if (controller.rayActive = true && Physics.Raycast(ray, out hit))
+        {
+            controller.raycastTarget = hit.transform.gameObject;
+        }
     }
 
     public void Toggle(InputAction.CallbackContext context)
