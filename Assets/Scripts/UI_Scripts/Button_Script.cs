@@ -32,7 +32,8 @@ public class Button_Script : MonoBehaviour
         triggeredFunction.Invoke();
     }
 
-    void onHover()
+    // DO NOT RENAME FUNCTION! This function is called as string in the InputSystemCoreScript.cs
+    void OnHover()
     {
         this.GetComponentInChildren<Renderer>().material.mainTexture = hoverTexture;
     }

@@ -30,7 +30,6 @@ public class Input_System_Core_Script : MonoBehaviour
     public InputActionReference triggerReference = null;
     
     public GameObject leftControllerObject;
-
     public GameObject rightControllerObject;
 
     public GameObject testCube;
@@ -47,6 +46,10 @@ public class Input_System_Core_Script : MonoBehaviour
     public List<GameObject> buttonPrimaryListeners = new List<GameObject>();
 
     public List<GameObject> joystickListeners = new List<GameObject>();
+
+    [Header("Private Variables")]
+    private GameObject hoveredTargetLeft;
+    private GameObject hoveredTargetRight;
 
     private void Awake()
     {
@@ -84,6 +87,18 @@ public class Input_System_Core_Script : MonoBehaviour
         if (controller.rayActive = true && Physics.Raycast(ray, out hit))
         {
             controller.raycastTarget = hit.transform.gameObject;
+        }
+    }
+
+    public void HoverEventCheck()
+    {
+        if(hoveredTargetLeft != leftController.raycastTarget)
+        {
+            hoveredTargetLeft.SendMessage("OnHoverEnd");
+
+            hoveredTargetLeft = leftController.raycastTarget;
+
+            hoveredTargetLeft.SendMessage("OnHover");
         }
     }
 
