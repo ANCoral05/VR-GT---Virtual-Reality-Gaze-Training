@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.XR;
 using System.Linq;
 
-public class VR_Input_Manager : MonoBehaviour
+public class VRInputManager : MonoBehaviour
 {
     [HideInInspector] //Is true if the primary button (A or X) is pressed on the controller.
     public bool GetPrimaryButtonDown;

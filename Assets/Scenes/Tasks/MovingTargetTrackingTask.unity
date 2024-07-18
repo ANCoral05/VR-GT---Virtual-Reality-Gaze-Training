@@ -1333,6 +1333,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerReference: {fileID: -1602975338237475710, guid: 0b0c6d885bd7c32468826a79ee1ef4ca,
     type: 3}
+  leftControllerObject: {fileID: 0}
+  rightControllerObject: {fileID: 0}
   testCube: {fileID: 1804058422}
   hoverListeners: []
   buttonTriggerListeners: []
@@ -2093,6 +2095,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d77b8eb558ddd8489d752fb42c5cc3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directInteractionButton: 00000000
+  shortcutButton: 01000000
   triggeredFunction:
     m_PersistentCalls:
       m_Calls: []
@@ -2106,6 +2110,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 942810691211101373, guid: f6336ac4ac8b4d34bc5072418cdc62a0,
         type: 3}
       propertyPath: m_InteractionManager
@@ -2182,6 +2190,11 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 40172766}
+    - target: {fileID: 9173983156334026967, guid: f6336ac4ac8b4d34bc5072418cdc62a0,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f6336ac4ac8b4d34bc5072418cdc62a0, type: 3}
 --- !u!1 &1759698018 stripped

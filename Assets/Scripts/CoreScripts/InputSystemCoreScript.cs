@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using GazeQuestUtils;
 
 public class XRController
 {
@@ -24,7 +25,7 @@ public class XRController
     public GameObject raycastTarget;
 }
 
-public class Input_System_Core_Script : MonoBehaviour
+public class InputSystemCoreScript : MonoBehaviour
 {
     [Header("Editor Input")]
     public InputActionReference triggerReference = null;
@@ -46,6 +47,8 @@ public class Input_System_Core_Script : MonoBehaviour
     public List<GameObject> buttonPrimaryListeners = new List<GameObject>();
 
     public List<GameObject> joystickListeners = new List<GameObject>();
+
+    public List<controllerKeys> pressedKeys = new List<controllerKeys>();
 
     [Header("Private Variables")]
     private GameObject hoveredTargetLeft;

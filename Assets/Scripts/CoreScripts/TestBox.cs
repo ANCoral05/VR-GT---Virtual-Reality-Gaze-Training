@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestBox : MonoBehaviour
 {
-    public Input_System_Core_Script inputScript;
+    public InputSystemCoreScript inputScript;
 
     public GameObject cube;
 

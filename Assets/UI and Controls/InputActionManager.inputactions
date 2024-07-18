@@ -1,5 +1,5 @@
 {
-    "name": "InputManager",
+    "name": "InputActionManager",
     "maps": [
         {
             "name": "MenuInputs",
@@ -53,17 +53,6 @@
                     "name": "",
                     "id": "7cb5bd24-3321-43ed-82d1-ed840e1ffdf7",
                     "path": "<PXR_Controller>{RightHand}/triggerPressed",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "84d792c7-df82-4cc1-b037-4c284aca6f1f",
-                    "path": "",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

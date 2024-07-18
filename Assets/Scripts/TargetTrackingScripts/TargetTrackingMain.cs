@@ -92,7 +92,7 @@ public class TargetTrackingMain : MonoBehaviour
     public TrialManager trialManager;
 
     [Tooltip("Enter the VR_Input_Script from the ScriptManager.")]
-    public VR_Input_Manager vrInput;
+    public VRInputManager vrInput;
 
     //Others
     [Tooltip("Enter the main camera, found in the VR player rig.")]
