@@ -6,6 +6,13 @@ using GazeQuestUtils;
 
 public class ButtonScript : MonoBehaviour
 {
+    [Header("Input variables")]
+    [Range(0, 1), Tooltip("Set the strength of haptic feedback (vibration) when the selection ray starts hovers over the button.")]
+    public float hoverHapticFeedback;
+
+    [Range(0, 1), Tooltip("Set the strength of haptic feedback (vibration) when the button is selected.")]
+    public float activateHapticFeedback;
+
     [Header("Editor Inputs")]
     [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function if pressed while hovering over the button.")]
     public List<controllerKeys> directInteractionButton = new List<controllerKeys>();
@@ -19,13 +26,18 @@ public class ButtonScript : MonoBehaviour
     [Tooltip("Choose the script and function to run when this button is activated.")]
     public UnityEvent triggeredFunction;
 
-    public bool state;
-
     [SerializeField, Tooltip("Choose the default texture of the button.")]
     private Texture2D defaultTexture;
 
     [SerializeField, Tooltip("Choose the texture to display when a selection ray hovers over the button.")]
     private Texture2D hoverTexture;
+
+    [SerializeField, Tooltip("Choose the sound clip that is played when the button is activated.")]
+    private AudioClip buttonActivateSoundClip;
+
+    [Header("Public variables")]
+    [Tooltip("States whether the button is currently hovered.")]
+    public bool hoverState;
 
 
 

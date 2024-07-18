@@ -27,15 +27,19 @@ public class XRController
 
 public class InputSystemCoreScript : MonoBehaviour
 {
-    [Header("Editor Input")]
-    public InputActionReference triggerReference = null;
-    
+    [Header("Editor input")]
+    public InputActionReference triggerAction;
+    public InputActionReference primaryAction;
+    public InputActionReference secondaryAction;
+    public InputActionReference gripAction;
+    public InputActionReference thumbstickPressAction;
+
     public GameObject leftControllerObject;
     public GameObject rightControllerObject;
 
     public GameObject testCube;
 
-    [Header("Accessible Variables")]
+    [Header("Public variables")]
     public XRController leftController;
     public XRController rightController;
 
@@ -50,13 +54,13 @@ public class InputSystemCoreScript : MonoBehaviour
 
     public List<controllerKeys> pressedKeys = new List<controllerKeys>();
 
-    [Header("Private Variables")]
+    [Header("Private variables")]
     private GameObject hoveredTargetLeft;
     private GameObject hoveredTargetRight;
 
     private void Awake()
     {
-        triggerReference.action.started += Toggle;
+        triggerAction.action.started += TriggerFunction;
     }
 
 
@@ -105,10 +109,8 @@ public class InputSystemCoreScript : MonoBehaviour
         }
     }
 
-    public void Toggle(InputAction.CallbackContext context)
+    public void TriggerFunction(InputAction.CallbackContext context)
     {
         testCube.SetActive(!testCube.activeSelf);
     }
-    
-    
 }

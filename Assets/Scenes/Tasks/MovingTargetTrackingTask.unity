@@ -1331,8 +1331,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b5ef4d3dcc47641ab0de09223d1738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerReference: {fileID: -1602975338237475710, guid: 0b0c6d885bd7c32468826a79ee1ef4ca,
+  triggerAction: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
+  primaryAction: {fileID: 0}
+  secondaryAction: {fileID: 0}
+  gripAction: {fileID: 0}
+  thumbstickPressAction: {fileID: 0}
   leftControllerObject: {fileID: 0}
   rightControllerObject: {fileID: 0}
   testCube: {fileID: 1804058422}
@@ -1340,6 +1344,7 @@ MonoBehaviour:
   buttonTriggerListeners: []
   buttonPrimaryListeners: []
   joystickListeners: []
+  pressedKeys: 
 --- !u!114 &893616323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2095,14 +2100,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d77b8eb558ddd8489d752fb42c5cc3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hoverHapticFeedback: 0
+  activateHapticFeedback: 0
   directInteractionButton: 00000000
   shortcutButton: 01000000
+  inputManagerScript: {fileID: 0}
   triggeredFunction:
     m_PersistentCalls:
       m_Calls: []
-  state: 0
+  defaultTexture: {fileID: 0}
   hoverTexture: {fileID: 0}
-  idleTexture: {fileID: 0}
+  buttonActivateSoundClip: {fileID: 0}
+  hoverState: 0
 --- !u!1001 &1759698017
 PrefabInstance:
   m_ObjectHideFlags: 0
