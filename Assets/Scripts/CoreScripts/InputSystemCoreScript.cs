@@ -6,34 +6,39 @@ using GazeQuestUtils;
 
 public class XRController
 {
-    public bool isActive;
+    public bool isActive { get; set; }
+    public bool rayActive { get; set; } = true;
 
-    public enum IsLeftRight
+    public enum ControllerLeftRight
     {
         Left,
         Right
-    };
+    }
 
-    public IsLeftRight isLeftRight;
+    public ControllerLeftRight controllerLeftRight { get; set; }
 
-    public Vector3 direction;
-
-    public Vector3 position;
-
-    public bool rayActive = true;
-
-    public GameObject raycastTarget;
+    public Vector3 direction { get; set; }
+    public Vector3 position { get; set; }
+    public GameObject raycastTarget { get; set; }
 }
 
 public class InputSystemCoreScript : MonoBehaviour
 {
-    [Header("Editor input")]
-    public InputActionReference triggerAction;
-    public InputActionReference primaryAction;
-    public InputActionReference secondaryAction;
-    public InputActionReference gripAction;
-    public InputActionReference thumbstickPressAction;
+    [Header("Action references - Left")]
+    public InputActionReference triggerActionLeft;
+    public InputActionReference primaryActionLeft;
+    public InputActionReference secondaryActionLeft;
+    public InputActionReference gripActionLeft;
+    public InputActionReference thumbstickPressActionLeft;
 
+    [Header("Action references - Right")]
+    public InputActionReference triggerActionRight;
+    public InputActionReference primaryActionRight;
+    public InputActionReference secondaryActionRight;
+    public InputActionReference gripActionRight;
+    public InputActionReference thumbstickPressActionRight;
+
+    [Header("Editor inputs")]
     public GameObject leftControllerObject;
     public GameObject rightControllerObject;
 
@@ -60,7 +65,21 @@ public class InputSystemCoreScript : MonoBehaviour
 
     private void Awake()
     {
-        triggerAction.action.started += TriggerFunction;
+        //Assign which function to play when a button is pressed.
+        triggerActionLeft.action.started += TriggerFunctionLeft;
+        triggerActionRight.action.started += TriggerFunctionRight;
+
+        primaryActionLeft.action.started += PrimaryFunctionLeft;
+        primaryActionRight.action.started += PrimaryFunctionRight;
+
+        secondaryActionLeft.action.started += SecondaryFunctionLeft;
+        secondaryActionRight.action.started += SecondaryFunctionRight;
+
+        gripActionLeft.action.started += GripFunctionLeft;
+        gripActionRight.action.started += GripFunctionRight;
+
+        thumbstickPressActionLeft.action.started += ThumbstickPressFunctionLeft;
+        thumbstickPressActionRight.action.started += ThumbstickPressFunctionRight;
     }
 
 
@@ -77,9 +96,9 @@ public class InputSystemCoreScript : MonoBehaviour
 
     private void InitializeControllers()
     {
-        leftController.isLeftRight = XRController.IsLeftRight.Left;
+        leftController.controllerLeftRight = XRController.ControllerLeftRight.Left;
 
-        rightController.isLeftRight = XRController.IsLeftRight.Right;
+        rightController.controllerLeftRight = XRController.ControllerLeftRight.Right;
     }
 
     private void TrackControllerVariables(XRController controller, GameObject controllerObject)
@@ -109,8 +128,53 @@ public class InputSystemCoreScript : MonoBehaviour
         }
     }
 
-    public void TriggerFunction(InputAction.CallbackContext context)
+    private void TriggerFunctionLeft(InputAction.CallbackContext context)
     {
-        testCube.SetActive(!testCube.activeSelf);
+        //event
+    }
+
+    private void TriggerFunctionRight(InputAction.CallbackContext context)
+    {
+        //event
+    }
+
+    private void PrimaryFunctionLeft(InputAction.CallbackContext context)
+    {
+        //event
+    }
+
+    private void PrimaryFunctionRight(InputAction.CallbackContext context)
+    {
+        //event
+    }
+
+    private void SecondaryFunctionLeft(InputAction.CallbackContext context)
+    {
+        //event
+    }
+
+    private void SecondaryFunctionRight(InputAction.CallbackContext context)
+    {
+        //event
+    }
+
+    private void GripFunctionLeft(InputAction.CallbackContext context)
+    {
+        //event
+    }
+
+    private void GripFunctionRight(InputAction.CallbackContext context)
+    {
+        //event
+    }
+
+    private void ThumbstickPressFunctionLeft(InputAction.CallbackContext context)
+    {
+        //event
+    }
+
+    private void ThumbstickPressFunctionRight(InputAction.CallbackContext context)
+    {
+        //event
     }
 }
