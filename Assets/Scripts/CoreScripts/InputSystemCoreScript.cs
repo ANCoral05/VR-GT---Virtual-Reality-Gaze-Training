@@ -48,15 +48,13 @@ public class InputSystemCoreScript : MonoBehaviour
     public XRController leftController;
     public XRController rightController;
 
-    //List of subscribed objects that are informed whenever a controller hovers over a new object.
-    public List<GameObject> hoverListeners = new List<GameObject>();
+    [HideInInspector, Tooltip("List of subscribed listeners that are informed whenever a controller hovers over a new object.")]
+    public List<ButtonScript> hoverListeners = new List<ButtonScript>();
 
-    public List<GameObject> buttonTriggerListeners = new List<GameObject>();
+    [HideInInspector, Tooltip("List of subscribed listeners that are triggered by a shortcut without the requirement to hover over a visually displayed button.")]
+    public List<ButtonScript> inputListeners = new List<ButtonScript>();
 
-    public List<GameObject> buttonPrimaryListeners = new List<GameObject>();
-
-    public List<GameObject> joystickListeners = new List<GameObject>();
-
+    [HideInInspector]
     public List<controllerKeys> pressedKeys = new List<controllerKeys>();
 
     [Header("Private variables")]
@@ -125,6 +123,15 @@ public class InputSystemCoreScript : MonoBehaviour
             hoveredTargetLeft = leftController.raycastTarget;
 
             hoveredTargetLeft.SendMessage("OnHover");
+        }
+    }
+
+    //This function is played whenever a controller key is pressed and informs all input listeners about it.
+    public void ControllerKeyEvent()
+    {
+        foreach (ButtonScript listener in inputListeners)
+        {
+            listener.OnPressed();
         }
     }
 

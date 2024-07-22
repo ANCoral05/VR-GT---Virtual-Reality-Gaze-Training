@@ -55,19 +55,29 @@ public class ButtonScript : MonoBehaviour
         
     }
 
-    void onPressed()
+    public void OnPressed()
     {
         triggeredFunction.Invoke();
     }
 
     // DO NOT RENAME FUNCTION! This function is called as string in the InputSystemCoreScript.cs
-    void OnHover()
+    public void OnHover()
     {
         this.GetComponentInChildren<Renderer>().material.mainTexture = hoverTexture;
     }
 
-    void onHoverEnd()
+    public void OnHoverEnd()
     {
         this.GetComponentInChildren<Renderer>().material.mainTexture = defaultTexture;
+    }
+
+    void OnActivated()
+    {
+        
+    }
+
+    void OnDeactivated()
+    {
+
     }
 }
