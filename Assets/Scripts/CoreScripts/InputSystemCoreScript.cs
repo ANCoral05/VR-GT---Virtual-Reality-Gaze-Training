@@ -9,13 +9,7 @@ public class XRController
     public bool isActive { get; set; }
     public bool rayActive { get; set; } = true;
 
-    public enum ControllerLeftRight
-    {
-        Left,
-        Right
-    }
-
-    public ControllerLeftRight controllerLeftRight { get; set; }
+    public ControllerHand controllerHand { get; set; }
 
     public Vector3 direction { get; set; }
     public Vector3 position { get; set; }
@@ -55,7 +49,7 @@ public class InputSystemCoreScript : MonoBehaviour
     public List<ButtonScript> inputListeners = new List<ButtonScript>();
 
     [HideInInspector]
-    public List<controllerKeys> pressedKeys = new List<controllerKeys>();
+    public List<ControllerKey> pressedKeys = new List<ControllerKey>();
 
     [Header("Private variables")]
     private GameObject hoveredTargetLeft;
@@ -94,9 +88,9 @@ public class InputSystemCoreScript : MonoBehaviour
 
     private void InitializeControllers()
     {
-        leftController.controllerLeftRight = XRController.ControllerLeftRight.Left;
+        leftController.controllerHand = ControllerHand.Left;
 
-        rightController.controllerLeftRight = XRController.ControllerLeftRight.Right;
+        rightController.controllerHand = ControllerHand.Right;
     }
 
     private void TrackControllerVariables(XRController controller, GameObject controllerObject)
@@ -131,13 +125,15 @@ public class InputSystemCoreScript : MonoBehaviour
     {
         foreach (ButtonScript listener in inputListeners)
         {
-            listener.OnPressed();
+            listener.OnPressed(pressedKeys);
         }
+
+        pressedKeys = new List<ControllerKey>();
     }
 
     private void TriggerFunctionLeft(InputAction.CallbackContext context)
     {
-        //event
+        pressedKeys.Add(new ControllerKey(GazeQuestKey.Trigger, ControllerHand.Left));
     }
 
     private void TriggerFunctionRight(InputAction.CallbackContext context)

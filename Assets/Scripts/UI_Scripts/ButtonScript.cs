@@ -15,10 +15,10 @@ public class ButtonScript : MonoBehaviour
 
     [Header("Editor Inputs")]
     [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function if pressed while hovering over the button.")]
-    public List<controllerKeys> directInteractionButton = new List<controllerKeys>();
+    public List<ControllerKey> directInteractionButton = new List<ControllerKey>();
 
     [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function even if the button is not directly targeted (like a shortcut).")]
-    public List<controllerKeys> shortcutButton = new List<controllerKeys>();
+    public List<ControllerKey> shortcutButton = new List<ControllerKey>();
 
     [Tooltip("Add the Input Manager Core Script.")]
     public InputSystemCoreScript inputManagerScript;
@@ -55,7 +55,7 @@ public class ButtonScript : MonoBehaviour
         
     }
 
-    public void OnPressed()
+    public void OnPressed(List<ControllerKey> activeKeys)
     {
         triggeredFunction.Invoke();
     }
