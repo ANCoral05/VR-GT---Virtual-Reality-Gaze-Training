@@ -43,10 +43,10 @@ public class InputSystemCoreScript : MonoBehaviour
     public XRController rightController;
 
     [HideInInspector, Tooltip("List of subscribed listeners that are informed whenever a controller hovers over a new object.")]
-    public List<ButtonScript> hoverListeners = new List<ButtonScript>();
+    public List<ActionEventScript> hoverListeners = new List<ActionEventScript>();
 
     [HideInInspector, Tooltip("List of subscribed listeners that are triggered by a shortcut without the requirement to hover over a visually displayed button.")]
-    public List<ButtonScript> inputListeners = new List<ButtonScript>();
+    public List<ActionEventScript> inputListeners = new List<ActionEventScript>();
 
     [HideInInspector]
     public List<ControllerKey> pressedKeys = new List<ControllerKey>();
@@ -123,7 +123,7 @@ public class InputSystemCoreScript : MonoBehaviour
     //This function is played whenever a controller key is pressed and informs all input listeners about it.
     public void ControllerKeyEvent()
     {
-        foreach (ButtonScript listener in inputListeners)
+        foreach (ActionEventScript listener in inputListeners)
         {
             listener.OnPressed(pressedKeys);
         }
@@ -133,7 +133,7 @@ public class InputSystemCoreScript : MonoBehaviour
 
     private void TriggerFunctionLeft(InputAction.CallbackContext context)
     {
-        pressedKeys.Add(new ControllerKey(GazeQuestKey.Trigger, ControllerHand.Left));
+        pressedKeys.Add(ControllerKey.Trigger_Left);
     }
 
     private void TriggerFunctionRight(InputAction.CallbackContext context)

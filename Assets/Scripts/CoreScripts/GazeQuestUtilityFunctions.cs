@@ -5,33 +5,23 @@ using UnityEngine;
 namespace GazeQuestUtils
 {
     // Enum for controller keys
-    public enum GazeQuestKey
+    public enum ControllerKey
     {
-        Trigger,
-        Primary,
-        Secondary,
-        Handle,
-        ThumbstickPress
+        Trigger_Left,
+        Trigger_Right,
+        Primary_Left,
+        Primary_Right,
+        Secondary_Left,
+        Secondary_Right,
+        Handle_Left,
+        Handle_Right,
+        ThumbstickPress_Left,
+        ThumbstickPress_Right
     }
 
-    // Enum for controller hands
     public enum ControllerHand
     {
         Left,
         Right
-    }
-
-    public class ControllerKey
-    {
-        // Properties to hold the key and the controller hand
-        public GazeQuestKey Key { get; set; }
-        public ControllerHand Hand { get; set; }
-
-        // Constructor
-        public ControllerKey(GazeQuestKey key, ControllerHand hand)
-        {
-            Key = key;
-            Hand = hand;
-        }
     }
 }

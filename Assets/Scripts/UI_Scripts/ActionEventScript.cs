@@ -4,9 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using GazeQuestUtils;
 
-public class ButtonScript : MonoBehaviour
+public class ActionEventScript : MonoBehaviour
 {
     [Header("Input variables")]
+    [Tooltip("Choose the script and function to run when this button is activated.")]
+    public UnityEvent triggeredFunction;
+
     [Range(0, 1), Tooltip("Set the strength of haptic feedback (vibration) when the selection ray starts hovers over the button.")]
     public float hoverHapticFeedback;
 
@@ -18,13 +21,10 @@ public class ButtonScript : MonoBehaviour
     public List<ControllerKey> directInteractionButton = new List<ControllerKey>();
 
     [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function even if the button is not directly targeted (like a shortcut).")]
-    public List<ControllerKey> shortcutButton = new List<ControllerKey>();
+    public List<ControllerKey> shortcutKey = new List<ControllerKey>();
 
     [Tooltip("Add the Input Manager Core Script.")]
     public InputSystemCoreScript inputManagerScript;
-
-    [Tooltip("Choose the script and function to run when this button is activated.")]
-    public UnityEvent triggeredFunction;
 
     [SerializeField, Tooltip("Choose the default texture of the button.")]
     private Texture2D defaultTexture;
@@ -55,9 +55,28 @@ public class ButtonScript : MonoBehaviour
         
     }
 
+    private void OnEnable()
+    {
+        inputManagerScript.inputListeners.Add(this);
+    }
+
+    private void OnDisable()
+    {
+        inputManagerScript.inputListeners.Remove(this);
+    }
+
     public void OnPressed(List<ControllerKey> activeKeys)
     {
-        triggeredFunction.Invoke();
+        foreach (ControllerKey inputKey in activeKeys)
+        {
+            foreach (ControllerKey testKey in shortcutKey)
+            {
+                if(inputKey == testKey)
+                {
+                    triggeredFunction.Invoke();
+                }
+            }
+        }
     }
 
     // DO NOT RENAME FUNCTION! This function is called as string in the InputSystemCoreScript.cs
