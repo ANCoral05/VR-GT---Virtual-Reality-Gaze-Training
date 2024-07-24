@@ -45,7 +45,7 @@ public class InputSystemCoreScript : MonoBehaviour
     [HideInInspector, Tooltip("List of subscribed listeners that are informed whenever a controller hovers over a new object.")]
     public List<ActionEventScript> hoverListeners = new List<ActionEventScript>();
 
-    [HideInInspector, Tooltip("List of subscribed listeners that are triggered by a shortcut without the requirement to hover over a visually displayed button.")]
+    [Tooltip("List of subscribed listeners that are triggered by a shortcut without the requirement to hover over a visually displayed button.")]
     public List<ActionEventScript> inputListeners = new List<ActionEventScript>();
 
     [HideInInspector]
@@ -54,6 +54,8 @@ public class InputSystemCoreScript : MonoBehaviour
     [Header("Private variables")]
     private GameObject hoveredTargetLeft;
     private GameObject hoveredTargetRight;
+
+    private bool keyWasPressed;
 
     private void Awake()
     {
@@ -84,6 +86,11 @@ public class InputSystemCoreScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    public void ToggleCube()
+    {
+        testCube.SetActive(!testCube.activeSelf);
     }
 
     private void InitializeControllers()
@@ -121,24 +128,22 @@ public class InputSystemCoreScript : MonoBehaviour
     }
 
     //This function is played whenever a controller key is pressed and informs all input listeners about it.
-    public void ControllerKeyEvent()
+    public void ControllerKeyEvent(ControllerKey inputKey)
     {
         foreach (ActionEventScript listener in inputListeners)
         {
-            listener.OnPressed(pressedKeys);
+            listener.OnPressed(inputKey);
         }
-
-        pressedKeys = new List<ControllerKey>();
     }
 
     private void TriggerFunctionLeft(InputAction.CallbackContext context)
     {
-        pressedKeys.Add(ControllerKey.Trigger_Left);
+        ControllerKeyEvent(ControllerKey.Trigger_Left);
     }
 
     private void TriggerFunctionRight(InputAction.CallbackContext context)
     {
-        //event
+        ControllerKeyEvent(ControllerKey.Trigger_Right);
     }
 
     private void PrimaryFunctionLeft(InputAction.CallbackContext context)

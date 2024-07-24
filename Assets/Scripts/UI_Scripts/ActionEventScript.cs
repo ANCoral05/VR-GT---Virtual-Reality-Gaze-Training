@@ -41,9 +41,9 @@ public class ActionEventScript : MonoBehaviour
 
 
 
-    void Start()
+    void Awake()
     {
-        if(inputManagerScript = null)
+        if(inputManagerScript == null)
         {
             inputManagerScript = FindObjectOfType<InputSystemCoreScript>();
         }
@@ -65,16 +65,13 @@ public class ActionEventScript : MonoBehaviour
         inputManagerScript.inputListeners.Remove(this);
     }
 
-    public void OnPressed(List<ControllerKey> activeKeys)
+    public void OnPressed(ControllerKey inputKey)
     {
-        foreach (ControllerKey inputKey in activeKeys)
+        foreach (ControllerKey testKey in shortcutKey)
         {
-            foreach (ControllerKey testKey in shortcutKey)
+            if (inputKey == testKey)
             {
-                if(inputKey == testKey)
-                {
-                    triggeredFunction.Invoke();
-                }
+                triggeredFunction.Invoke();
             }
         }
     }

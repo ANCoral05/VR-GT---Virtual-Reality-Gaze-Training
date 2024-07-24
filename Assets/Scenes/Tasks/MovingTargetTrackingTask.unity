@@ -644,6 +644,12 @@ MonoBehaviour:
   m_ShadowLayerMask: 1
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
+--- !u!1 &291932543 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1670256624, guid: f6336ac4ac8b4d34bc5072418cdc62a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1759698017}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &459868138
 GameObject:
   m_ObjectHideFlags: 0
@@ -1331,19 +1337,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b5ef4d3dcc47641ab0de09223d1738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerAction: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
+  triggerActionLeft: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
-  primaryAction: {fileID: 0}
-  secondaryAction: {fileID: 0}
-  gripAction: {fileID: 0}
-  thumbstickPressAction: {fileID: 0}
-  leftControllerObject: {fileID: 0}
-  rightControllerObject: {fileID: 0}
+  primaryActionLeft: {fileID: 0}
+  secondaryActionLeft: {fileID: 0}
+  gripActionLeft: {fileID: 0}
+  thumbstickPressActionLeft: {fileID: 0}
+  triggerActionRight: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
+  primaryActionRight: {fileID: 0}
+  secondaryActionRight: {fileID: 0}
+  gripActionRight: {fileID: 0}
+  thumbstickPressActionRight: {fileID: 0}
+  leftControllerObject: {fileID: 2067074865}
+  rightControllerObject: {fileID: 291932543}
   testCube: {fileID: 1804058422}
   hoverListeners: []
-  buttonTriggerListeners: []
-  buttonPrimaryListeners: []
-  joystickListeners: []
+  inputListeners: []
   pressedKeys: 
 --- !u!114 &893616323
 MonoBehaviour:
@@ -2100,14 +2110,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d77b8eb558ddd8489d752fb42c5cc3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hoverHapticFeedback: 0
-  activateHapticFeedback: 0
-  directInteractionButton: 00000000
-  shortcutButton: 01000000
-  inputManagerScript: {fileID: 0}
   triggeredFunction:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 893616322}
+        m_TargetAssemblyTypeName: InputSystemCoreScript, Assembly-CSharp
+        m_MethodName: ToggleCube
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  hoverHapticFeedback: 0.315
+  activateHapticFeedback: 1
+  directInteractionButton: 
+  shortcutKey: 0000000001000000
+  inputManagerScript: {fileID: 0}
   defaultTexture: {fileID: 0}
   hoverTexture: {fileID: 0}
   buttonActivateSoundClip: {fileID: 0}
@@ -2805,3 +2827,9 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051789767}
   m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &2067074865 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 202364687, guid: f6336ac4ac8b4d34bc5072418cdc62a0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1759698017}
+  m_PrefabAsset: {fileID: 0}
