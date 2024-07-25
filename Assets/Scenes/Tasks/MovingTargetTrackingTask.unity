@@ -1352,6 +1352,9 @@ MonoBehaviour:
   leftControllerObject: {fileID: 2067074865}
   rightControllerObject: {fileID: 291932543}
   testCube: {fileID: 1804058422}
+  leftTestCube: {fileID: 1359989817}
+  rightTestCube: {fileID: 473477422}
+  activeControllerSelection: 1
   hoverListeners: []
   inputListeners: []
   pressedKeys: 
@@ -2125,14 +2128,23 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  toggleOffFunction:
+    m_PersistentCalls:
+      m_Calls: []
+  delayTime: 0
   hoverHapticFeedback: 0.315
   activateHapticFeedback: 1
+  isToggle: 0
   directInteractionButton: 
   shortcutKey: 0000000001000000
   inputManagerScript: {fileID: 0}
-  defaultTexture: {fileID: 0}
-  hoverTexture: {fileID: 0}
+  defaultVisuals: {fileID: 0}
+  hoverVisuals: {fileID: 0}
+  pressedVisuals: {fileID: 0}
+  toggleVisuals: {fileID: 0}
+  disabledVisuals: {fileID: 0}
   buttonActivateSoundClip: {fileID: 0}
+  buttonHoverSoundClip: {fileID: 0}
   hoverState: 0
 --- !u!1001 &1759698017
 PrefabInstance:
@@ -2221,6 +2233,11 @@ PrefabInstance:
       propertyPath: m_InteractionManager
       value: 
       objectReference: {fileID: 40172766}
+    - target: {fileID: 8108794592199166444, guid: f6336ac4ac8b4d34bc5072418cdc62a0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9173983156334026967, guid: f6336ac4ac8b4d34bc5072418cdc62a0,
         type: 3}
       propertyPath: m_IsActive

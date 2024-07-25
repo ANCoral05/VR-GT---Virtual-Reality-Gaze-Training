@@ -24,4 +24,25 @@ namespace GazeQuestUtils
         Left,
         Right
     }
+
+    public static class GazeQuest_Methods
+    {
+        public static void DeactivateObject(GameObject _object)
+        {
+            if (_object != null)
+                _object.SetActive(false);
+        }
+
+        public static void ActivateObject(GameObject _object)
+        {
+            if (_object != null)
+                _object.SetActive(true);
+        }
+
+        public static void ToggleObject(GameObject _object)
+        {
+            if (_object != null)
+                _object.SetActive(!_object.activeSelf);
+        }
+    }
 }

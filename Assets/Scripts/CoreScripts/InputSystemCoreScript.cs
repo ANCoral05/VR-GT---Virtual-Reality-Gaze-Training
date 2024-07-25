@@ -11,9 +11,20 @@ public class XRController
 
     public ControllerHand controllerHand { get; set; }
 
+    public GameObject controllerObject { get; set; }
+    public GameObject raycastVisualizer { get; set; }
     public Vector3 direction { get; set; }
     public Vector3 position { get; set; }
     public GameObject raycastTarget { get; set; }
+}
+
+public enum ActiveControllerSelection
+{
+    Both,
+    LastPressed,
+    Left,
+    Right,
+    None
 }
 
 public class InputSystemCoreScript : MonoBehaviour
@@ -37,8 +48,13 @@ public class InputSystemCoreScript : MonoBehaviour
     public GameObject rightControllerObject;
 
     public GameObject testCube;
+    public GameObject leftTestCube;
+    public GameObject rightTestCube;
 
     [Header("Public variables")]
+    [Tooltip("Decide which controller is 'active', i.e. is used for selecting and interacting.")]
+    public ActiveControllerSelection activeControllerSelection = ActiveControllerSelection.Both;
+
     public XRController leftController;
     public XRController rightController;
 
@@ -52,10 +68,12 @@ public class InputSystemCoreScript : MonoBehaviour
     public List<ControllerKey> pressedKeys = new List<ControllerKey>();
 
     [Header("Private variables")]
+    private List<XRController> activeControllers = new List<XRController>();
+
+    private XRController lastPressedController;
+
     private GameObject hoveredTargetLeft;
     private GameObject hoveredTargetRight;
-
-    private bool keyWasPressed;
 
     private void Awake()
     {
@@ -76,7 +94,6 @@ public class InputSystemCoreScript : MonoBehaviour
         thumbstickPressActionRight.action.started += ThumbstickPressFunctionRight;
     }
 
-
     void Start()
     {
         InitializeControllers();
@@ -85,19 +102,27 @@ public class InputSystemCoreScript : MonoBehaviour
 
     void Update()
     {
-        
+        TrackControllerVariables(leftController, leftControllerObject);
+
+        TrackControllerVariables(rightController, rightControllerObject);
     }
 
-    public void ToggleCube()
-    {
-        testCube.SetActive(!testCube.activeSelf);
-    }
+    #region Controller Functions
 
     private void InitializeControllers()
     {
         leftController.controllerHand = ControllerHand.Left;
+        leftController.controllerObject = leftControllerObject;
 
         rightController.controllerHand = ControllerHand.Right;
+        rightController.controllerObject = rightControllerObject;
+
+        leftController.raycastVisualizer = leftController.controllerObject.transform.Find("Left Controller Visual").gameObject;
+        rightController.raycastVisualizer = rightController.controllerObject.transform.Find("Right Controller Visual").gameObject;
+
+        lastPressedController = leftController;
+
+        SetControllerActiveStatus();
     }
 
     private void TrackControllerVariables(XRController controller, GameObject controllerObject)
@@ -108,42 +133,90 @@ public class InputSystemCoreScript : MonoBehaviour
         Ray ray = new Ray(controller.position, controller.direction);
         RaycastHit hit;
 
-        // Perform the raycast
         if (controller.rayActive = true && Physics.Raycast(ray, out hit))
         {
             controller.raycastTarget = hit.transform.gameObject;
         }
+
+        HoverEventCheck();
     }
 
-    public void HoverEventCheck()
+    private void SetControllerActiveStatus(ActiveControllerSelection? changeControllerSelection = null)
     {
-        if(hoveredTargetLeft != leftController.raycastTarget)
+        if(changeControllerSelection.HasValue)
         {
-            hoveredTargetLeft.SendMessage("OnHoverEnd");
+            activeControllerSelection = changeControllerSelection.Value;
+        }
 
-            hoveredTargetLeft = leftController.raycastTarget;
+        if (activeControllerSelection == ActiveControllerSelection.Both)
+        {
+            ControllerStateChange(leftController, true);
+            ControllerStateChange(rightController, true);
+        }
 
-            hoveredTargetLeft.SendMessage("OnHover");
+        if(activeControllerSelection == ActiveControllerSelection.LastPressed)
+        {
+            ControllerStateChange(leftController, false);
+            ControllerStateChange(rightController, false);
+
+            ControllerStateChange(lastPressedController, true);
+        }
+
+        if(activeControllerSelection == ActiveControllerSelection.Left)
+        {
+            ControllerStateChange(leftController, true);
+            ControllerStateChange(rightController, false);
+        }
+
+        if (activeControllerSelection == ActiveControllerSelection.Right)
+        {
+            ControllerStateChange(leftController, false);
+            ControllerStateChange(rightController, true);
+        }
+
+        if (activeControllerSelection == ActiveControllerSelection.None)
+        {
+            ControllerStateChange(leftController, false);
+            ControllerStateChange(rightController, false);
         }
     }
 
+    private void ControllerStateChange(XRController controller, bool state)
+    {
+        controller.isActive = state;
+        controller.raycastVisualizer.SetActive(state);
+        controller.controllerObject.SetActive(state);
+
+        if (controller == leftController)
+            leftTestCube.SetActive(!leftTestCube.activeSelf);
+
+        if (controller == rightController)
+            rightTestCube.SetActive(!rightTestCube.activeSelf);
+    }
+    #endregion
+
+    #region Input functions
     //This function is played whenever a controller key is pressed and informs all input listeners about it.
-    public void ControllerKeyEvent(ControllerKey inputKey)
+    public void ControllerKeyEvent(ControllerKey inputKey, XRController controllerPressed)
     {
         foreach (ActionEventScript listener in inputListeners)
         {
             listener.OnPressed(inputKey);
         }
+
+        lastPressedController = controllerPressed;
+
+        SetControllerActiveStatus();
     }
 
     private void TriggerFunctionLeft(InputAction.CallbackContext context)
     {
-        ControllerKeyEvent(ControllerKey.Trigger_Left);
+        ControllerKeyEvent(ControllerKey.Trigger_Left, leftController);
     }
 
     private void TriggerFunctionRight(InputAction.CallbackContext context)
     {
-        ControllerKeyEvent(ControllerKey.Trigger_Right);
+        ControllerKeyEvent(ControllerKey.Trigger_Right, rightController);
     }
 
     private void PrimaryFunctionLeft(InputAction.CallbackContext context)
@@ -184,5 +257,28 @@ public class InputSystemCoreScript : MonoBehaviour
     private void ThumbstickPressFunctionRight(InputAction.CallbackContext context)
     {
         //event
+    }
+    #endregion
+
+    #region Button Functions
+    public void HoverEventCheck()
+    {
+        if (hoveredTargetLeft != leftController.raycastTarget)
+        {
+            hoveredTargetLeft.SendMessage("OnHoverEnd");
+
+            hoveredTargetLeft = leftController.raycastTarget;
+
+            hoveredTargetLeft.SendMessage("OnHover");
+        }
+    }
+
+
+    #endregion
+
+
+    public void ToggleCube()
+    {
+        testCube.SetActive(!testCube.activeSelf);
     }
 }

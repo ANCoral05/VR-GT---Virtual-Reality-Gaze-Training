@@ -7,14 +7,23 @@ using GazeQuestUtils;
 public class ActionEventScript : MonoBehaviour
 {
     [Header("Input variables")]
-    [Tooltip("Choose the script and function to run when this button is activated.")]
+    [Tooltip("Choose the script and function to run when this button is activated/toggled on.")]
     public UnityEvent triggeredFunction;
+
+    [Tooltip("Choose the script and function to run when this button is toggled off.")]
+    public UnityEvent toggleOffFunction;
+
+    [Range(0, 5), Tooltip("Delay in seconds until the function is called after the button is pressed.")]
+    public float delayTime;
 
     [Range(0, 1), Tooltip("Set the strength of haptic feedback (vibration) when the selection ray starts hovers over the button.")]
     public float hoverHapticFeedback;
 
     [Range(0, 1), Tooltip("Set the strength of haptic feedback (vibration) when the button is selected.")]
     public float activateHapticFeedback;
+
+    [Tooltip("Check this if the button should remain toggled on until pressed again.")]
+    public bool isToggle;
 
     [Header("Editor Inputs")]
     [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function if pressed while hovering over the button.")]
@@ -26,14 +35,26 @@ public class ActionEventScript : MonoBehaviour
     [Tooltip("Add the Input Manager Core Script.")]
     public InputSystemCoreScript inputManagerScript;
 
-    [SerializeField, Tooltip("Choose the default texture of the button.")]
-    private Texture2D defaultTexture;
+    [SerializeField, Tooltip("Choose the default visible object of the button.")]
+    private GameObject defaultVisuals;
 
-    [SerializeField, Tooltip("Choose the texture to display when a selection ray hovers over the button.")]
-    private Texture2D hoverTexture;
+    [SerializeField, Tooltip("Choose the visible object to display when a selection ray hovers over the button.")]
+    private GameObject hoverVisuals;
+
+    [SerializeField, Tooltip("Choose the visible object to display when the button is clicked.")]
+    private GameObject pressedVisuals;
+
+    [SerializeField, Tooltip("Choose the visible object to display while the button is toggled on.")]
+    private GameObject toggleVisuals;
+
+    [SerializeField, Tooltip("Choose the visible object to display when the button is disabled/not clickable.")]
+    private GameObject disabledVisuals;
 
     [SerializeField, Tooltip("Choose the sound clip that is played when the button is activated.")]
     private AudioClip buttonActivateSoundClip;
+
+    [SerializeField, Tooltip("Choose the sound clip that is played when the button is hovered over.")]
+    private AudioClip buttonHoverSoundClip;
 
     [Header("Public variables")]
     [Tooltip("States whether the button is currently hovered.")]
@@ -55,16 +76,6 @@ public class ActionEventScript : MonoBehaviour
         
     }
 
-    private void OnEnable()
-    {
-        inputManagerScript.inputListeners.Add(this);
-    }
-
-    private void OnDisable()
-    {
-        inputManagerScript.inputListeners.Remove(this);
-    }
-
     public void OnPressed(ControllerKey inputKey)
     {
         foreach (ControllerKey testKey in shortcutKey)
@@ -76,24 +87,47 @@ public class ActionEventScript : MonoBehaviour
         }
     }
 
-    // DO NOT RENAME FUNCTION! This function is called as string in the InputSystemCoreScript.cs
+    public void OnToggledOff()
+    {
+        DeactivateAllVisuals();
+
+        GazeQuest_Methods.ActivateObject(hoverVisuals);
+    }
+
     public void OnHover()
     {
-        this.GetComponentInChildren<Renderer>().material.mainTexture = hoverTexture;
+        DeactivateAllVisuals();
+
+        GazeQuest_Methods.ActivateObject(defaultVisuals);
     }
 
     public void OnHoverEnd()
     {
-        this.GetComponentInChildren<Renderer>().material.mainTexture = defaultTexture;
+        DeactivateAllVisuals();
+
+        GazeQuest_Methods.ActivateObject(hoverVisuals);
     }
 
-    void OnActivated()
+    private void DeactivateAllVisuals()
     {
-        
+        GazeQuest_Methods.DeactivateObject(defaultVisuals);
+
+        GazeQuest_Methods.DeactivateObject(hoverVisuals);
+
+        GazeQuest_Methods.DeactivateObject(pressedVisuals);
+
+        GazeQuest_Methods.DeactivateObject(toggleVisuals);
+
+        GazeQuest_Methods.DeactivateObject(disabledVisuals);
     }
 
-    void OnDeactivated()
+    private void OnEnable()
     {
+        inputManagerScript.inputListeners.Add(this);
+    }
 
+    private void OnDisable()
+    {
+        inputManagerScript.inputListeners.Remove(this);
     }
 }
