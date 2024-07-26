@@ -48,10 +48,14 @@ public class InputSystemCoreScript : MonoBehaviour
     public GameObject leftControllerObject;
     public GameObject rightControllerObject;
 
+    [Header("Test parameters")]
     public GameObject testCube;
     public GameObject leftTestCube;
     public GameObject rightTestCube;
     public TextMeshProUGUI outputText;
+    public Material grey;
+    public Material red;
+    public Material green;
 
     [Header("Public variables")]
     [Tooltip("Decide which controller is 'active', i.e. is used for selecting and interacting.")]
@@ -116,8 +120,6 @@ public class InputSystemCoreScript : MonoBehaviour
         TrackControllerVariables(leftController);
 
         TrackControllerVariables(rightController);
-
-        outputText.text = activeControllerSelection.ToString();
     }
 
     #region Controller Functions
@@ -130,28 +132,38 @@ public class InputSystemCoreScript : MonoBehaviour
         rightController.controllerHand = ControllerHand.Right;
         rightController.controllerObject = rightControllerObject;
 
-        leftController.raycastVisualizer = leftController.controllerObject.transform.Find("Left Controller Visual").gameObject;
-        rightController.raycastVisualizer = rightController.controllerObject.transform.Find("Right Controller Visual").gameObject;
+        leftController.raycastVisualizer = leftController.controllerObject.transform.Find("Poke Interactor").gameObject;
+        rightController.raycastVisualizer = rightController.controllerObject.transform.Find("Poke Interactor").gameObject;
 
-        lastPressedController = leftController;
+        lastPressedController = rightController;
 
         SetControllerActiveStatus();
     }
 
     private void TrackControllerVariables(XRController controller)
     {
+        if (!controller.isActive)
+            return;
+
         controller.direction = (controller.controllerObject.transform.rotation * Vector3.forward).normalized;
         controller.position = controller.controllerObject.transform.position;
 
         Ray ray = new Ray(controller.position, controller.direction);
         RaycastHit hit;
 
+        rightTestCube.transform.position = ray.origin + 2 * ray.direction;
+
+        GameObject newRaycastTarget = null;
+
         if (controller.rayActive == true && Physics.Raycast(ray, out hit))
         {
-            controller.raycastTarget = hit.transform.gameObject;
+            newRaycastTarget = hit.transform.gameObject;
         }
 
-        HoverEventCheck();
+        if (newRaycastTarget == null)
+            rightTestCube.GetComponent<MeshRenderer>().material = grey;
+
+        HoverEventCheck(controller, newRaycastTarget);
     }
 
     private void SetControllerActiveStatus(ActiveControllerSelection? changeControllerSelection = null)
@@ -267,15 +279,50 @@ public class InputSystemCoreScript : MonoBehaviour
     #endregion
 
     #region Button Functions
-    public void HoverEventCheck()
+    public void HoverEventCheck(XRController controller, GameObject newRaycastTarget)
     {
-        if (hoveredTargetLeft != leftController.raycastTarget)
+        if (newRaycastTarget == controller.raycastTarget)
         {
-            hoveredTargetLeft.SendMessage("OnHoverEnd");
+            return;
+        }
 
-            hoveredTargetLeft = leftController.raycastTarget;
+        rightTestCube.GetComponent<MeshRenderer>().material = red;
 
-            hoveredTargetLeft.SendMessage("OnHover");
+        outputText.text = newRaycastTarget.transform.name.ToString();
+
+        ActionEventScript actionEventScript = null;
+
+        if(controller.raycastTarget != null)
+        {
+            actionEventScript = controller.raycastTarget.GetComponent<ActionEventScript>();
+
+            if (actionEventScript != null)
+                outputText.text = "old " + actionEventScript.transform.name.ToString();
+
+            if (actionEventScript != null)
+            {
+                rightTestCube.GetComponent<MeshRenderer>().material = green;
+
+                actionEventScript.OnHoverEnd();
+            }
+
+            controller.raycastTarget = null;
+        }
+
+        if (newRaycastTarget != null)
+        {
+            actionEventScript = newRaycastTarget.GetComponent<ActionEventScript>();
+
+            outputText.text = "new " + actionEventScript.transform.name.ToString();
+
+            if (actionEventScript != null)
+            {
+                rightTestCube.GetComponent<MeshRenderer>().material = green;
+
+                actionEventScript.OnHover();
+
+                controller.raycastTarget = newRaycastTarget;
+            }
         }
     }
 

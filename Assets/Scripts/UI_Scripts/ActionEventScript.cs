@@ -98,14 +98,14 @@ public class ActionEventScript : MonoBehaviour
     {
         DeactivateAllVisuals();
 
-        GazeQuest_Methods.ActivateObject(defaultVisuals);
+        GazeQuest_Methods.ActivateObject(hoverVisuals);
     }
 
     public void OnHoverEnd()
     {
         DeactivateAllVisuals();
 
-        GazeQuest_Methods.ActivateObject(hoverVisuals);
+        GazeQuest_Methods.ActivateObject(defaultVisuals);
     }
 
     private void DeactivateAllVisuals()
