@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using GazeQuestUtils;
+using TMPro;
 
 public class XRController
 {
@@ -50,13 +51,14 @@ public class InputSystemCoreScript : MonoBehaviour
     public GameObject testCube;
     public GameObject leftTestCube;
     public GameObject rightTestCube;
+    public TextMeshProUGUI outputText;
 
     [Header("Public variables")]
     [Tooltip("Decide which controller is 'active', i.e. is used for selecting and interacting.")]
     public ActiveControllerSelection activeControllerSelection = ActiveControllerSelection.Both;
 
-    public XRController leftController;
-    public XRController rightController;
+    public XRController leftController = new XRController();
+    public XRController rightController = new XRController();
 
     [HideInInspector, Tooltip("List of subscribed listeners that are informed whenever a controller hovers over a new object.")]
     public List<ActionEventScript> hoverListeners = new List<ActionEventScript>();
@@ -77,21 +79,30 @@ public class InputSystemCoreScript : MonoBehaviour
 
     private void Awake()
     {
+        //Function to make the following assigning of functions to input actions more readable.
+        void AssignFunctionToAction(InputActionReference inputActionReference, System.Action<InputAction.CallbackContext> assignedFunction)
+        {
+            if(inputActionReference != null)
+            {
+                inputActionReference.action.started += assignedFunction;
+            }
+        }
+
         //Assign which function to play when a button is pressed.
-        triggerActionLeft.action.started += TriggerFunctionLeft;
-        triggerActionRight.action.started += TriggerFunctionRight;
+        AssignFunctionToAction(triggerActionLeft, TriggerFunctionLeft);
+        AssignFunctionToAction(triggerActionRight, TriggerFunctionRight);
 
-        primaryActionLeft.action.started += PrimaryFunctionLeft;
-        primaryActionRight.action.started += PrimaryFunctionRight;
+        AssignFunctionToAction(primaryActionLeft, PrimaryFunctionLeft);
+        AssignFunctionToAction(primaryActionRight, PrimaryFunctionRight);
 
-        secondaryActionLeft.action.started += SecondaryFunctionLeft;
-        secondaryActionRight.action.started += SecondaryFunctionRight;
+        AssignFunctionToAction(secondaryActionLeft, SecondaryFunctionLeft);
+        AssignFunctionToAction(secondaryActionRight, SecondaryFunctionRight);
 
-        gripActionLeft.action.started += GripFunctionLeft;
-        gripActionRight.action.started += GripFunctionRight;
+        AssignFunctionToAction(gripActionLeft, GripFunctionLeft);
+        AssignFunctionToAction(gripActionRight, GripFunctionRight);
 
-        thumbstickPressActionLeft.action.started += ThumbstickPressFunctionLeft;
-        thumbstickPressActionRight.action.started += ThumbstickPressFunctionRight;
+        AssignFunctionToAction(thumbstickPressActionLeft, ThumbstickPressFunctionLeft);
+        AssignFunctionToAction(thumbstickPressActionRight, ThumbstickPressFunctionRight);
     }
 
     void Start()
@@ -102,9 +113,11 @@ public class InputSystemCoreScript : MonoBehaviour
 
     void Update()
     {
-        TrackControllerVariables(leftController, leftControllerObject);
+        TrackControllerVariables(leftController);
 
-        TrackControllerVariables(rightController, rightControllerObject);
+        TrackControllerVariables(rightController);
+
+        outputText.text = activeControllerSelection.ToString();
     }
 
     #region Controller Functions
@@ -125,15 +138,15 @@ public class InputSystemCoreScript : MonoBehaviour
         SetControllerActiveStatus();
     }
 
-    private void TrackControllerVariables(XRController controller, GameObject controllerObject)
+    private void TrackControllerVariables(XRController controller)
     {
-        controller.direction = (controllerObject.transform.rotation * Vector3.forward).normalized;
-        controller.position = controllerObject.transform.position;
+        controller.direction = (controller.controllerObject.transform.rotation * Vector3.forward).normalized;
+        controller.position = controller.controllerObject.transform.position;
 
         Ray ray = new Ray(controller.position, controller.direction);
         RaycastHit hit;
 
-        if (controller.rayActive = true && Physics.Raycast(ray, out hit))
+        if (controller.rayActive == true && Physics.Raycast(ray, out hit))
         {
             controller.raycastTarget = hit.transform.gameObject;
         }
@@ -185,13 +198,6 @@ public class InputSystemCoreScript : MonoBehaviour
     {
         controller.isActive = state;
         controller.raycastVisualizer.SetActive(state);
-        controller.controllerObject.SetActive(state);
-
-        if (controller == leftController)
-            leftTestCube.SetActive(!leftTestCube.activeSelf);
-
-        if (controller == rightController)
-            rightTestCube.SetActive(!rightTestCube.activeSelf);
     }
     #endregion
 
