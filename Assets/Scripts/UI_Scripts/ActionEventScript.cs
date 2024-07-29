@@ -27,7 +27,7 @@ public class ActionEventScript : MonoBehaviour
 
     [Header("Editor Inputs")]
     [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function if pressed while hovering over the button.")]
-    public List<ControllerKey> directInteractionButton = new List<ControllerKey>();
+    public List<ControllerKey> directInteractionKey = new List<ControllerKey>();
 
     [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function even if the button is not directly targeted (like a shortcut).")]
     public List<ControllerKey> shortcutKey = new List<ControllerKey>();
@@ -58,7 +58,7 @@ public class ActionEventScript : MonoBehaviour
 
     [Header("Public variables")]
     [Tooltip("States whether the button is currently hovered.")]
-    public bool hoverState;
+    public int hoverRayCount;
 
 
 
@@ -78,6 +78,17 @@ public class ActionEventScript : MonoBehaviour
 
     public void OnPressed(ControllerKey inputKey)
     {
+        if(hoverRayCount >= 1)
+        {
+            foreach (ControllerKey testKey in directInteractionKey)
+            {
+                if(inputKey == testKey)
+                {
+                    triggeredFunction.Invoke();
+                }
+            }
+        }
+
         foreach (ControllerKey testKey in shortcutKey)
         {
             if (inputKey == testKey)
@@ -99,13 +110,22 @@ public class ActionEventScript : MonoBehaviour
         DeactivateAllVisuals();
 
         GazeQuest_Methods.ActivateObject(hoverVisuals);
+
+        hoverRayCount += 1;
     }
 
-    public void OnHoverEnd()
+    public void OnHoverLeave()
     {
-        DeactivateAllVisuals();
 
-        GazeQuest_Methods.ActivateObject(defaultVisuals);
+
+        hoverRayCount -= 1;
+
+        if (hoverRayCount == 0)
+        {
+            DeactivateAllVisuals();
+
+            GazeQuest_Methods.ActivateObject(defaultVisuals);
+        }
     }
 
     private void DeactivateAllVisuals()

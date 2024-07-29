@@ -151,17 +151,12 @@ public class InputSystemCoreScript : MonoBehaviour
         Ray ray = new Ray(controller.position, controller.direction);
         RaycastHit hit;
 
-        rightTestCube.transform.position = ray.origin + 2 * ray.direction;
-
         GameObject newRaycastTarget = null;
 
         if (controller.rayActive == true && Physics.Raycast(ray, out hit))
         {
             newRaycastTarget = hit.transform.gameObject;
         }
-
-        if (newRaycastTarget == null)
-            rightTestCube.GetComponent<MeshRenderer>().material = grey;
 
         HoverEventCheck(controller, newRaycastTarget);
     }
@@ -210,6 +205,13 @@ public class InputSystemCoreScript : MonoBehaviour
     {
         controller.isActive = state;
         controller.raycastVisualizer.SetActive(state);
+
+        if(state == false)
+        {
+            HoverEventCheck(controller, null);
+
+            controller.raycastTarget = null;
+        }
     }
     #endregion
 
@@ -286,44 +288,15 @@ public class InputSystemCoreScript : MonoBehaviour
             return;
         }
 
-        rightTestCube.GetComponent<MeshRenderer>().material = red;
+        ActionEventScript previousActionEventScript = controller.raycastTarget?.GetComponent<ActionEventScript>();
 
-        outputText.text = newRaycastTarget.transform.name.ToString();
+        ActionEventScript newActionEventScript = newRaycastTarget?.GetComponent<ActionEventScript>();
 
-        ActionEventScript actionEventScript = null;
+        previousActionEventScript?.OnHoverLeave();
 
-        if(controller.raycastTarget != null)
-        {
-            actionEventScript = controller.raycastTarget.GetComponent<ActionEventScript>();
+        newActionEventScript?.OnHover();
 
-            if (actionEventScript != null)
-                outputText.text = "old " + actionEventScript.transform.name.ToString();
-
-            if (actionEventScript != null)
-            {
-                rightTestCube.GetComponent<MeshRenderer>().material = green;
-
-                actionEventScript.OnHoverEnd();
-            }
-
-            controller.raycastTarget = null;
-        }
-
-        if (newRaycastTarget != null)
-        {
-            actionEventScript = newRaycastTarget.GetComponent<ActionEventScript>();
-
-            outputText.text = "new " + actionEventScript.transform.name.ToString();
-
-            if (actionEventScript != null)
-            {
-                rightTestCube.GetComponent<MeshRenderer>().material = green;
-
-                actionEventScript.OnHover();
-
-                controller.raycastTarget = newRaycastTarget;
-            }
-        }
+        controller.raycastTarget = newRaycastTarget;
     }
 
 

@@ -2847,8 +2847,8 @@ MonoBehaviour:
   hoverHapticFeedback: 0.315
   activateHapticFeedback: 1
   isToggle: 0
-  directInteractionButton: 
-  shortcutKey: 0000000001000000
+  directInteractionKey: 0000000001000000
+  shortcutKey: 
   inputManagerScript: {fileID: 893616322}
   defaultVisuals: {fileID: 1653609255}
   hoverVisuals: {fileID: 2026534148}
@@ -2857,7 +2857,7 @@ MonoBehaviour:
   disabledVisuals: {fileID: 0}
   buttonActivateSoundClip: {fileID: 0}
   buttonHoverSoundClip: {fileID: 0}
-  hoverState: 0
+  hoverRayCount: 0
 --- !u!65 &1798014884
 BoxCollider:
   m_ObjectHideFlags: 0
