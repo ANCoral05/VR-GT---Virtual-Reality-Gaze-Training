@@ -1,0 +1,13 @@
+Pico:
+Enable PXR script on XR Origin
+Set XR project settings to "Pico"
+Graphics API add OpenGLES3
+Minimum Api Level 29
+Select Khronos (and/or Pico) controller under OpenXR
+
+Meta Quest 3/Pro
+Set texture compression in Build Settings to ASTC (from system)
+Graphics API to Vulkan (remove OpenGLES3)
+Minimum API Level to Android 12 (API level 32) from Api level 29
+Scripting Backend to IL2CPP
+Select Oculus Touch controller Profile under OpenXR

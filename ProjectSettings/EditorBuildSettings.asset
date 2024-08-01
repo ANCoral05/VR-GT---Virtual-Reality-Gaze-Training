@@ -9,7 +9,11 @@ EditorBuildSettings:
     path: Assets/Scenes/Tasks/MovingTargetTrackingTask.unity
     guid: 762bcf4279ca90a4598e576b9d2b630c
   m_configObjects:
+    Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 3b89b907c3ef7ba47943218ec85ca89c,
+      type: 2}
     Unity.XR.PXR.Settings: {fileID: 11400000, guid: 7ecf7e590c9d57a4ebf6840d42194ee1,
+      type: 2}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: 111262c83863d294580bf5be08bb0ead,
       type: 2}
     com.unity.xr.management.loader_settings: {fileID: 11400000, guid: 57d0c931f8ee7a24892a83b51743dc78,
       type: 2}
