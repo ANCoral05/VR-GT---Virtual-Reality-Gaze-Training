@@ -13,6 +13,12 @@ public class ActionEventScript : MonoBehaviour
     [Tooltip("Choose the script and function to run when this button is toggled off.")]
     public UnityEvent toggleOffFunction;
 
+    [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function if pressed while hovering over the button.")]
+    public List<ControllerKey> directInteractionKey = new List<ControllerKey>();
+
+    [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function even if the button is not directly targeted (like a shortcut).")]
+    public List<ControllerKey> shortcutKey = new List<ControllerKey>();
+
     [Range(0, 5), Tooltip("Delay in seconds until the function is called after the button is pressed.")]
     public float delayTime;
 
@@ -26,29 +32,23 @@ public class ActionEventScript : MonoBehaviour
     public bool isToggle;
 
     [Header("Editor Inputs")]
-    [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function if pressed while hovering over the button.")]
-    public List<ControllerKey> directInteractionKey = new List<ControllerKey>();
-
-    [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function even if the button is not directly targeted (like a shortcut).")]
-    public List<ControllerKey> shortcutKey = new List<ControllerKey>();
-
     [Tooltip("Add the Input Manager Core Script.")]
     public InputSystemCoreScript inputManagerScript;
 
     [SerializeField, Tooltip("Choose the default visible object of the button.")]
-    private GameObject defaultVisuals;
+    private GameObject defaultItem;
 
     [SerializeField, Tooltip("Choose the visible object to display when a selection ray hovers over the button.")]
-    private GameObject hoverVisuals;
+    private GameObject hoverItem;
 
     [SerializeField, Tooltip("Choose the visible object to display when the button is clicked.")]
-    private GameObject pressedVisuals;
+    private GameObject isPressedItem;
 
     [SerializeField, Tooltip("Choose the visible object to display while the button is toggled on.")]
-    private GameObject toggleVisuals;
+    private GameObject isToggledOnItem;
 
     [SerializeField, Tooltip("Choose the visible object to display when the button is disabled/not clickable.")]
-    private GameObject disabledVisuals;
+    private GameObject isDisabledItem;
 
     [SerializeField, Tooltip("Choose the sound clip that is played when the button is activated.")]
     private AudioClip buttonActivateSoundClip;
@@ -102,14 +102,14 @@ public class ActionEventScript : MonoBehaviour
     {
         DeactivateAllVisuals();
 
-        GazeQuest_Methods.ActivateObject(hoverVisuals);
+        GazeQuest_Methods.ActivateObject(hoverItem);
     }
 
     public void OnHover()
     {
         DeactivateAllVisuals();
 
-        GazeQuest_Methods.ActivateObject(hoverVisuals);
+        GazeQuest_Methods.ActivateObject(hoverItem);
 
         hoverRayCount += 1;
     }
@@ -124,21 +124,21 @@ public class ActionEventScript : MonoBehaviour
         {
             DeactivateAllVisuals();
 
-            GazeQuest_Methods.ActivateObject(defaultVisuals);
+            GazeQuest_Methods.ActivateObject(defaultItem);
         }
     }
 
     private void DeactivateAllVisuals()
     {
-        GazeQuest_Methods.DeactivateObject(defaultVisuals);
+        GazeQuest_Methods.DeactivateObject(defaultItem);
 
-        GazeQuest_Methods.DeactivateObject(hoverVisuals);
+        GazeQuest_Methods.DeactivateObject(hoverItem);
 
-        GazeQuest_Methods.DeactivateObject(pressedVisuals);
+        GazeQuest_Methods.DeactivateObject(isPressedItem);
 
-        GazeQuest_Methods.DeactivateObject(toggleVisuals);
+        GazeQuest_Methods.DeactivateObject(isToggledOnItem);
 
-        GazeQuest_Methods.DeactivateObject(disabledVisuals);
+        GazeQuest_Methods.DeactivateObject(isDisabledItem);
     }
 
     private void OnEnable()
