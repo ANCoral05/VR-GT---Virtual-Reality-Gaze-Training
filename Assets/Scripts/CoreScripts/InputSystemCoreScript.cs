@@ -53,9 +53,6 @@ public class InputSystemCoreScript : MonoBehaviour
     public GameObject leftTestCube;
     public GameObject rightTestCube;
     public TextMeshProUGUI outputText;
-    public Material grey;
-    public Material red;
-    public Material green;
 
     [Header("Public variables")]
     [Tooltip("Decide which controller is 'active', i.e. is used for selecting and interacting.")]
@@ -132,8 +129,8 @@ public class InputSystemCoreScript : MonoBehaviour
         rightController.controllerHand = ControllerHand.Right;
         rightController.controllerObject = rightControllerObject;
 
-        leftController.raycastVisualizer = leftController.controllerObject.transform.Find("Poke Interactor").gameObject;
-        rightController.raycastVisualizer = rightController.controllerObject.transform.Find("Poke Interactor").gameObject;
+        leftController.raycastVisualizer = leftController.controllerObject.transform.Find("RayCastVisualizer").gameObject;
+        rightController.raycastVisualizer = rightController.controllerObject.transform.Find("RayCastVisualizer").gameObject;
 
         lastPressedController = rightController;
 
@@ -161,7 +158,7 @@ public class InputSystemCoreScript : MonoBehaviour
         HoverEventCheck(controller, newRaycastTarget);
     }
 
-    private void SetControllerActiveStatus(ActiveControllerSelection? changeControllerSelection = null)
+    public void SetControllerActiveStatus(ActiveControllerSelection? changeControllerSelection = null)
     {
         if(changeControllerSelection.HasValue)
         {
@@ -216,12 +213,15 @@ public class InputSystemCoreScript : MonoBehaviour
     #endregion
 
     #region Input functions
-    //This function is played whenever a controller key is pressed and informs all input listeners about it.
+    //This function is played whenever a controller key is pressed and informs all input listeners about it, given that the controller is currently active.
     public void ControllerKeyEvent(ControllerKey inputKey, XRController controllerPressed)
     {
-        foreach (ActionEventScript listener in inputListeners)
+        if (controllerPressed.isActive)
         {
-            listener.OnPressed(inputKey);
+            foreach (ActionEventScript listener in inputListeners)
+            {
+                listener.OnPressed(inputKey);
+            }
         }
 
         lastPressedController = controllerPressed;
@@ -230,7 +230,7 @@ public class InputSystemCoreScript : MonoBehaviour
     }
 
     private void TriggerFunctionLeft(InputAction.CallbackContext context)
-    {
+    {       
         ControllerKeyEvent(ControllerKey.Trigger_Left, leftController);
     }
 

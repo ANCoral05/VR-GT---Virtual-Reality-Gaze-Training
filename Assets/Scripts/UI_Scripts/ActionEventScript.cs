@@ -116,8 +116,6 @@ public class ActionEventScript : MonoBehaviour
 
     public void OnHoverLeave()
     {
-
-
         hoverRayCount -= 1;
 
         if (hoverRayCount == 0)
