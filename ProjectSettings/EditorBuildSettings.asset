@@ -8,6 +8,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Tasks/MovingTargetTrackingTask.unity
     guid: 762bcf4279ca90a4598e576b9d2b630c
+  - enabled: 1
+    path: Assets/Scenes/Tasks/ObstacleAvoidanceTask.unity
+    guid: 84fbf8b137ecf5841bc3e572afb5620f
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 3b89b907c3ef7ba47943218ec85ca89c,
       type: 2}
