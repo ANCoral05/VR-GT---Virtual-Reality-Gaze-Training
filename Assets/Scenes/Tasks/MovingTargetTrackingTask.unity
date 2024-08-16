@@ -1655,7 +1655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &245971208
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2333,7 +2333,6 @@ GameObject:
   - component: {fileID: 339673277}
   - component: {fileID: 339673276}
   - component: {fileID: 339673275}
-  - component: {fileID: 339673278}
   m_Layer: 0
   m_Name: ActionEventItem (3)
   m_TagString: Untagged
@@ -2356,7 +2355,7 @@ MonoBehaviour:
   triggeredFunction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 339673278}
+      - m_Target: {fileID: 1042179037}
         m_TargetAssemblyTypeName: SceneLoadScript, Assembly-CSharp
         m_MethodName: LoadNextScene
         m_Mode: 1
@@ -2420,29 +2419,12 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1042179038}
   - {fileID: 75857926}
   - {fileID: 1538011560}
   - {fileID: 1975697783}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &339673278
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 339673274}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1954daaa2f296a64a81c8328a88ab05f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: ObstacleAvoidanceTask
-  fadeColor: {r: 0, g: 0, b: 0, a: 1}
-  fadeOutDuration: 1
-  fadeInDuration: 1
-  canvasObject: {fileID: 245971207}
-  fadeImage: {fileID: 1685515761}
 --- !u!1 &342104769
 GameObject:
   m_ObjectHideFlags: 0
@@ -6882,6 +6864,56 @@ Transform:
   - {fileID: 108597924}
   m_Father: {fileID: 1788508763}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!1 &1042179036
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1042179038}
+  - component: {fileID: 1042179037}
+  m_Layer: 0
+  m_Name: SceneLoadEvent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1042179037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042179036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1954daaa2f296a64a81c8328a88ab05f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: ObstacleAvoidanceTask
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeOutDuration: 1
+  fadeInDuration: 1
+  canvasObject: {fileID: 0}
+  fadeImage: {fileID: 0}
+--- !u!4 &1042179038
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042179036}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 339673277}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1057313762
 GameObject:
   m_ObjectHideFlags: 0

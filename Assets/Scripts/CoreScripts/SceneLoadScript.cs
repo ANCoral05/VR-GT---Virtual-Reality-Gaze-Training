@@ -29,18 +29,13 @@ public class SceneLoadScript : MonoBehaviour
     {
         InitializeCanvas();
 
-        print("hello!");
-
-        StartCoroutine(AutoLoadScenes());
+        //StartCoroutine(AutoLoadScenes());
     }
 
+    //Deprecated
     private IEnumerator AutoLoadScenes()
     {
-        print("0sec");
-
         yield return new WaitForSeconds(5f);
-
-        print("5sec");
 
         LoadNextScene();
     }
@@ -71,6 +66,8 @@ public class SceneLoadScript : MonoBehaviour
             fadeImage.color = new Color(0f, 0f, 0f, 0f);
         }
 
+        this.transform.SetParent(null);
+
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -80,23 +77,17 @@ public class SceneLoadScript : MonoBehaviour
 
         canvasObject.SetActive(true);
 
-        print("load scene");
-
         StartCoroutine(FadeOutAndIn(sceneName, fadeColor, fadeOutDuration, fadeInDuration));
     }
 
     private IEnumerator FadeOutAndIn(string sceneName, Color fadeColor, float fadeOutDuration, float fadeInDuration)
     {
-        print("fade out in start");
-
         if (fadeOutDuration > 0f)
         {
             canvasObject.SetActive(true);
 
             yield return StartCoroutine(FadeOut(fadeColor, fadeOutDuration));
         }
-
-        print("after fade out");
 
         SceneManager.LoadScene(sceneName);
 
@@ -106,8 +97,6 @@ public class SceneLoadScript : MonoBehaviour
 
             yield return StartCoroutine(FadeIn(fadeColor, fadeInDuration));
         }
-
-        print("after fade in");
 
         canvasObject.SetActive(false);
 

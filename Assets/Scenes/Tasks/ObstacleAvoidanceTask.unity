@@ -4291,8 +4291,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 754325884}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 13000.002}
-  m_LocalScale: {x: 10, y: 49.99999, z: 0.99999976}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 10, y: 49.99999, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 407005257}
@@ -4301,8 +4301,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 4270, y: 4.9999695}
-  m_SizeDelta: {x: 854, y: 523}
+  m_AnchoredPosition: {x: 1, y: 0}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &754325886
 MonoBehaviour:
@@ -5223,7 +5223,6 @@ GameObject:
   - component: {fileID: 911419470}
   - component: {fileID: 911419469}
   - component: {fileID: 911419468}
-  - component: {fileID: 911419467}
   m_Layer: 0
   m_Name: ActionEventItem (3)
   m_TagString: Untagged
@@ -5231,24 +5230,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &911419467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 911419466}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1954daaa2f296a64a81c8328a88ab05f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: MovingTargetTrackingTask
-  fadeColor: {r: 0, g: 0, b: 0, a: 1}
-  fadeOutDuration: 1
-  fadeInDuration: 1
-  canvasObject: {fileID: 1069562552}
-  fadeImage: {fileID: 1463496384}
 --- !u!114 &911419468
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5264,7 +5245,7 @@ MonoBehaviour:
   triggeredFunction:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 911419467}
+      - m_Target: {fileID: 1003517546}
         m_TargetAssemblyTypeName: SceneLoadScript, Assembly-CSharp
         m_MethodName: LoadNextScene
         m_Mode: 1
@@ -5328,10 +5309,62 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1003517547}
   - {fileID: 140571526}
   - {fileID: 317492832}
   - {fileID: 1074714836}
   m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1003517545
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1003517547}
+  - component: {fileID: 1003517546}
+  m_Layer: 0
+  m_Name: SceneLoadEvent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1003517546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003517545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1954daaa2f296a64a81c8328a88ab05f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneName: MovingTargetTrackingTask
+  fadeColor: {r: 0, g: 0, b: 0, a: 1}
+  fadeOutDuration: 1
+  fadeInDuration: 1
+  canvasObject: {fileID: 1069562552}
+  fadeImage: {fileID: 1463496384}
+--- !u!4 &1003517547
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1003517545}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1069562556}
+  m_Father: {fileID: 911419470}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1054825216
 GameObject:
@@ -5956,7 +5989,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1463496383}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1003517547}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -10389,4 +10422,3 @@ SceneRoots:
   - {fileID: 525408818}
   - {fileID: 1609417761}
   - {fileID: 911419470}
-  - {fileID: 1069562556}
