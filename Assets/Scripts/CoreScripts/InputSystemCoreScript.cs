@@ -5,18 +5,25 @@ using UnityEngine.InputSystem;
 using GazeQuestUtils;
 using TMPro;
 
+[CreateAssetMenu(fileName = "XRControllerData", menuName = "ScriptableObjects/UI_and_Controls/XRControllerData")]
+public class XRControllerData : ScriptableObject
+{
+    public bool isActive;
+    public bool rayActive;
+
+    public ControllerHand controllerHand;
+}
+
 public class XRController
 {
-    public bool isActive { get; set; }
-    public bool rayActive { get; set; } = true;
+    public XRControllerData xrControllerData;
 
-    public ControllerHand controllerHand { get; set; }
+    public GameObject controllerObject;
+    public GameObject raycastVisualizer;
+    public GameObject raycastTarget;
 
-    public GameObject controllerObject { get; set; }
-    public GameObject raycastVisualizer { get; set; }
-    public Vector3 direction { get; set; }
-    public Vector3 position { get; set; }
-    public GameObject raycastTarget { get; set; }
+    public Vector3 direction;
+    public Vector3 position;
 }
 
 public enum ActiveControllerSelection
@@ -26,6 +33,16 @@ public enum ActiveControllerSelection
     Left,
     Right,
     None
+}
+
+[CreateAssetMenu(fileName = "ActiveControllerSelectionData", menuName = "ScriptableObjects/UI_and_Controls/ActiveControllerSelectionData")]
+public class ActiveControllerSelectionData : ScriptableObject
+{
+    [Tooltip("Decide which controller is 'active', i.e. is used for selecting and interacting.")]
+    public ActiveControllerSelection activeControllerSelection = ActiveControllerSelection.LastPressed;
+
+    [Tooltip("Defines the last controller on which a key was pressed.")]
+    public ControllerHand lastPressedControllerHand = ControllerHand.Right;
 }
 
 public class InputSystemCoreScript : MonoBehaviour
@@ -45,7 +62,19 @@ public class InputSystemCoreScript : MonoBehaviour
     public InputActionReference thumbstickPressActionRight;
 
     [Header("Editor inputs")]
+    [Tooltip("Input the Scriptable Object that stores the data for the left controller.")]
+    public XRControllerData leftControllerData;
+
+    [Tooltip("Input the Scriptable Object that stores the data for the right controller.")]
+    public XRControllerData rightControllerData;
+
+    [Tooltip("Input the Scriptable Object that stores the controller state.")]
+    public ActiveControllerSelectionData activeControllerSelectionData;
+
+    [Tooltip("Input the GameObject of the left controller.")]
     public GameObject leftControllerObject;
+
+    [Tooltip("Input the GameObject of the right controller.")]
     public GameObject rightControllerObject;
 
     [Header("Test parameters")]
@@ -55,12 +84,6 @@ public class InputSystemCoreScript : MonoBehaviour
     public TextMeshProUGUI outputText;
 
     [Header("Public variables")]
-    [Tooltip("Decide which controller is 'active', i.e. is used for selecting and interacting.")]
-    public ActiveControllerSelection activeControllerSelection = ActiveControllerSelection.Both;
-
-    public XRController leftController = new XRController();
-    public XRController rightController = new XRController();
-
     [HideInInspector, Tooltip("List of subscribed listeners that are informed whenever a controller hovers over a new object.")]
     public List<ActionEventScript> hoverListeners = new List<ActionEventScript>();
 
@@ -70,10 +93,14 @@ public class InputSystemCoreScript : MonoBehaviour
     [HideInInspector]
     public List<ControllerKey> pressedKeys = new List<ControllerKey>();
 
+    [HideInInspector, Tooltip("The controller entity of the left controller that is referenced by this and other scripts.")]
+    public XRController leftController = new XRController();
+
+    [HideInInspector, Tooltip("The controller entity of the right controller that is referenced by this and other scripts.")]
+    public XRController rightController = new XRController();
+
     [Header("Private variables")]
     private List<XRController> activeControllers = new List<XRController>();
-
-    private XRController lastPressedController;
 
     private GameObject hoveredTargetLeft;
     private GameObject hoveredTargetRight;
@@ -123,23 +150,22 @@ public class InputSystemCoreScript : MonoBehaviour
 
     private void InitializeControllers()
     {
-        leftController.controllerHand = ControllerHand.Left;
+        leftController.xrControllerData = leftControllerData;
+        leftController.xrControllerData.controllerHand = ControllerHand.Left;
         leftController.controllerObject = leftControllerObject;
-
-        rightController.controllerHand = ControllerHand.Right;
-        rightController.controllerObject = rightControllerObject;
-
         leftController.raycastVisualizer = leftController.controllerObject.transform.Find("RayCastVisualizer").gameObject;
-        rightController.raycastVisualizer = rightController.controllerObject.transform.Find("RayCastVisualizer").gameObject;
 
-        lastPressedController = rightController;
+        rightController.xrControllerData = rightControllerData;
+        rightController.xrControllerData.controllerHand = ControllerHand.Right;
+        rightController.controllerObject = rightControllerObject;
+        rightController.raycastVisualizer = rightController.controllerObject.transform.Find("RayCastVisualizer").gameObject;
 
         SetControllerActiveStatus();
     }
 
     private void TrackControllerVariables(XRController controller)
     {
-        if (!controller.isActive)
+        if (!controller.xrControllerData.isActive)
             return;
 
         controller.direction = (controller.controllerObject.transform.rotation * Vector3.forward).normalized;
@@ -150,7 +176,7 @@ public class InputSystemCoreScript : MonoBehaviour
 
         GameObject newRaycastTarget = null;
 
-        if (controller.rayActive == true && Physics.Raycast(ray, out hit))
+        if (controller.xrControllerData.rayActive == true && Physics.Raycast(ray, out hit))
         {
             newRaycastTarget = hit.transform.gameObject;
         }
@@ -162,36 +188,36 @@ public class InputSystemCoreScript : MonoBehaviour
     {
         if(changeControllerSelection.HasValue)
         {
-            activeControllerSelection = changeControllerSelection.Value;
+            activeControllerSelectionData.activeControllerSelection = changeControllerSelection.Value;
         }
 
-        if (activeControllerSelection == ActiveControllerSelection.Both)
+        if (activeControllerSelectionData.activeControllerSelection == ActiveControllerSelection.Both)
         {
             ControllerStateChange(leftController, true);
             ControllerStateChange(rightController, true);
         }
 
-        if(activeControllerSelection == ActiveControllerSelection.LastPressed)
+        if(activeControllerSelectionData.activeControllerSelection == ActiveControllerSelection.LastPressed)
         {
             ControllerStateChange(leftController, false);
             ControllerStateChange(rightController, false);
 
-            ControllerStateChange(lastPressedController, true);
+            ControllerStateChange(HandToController(activeControllerSelectionData.lastPressedControllerHand), true);
         }
 
-        if(activeControllerSelection == ActiveControllerSelection.Left)
+        if(activeControllerSelectionData.activeControllerSelection == ActiveControllerSelection.Left)
         {
             ControllerStateChange(leftController, true);
             ControllerStateChange(rightController, false);
         }
 
-        if (activeControllerSelection == ActiveControllerSelection.Right)
+        if (activeControllerSelectionData.activeControllerSelection == ActiveControllerSelection.Right)
         {
             ControllerStateChange(leftController, false);
             ControllerStateChange(rightController, true);
         }
 
-        if (activeControllerSelection == ActiveControllerSelection.None)
+        if (activeControllerSelectionData.activeControllerSelection == ActiveControllerSelection.None)
         {
             ControllerStateChange(leftController, false);
             ControllerStateChange(rightController, false);
@@ -200,7 +226,7 @@ public class InputSystemCoreScript : MonoBehaviour
 
     private void ControllerStateChange(XRController controller, bool state)
     {
-        controller.isActive = state;
+        controller.xrControllerData.isActive = state;
         controller.raycastVisualizer.SetActive(state);
 
         if(state == false)
@@ -210,13 +236,27 @@ public class InputSystemCoreScript : MonoBehaviour
             controller.raycastTarget = null;
         }
     }
+
+    private XRController HandToController(ControllerHand controllerHand)
+    {
+        XRController controller = null;
+
+        if (controllerHand == ControllerHand.Left)
+            controller = leftController;
+
+        if (controllerHand == ControllerHand.Right)
+            controller = rightController;
+
+            return controller;
+    }
+
     #endregion
 
     #region Input functions
     //This function is played whenever a controller key is pressed and informs all input listeners about it, given that the controller is currently active.
     public void ControllerKeyEvent(ControllerKey inputKey, XRController controllerPressed)
     {
-        if (controllerPressed.isActive)
+        if (controllerPressed.xrControllerData.isActive)
         {
             foreach (ActionEventScript listener in inputListeners)
             {
@@ -224,7 +264,7 @@ public class InputSystemCoreScript : MonoBehaviour
             }
         }
 
-        lastPressedController = controllerPressed;
+        activeControllerSelectionData.lastPressedControllerHand = controllerPressed.xrControllerData.controllerHand;
 
         SetControllerActiveStatus();
     }
@@ -237,6 +277,8 @@ public class InputSystemCoreScript : MonoBehaviour
     private void TriggerFunctionRight(InputAction.CallbackContext context)
     {
         ControllerKeyEvent(ControllerKey.Trigger_Right, rightController);
+
+        ToggleCube();
     }
 
     private void PrimaryFunctionLeft(InputAction.CallbackContext context)

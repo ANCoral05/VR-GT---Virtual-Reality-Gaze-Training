@@ -10222,13 +10222,17 @@ MonoBehaviour:
   secondaryActionRight: {fileID: 0}
   gripActionRight: {fileID: 0}
   thumbstickPressActionRight: {fileID: 0}
+  leftControllerData: {fileID: 11400000, guid: 91dcd7ffef9d33c4e965e7550167553f, type: 2}
+  rightControllerData: {fileID: 11400000, guid: 0c00fb13b4e848741aefb77b11a24fe3,
+    type: 2}
+  activeControllerSelectionData: {fileID: 11400000, guid: 0c4714633e6807541bfd9452dc4b81ea,
+    type: 2}
   leftControllerObject: {fileID: 869188298}
   rightControllerObject: {fileID: 566053164}
   testCube: {fileID: 0}
   leftTestCube: {fileID: 0}
   rightTestCube: {fileID: 0}
   outputText: {fileID: 0}
-  activeControllerSelection: 1
   hoverListeners: []
   inputListeners: []
   pressedKeys: 
@@ -10240,8 +10244,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1953229592}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10415,10 +10419,10 @@ MonoBehaviour:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
+  - {fileID: 1953229595}
   - {fileID: 1365518596}
   - {fileID: 529088668}
   - {fileID: 642458576}
-  - {fileID: 1953229595}
   - {fileID: 525408818}
   - {fileID: 1609417761}
   - {fileID: 911419470}

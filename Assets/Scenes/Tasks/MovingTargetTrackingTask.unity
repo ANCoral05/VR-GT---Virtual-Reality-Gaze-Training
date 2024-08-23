@@ -6099,13 +6099,17 @@ MonoBehaviour:
   secondaryActionRight: {fileID: 0}
   gripActionRight: {fileID: 0}
   thumbstickPressActionRight: {fileID: 0}
+  leftControllerData: {fileID: 11400000, guid: 91dcd7ffef9d33c4e965e7550167553f, type: 2}
+  rightControllerData: {fileID: 11400000, guid: 0c00fb13b4e848741aefb77b11a24fe3,
+    type: 2}
+  activeControllerSelectionData: {fileID: 11400000, guid: 0c4714633e6807541bfd9452dc4b81ea,
+    type: 2}
   leftControllerObject: {fileID: 1693256558}
   rightControllerObject: {fileID: 191679377}
   testCube: {fileID: 1804058422}
   leftTestCube: {fileID: 1359989817}
   rightTestCube: {fileID: 473477422}
   outputText: {fileID: 0}
-  activeControllerSelection: 1
   hoverListeners: []
   inputListeners: []
   pressedKeys: 
@@ -8275,7 +8279,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   directInteractionKey: 0000000001000000
-  shortcutKey: 
+  shortcutKey: 01000000
   delayTime: 0
   hoverHapticFeedback: 0.315
   activateHapticFeedback: 1
