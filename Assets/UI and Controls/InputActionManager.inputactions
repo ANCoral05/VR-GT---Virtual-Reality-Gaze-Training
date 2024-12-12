@@ -9,10 +9,19 @@
                     "name": "Select",
                     "type": "Button",
                     "id": "921dc40e-c7b3-454d-aaf7-79efcc2d658b",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Eye tracking",
+                    "type": "Value",
+                    "id": "c81e65ea-d1e8-40f1-a384-9f673b5c8736",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -57,6 +66,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3e416e71-d44e-4ff7-85bf-362f832b83a6",
+                    "path": "<EyeGaze>/{LeftEyePosition}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Eye tracking",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b31f8a1c-6b08-4044-adab-e745f0a9bc92",
+                    "path": "<EyeGaze>/{LeftEyeRotation}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Eye tracking",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -5,15 +5,6 @@ using UnityEngine.InputSystem;
 using GazeQuestUtils;
 using TMPro;
 
-[CreateAssetMenu(fileName = "XRControllerData", menuName = "ScriptableObjects/UI_and_Controls/XRControllerData")]
-public class XRControllerData : ScriptableObject
-{
-    public bool isActive;
-    public bool rayActive;
-
-    public ControllerHand controllerHand;
-}
-
 public class XRController
 {
     public XRControllerData xrControllerData;
@@ -33,16 +24,6 @@ public enum ActiveControllerSelection
     Left,
     Right,
     None
-}
-
-[CreateAssetMenu(fileName = "ActiveControllerSelectionData", menuName = "ScriptableObjects/UI_and_Controls/ActiveControllerSelectionData")]
-public class ActiveControllerSelectionData : ScriptableObject
-{
-    [Tooltip("Decide which controller is 'active', i.e. is used for selecting and interacting.")]
-    public ActiveControllerSelection activeControllerSelection = ActiveControllerSelection.LastPressed;
-
-    [Tooltip("Defines the last controller on which a key was pressed.")]
-    public ControllerHand lastPressedControllerHand = ControllerHand.Right;
 }
 
 public class InputSystemCoreScript : MonoBehaviour
@@ -81,7 +62,6 @@ public class InputSystemCoreScript : MonoBehaviour
     public GameObject testCube;
     public GameObject leftTestCube;
     public GameObject rightTestCube;
-    public TextMeshProUGUI outputText;
 
     [Header("Public variables")]
     [HideInInspector, Tooltip("List of subscribed listeners that are informed whenever a controller hovers over a new object.")]

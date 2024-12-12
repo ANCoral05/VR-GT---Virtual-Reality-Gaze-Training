@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 0}
+  m_Script: {fileID: 11500000, guid: 555cdd1fbce9a47499a785b370627ed8, type: 3}
   m_Name: XRControllerData_Left
   m_EditorClassIdentifier: Assembly-CSharp::XRControllerData
   isActive: 1
-  rayActive: 0
+  rayActive: 1
   controllerHand: 0
