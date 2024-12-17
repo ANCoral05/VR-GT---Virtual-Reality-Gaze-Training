@@ -1,0 +1,12 @@
+ScriptableObject: XRControllerData_Left
+isActive: False
+rayActive: True
+controllerHand: Left
+name: XRControllerData_Left
+hideFlags: None
+ScriptableObject: XRControllerData_Right
+isActive: True
+rayActive: True
+controllerHand: Right
+name: XRControllerData_Right
+hideFlags: None

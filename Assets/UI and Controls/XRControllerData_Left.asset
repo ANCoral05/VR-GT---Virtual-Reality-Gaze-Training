@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 555cdd1fbce9a47499a785b370627ed8, type: 3}
   m_Name: XRControllerData_Left
   m_EditorClassIdentifier: Assembly-CSharp::XRControllerData
-  isActive: 1
+  isActive: 0
   rayActive: 1
   controllerHand: 0
