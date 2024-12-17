@@ -10,6 +10,12 @@ public class SaveAndLoadManager : MonoBehaviour
     [SerializeField, Tooltip("List of ScriptableObjects to be saved")]
     private List<ScriptableObject> storedParameterList = new List<ScriptableObject>();
 
+    [SerializeField, Tooltip("Save File Name (If not set, default Save File Name is used)")]
+    private string saveFileName;
+
+    [SerializeField, Tooltip("Load File Name (If not set, default Load File Name is used)")]
+    private string loadFileName;
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.S))
@@ -50,10 +56,11 @@ public class SaveAndLoadManager : MonoBehaviour
         }
 
         string saveData = sb.ToString();
-        Debug.Log(saveData);
+        Debug.Log("Data saved!");
 
         // Save to file
-        System.IO.File.WriteAllText("saveData.json", saveData);
+        string saveFileName_ext = (saveFileName ?? "saveData") + ".json";
+        System.IO.File.WriteAllText(saveFileName_ext, saveData);
     }
 
     // A function that sets the value of a field or property of a scriptable object
@@ -86,34 +93,40 @@ public class SaveAndLoadManager : MonoBehaviour
     // A function that reads data from a json file and assigns it to scriptable objects
     public void LoadSave()
     {
-        string loadData = System.IO.File.ReadAllText("saveData.json");
+        string loadFileName_ext = (loadFileName ?? "saveData") + ".json";
+
+        if (!System.IO.File.Exists(loadFileName_ext))
+        {
+            Debug.LogWarning("Save file not found!");
+            return;
+        }
+
+        string loadData = System.IO.File.ReadAllText(loadFileName_ext);
 
         string[] lines = loadData.Split('\n');
-        string currentScriptableObject = "";
+        ScriptableObject currentScriptableObject = null;
 
         foreach (var line in lines)
         {
-            if (line.Contains("ScriptableObject"))
+            if (string.IsNullOrWhiteSpace(line))
             {
-                currentScriptableObject = line.Split(':')[1].Trim();
+                continue;
             }
-            else
+
+            if (line.StartsWith("ScriptableObject:"))
             {
-                if(string.IsNullOrEmpty(line))
-                {
-                    continue;
-                }
+                string scriptableObjectName = line.Split(':')[1].Trim();
+                currentScriptableObject = storedParameterList.Find(so => so.name == scriptableObjectName);
+            }
+            else if (currentScriptableObject != null)
+            {
                 string[] parts = line.Split(':');
                 string fieldName = parts[0].Trim();
                 string fieldValue = parts[1].Trim();
-                foreach (var scriptableObject in storedParameterList)
-                {
-                    if (scriptableObject.name == currentScriptableObject)
-                    {
-                        SetFieldOrPropertyValue(scriptableObject, fieldName, fieldValue);
-                    }
-                }
+                SetFieldOrPropertyValue(currentScriptableObject, fieldName, fieldValue);
             }
         }
+
+        Debug.Log("Data loaded!");
     }
 }
