@@ -29452,6 +29452,8 @@ MonoBehaviour:
   storedParameterList:
   - {fileID: 11400000, guid: 91dcd7ffef9d33c4e965e7550167553f, type: 2}
   - {fileID: 11400000, guid: 0c00fb13b4e848741aefb77b11a24fe3, type: 2}
+  saveFileName: 
+  loadFileName: 
 --- !u!1001 &656916345
 PrefabInstance:
   m_ObjectHideFlags: 0

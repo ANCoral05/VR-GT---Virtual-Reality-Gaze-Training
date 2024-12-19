@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using GazeQuestUtils;
 using TMPro;
+using VRK_BuildingBlocks;
 
 public class XRController
 {
@@ -28,8 +29,6 @@ public enum ActiveControllerSelection
 
 public class InputSystemCoreScript : MonoBehaviour
 {
-    public VRK_BuildingBlocks.FloatVariable maxHealth;
-
     [Header("Action references - Left")]
     public InputActionReference triggerActionLeft;
     public InputActionReference primaryActionLeft;
