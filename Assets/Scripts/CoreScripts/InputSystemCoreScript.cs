@@ -29,6 +29,10 @@ public enum ActiveControllerSelection
 
 public class InputSystemCoreScript : MonoBehaviour
 {
+    public ArrayVariable<string> testArray2;
+    public StringVariable testString;
+    public Vector4Variable testVector4;
+
     [Header("Action references - Left")]
     public InputActionReference triggerActionLeft;
     public InputActionReference primaryActionLeft;
