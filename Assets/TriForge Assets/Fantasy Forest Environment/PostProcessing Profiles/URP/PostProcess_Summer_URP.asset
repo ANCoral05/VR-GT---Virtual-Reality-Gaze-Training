@@ -13,10 +13,33 @@ MonoBehaviour:
   m_Name: Tonemapping
   m_EditorClassIdentifier: 
   active: 1
-  m_AdvancedMode: 0
   mode:
     m_OverrideState: 1
     m_Value: 2
+  neutralHDRRangeReductionMode:
+    m_OverrideState: 0
+    m_Value: 2
+  acesPreset:
+    m_OverrideState: 0
+    m_Value: 3
+  hueShiftAmount:
+    m_OverrideState: 0
+    m_Value: 0
+  detectPaperWhite:
+    m_OverrideState: 0
+    m_Value: 0
+  paperWhite:
+    m_OverrideState: 0
+    m_Value: 300
+  detectBrightnessLimits:
+    m_OverrideState: 0
+    m_Value: 1
+  minNits:
+    m_OverrideState: 0
+    m_Value: 0.005
+  maxNits:
+    m_OverrideState: 0
+    m_Value: 1000
 --- !u!114 &-4499130691152189366
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -30,17 +53,12 @@ MonoBehaviour:
   m_Name: WhiteBalance
   m_EditorClassIdentifier: 
   active: 1
-  m_AdvancedMode: 0
   temperature:
     m_OverrideState: 1
     m_Value: 17
-    min: -100
-    max: 100
   tint:
     m_OverrideState: 1
     m_Value: 10
-    min: -100
-    max: 100
 --- !u!114 &-4256919082256716510
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -54,7 +72,6 @@ MonoBehaviour:
   m_Name: ShadowsMidtonesHighlights
   m_EditorClassIdentifier: 
   active: 0
-  m_AdvancedMode: 0
   shadows:
     m_OverrideState: 1
     m_Value: {x: 1, y: 1, z: 1, w: -0.16574587}
@@ -67,19 +84,15 @@ MonoBehaviour:
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
-    min: 0
   shadowsEnd:
     m_OverrideState: 0
     m_Value: 0.3
-    min: 0
   highlightsStart:
     m_OverrideState: 0
     m_Value: 0.55
-    min: 0
   highlightsEnd:
     m_OverrideState: 0
     m_Value: 1
-    min: 0
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,7 +126,6 @@ MonoBehaviour:
   m_Name: LiftGammaGain
   m_EditorClassIdentifier: 
   active: 1
-  m_AdvancedMode: 0
   lift:
     m_OverrideState: 0
     m_Value: {x: 1, y: 1, z: 1, w: 0}
@@ -136,31 +148,21 @@ MonoBehaviour:
   m_Name: ColorAdjustments
   m_EditorClassIdentifier: 
   active: 1
-  m_AdvancedMode: 0
   postExposure:
     m_OverrideState: 1
     m_Value: 0.3
   contrast:
     m_OverrideState: 1
     m_Value: 30.9
-    min: -100
-    max: 100
   colorFilter:
     m_OverrideState: 1
     m_Value: {r: 1, g: 1, b: 1, a: 1}
-    hdr: 1
-    showAlpha: 0
-    showEyeDropper: 1
   hueShift:
     m_OverrideState: 1
     m_Value: -6
-    min: -180
-    max: 180
   saturation:
     m_OverrideState: 1
     m_Value: 10
-    min: -100
-    max: 100
 --- !u!114 &6712102417762912276
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -174,45 +176,40 @@ MonoBehaviour:
   m_Name: Bloom
   m_EditorClassIdentifier: 
   active: 1
-  m_AdvancedMode: 0
-  threshold:
-    m_OverrideState: 1
-    m_Value: 0.35
-    min: 0
-  intensity:
-    m_OverrideState: 1
-    m_Value: 0.8
-    min: 0
-  scatter:
-    m_OverrideState: 1
-    m_Value: 0.7
-    min: 0
-    max: 1
-  clamp:
-    m_OverrideState: 0
-    m_Value: 65472
-    min: 0
-  tint:
-    m_OverrideState: 1
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
-    hdr: 0
-    showAlpha: 0
-    showEyeDropper: 1
-  highQualityFiltering:
-    m_OverrideState: 0
-    m_Value: 0
   skipIterations:
     m_OverrideState: 0
     m_Value: 1
-    min: 0
-    max: 16
+  threshold:
+    m_OverrideState: 1
+    m_Value: 0.35
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.8
+  scatter:
+    m_OverrideState: 1
+    m_Value: 0.7
+  clamp:
+    m_OverrideState: 0
+    m_Value: 65472
+  tint:
+    m_OverrideState: 1
+    m_Value: {r: 1, g: 1, b: 1, a: 1}
+  highQualityFiltering:
+    m_OverrideState: 0
+    m_Value: 0
+  downscale:
+    m_OverrideState: 0
+    m_Value: 0
+  maxIterations:
+    m_OverrideState: 0
+    m_Value: 6
   dirtTexture:
     m_OverrideState: 0
     m_Value: {fileID: 0}
+    dimension: 1
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
-    min: 0
 --- !u!114 &8120913541639842614
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -226,49 +223,30 @@ MonoBehaviour:
   m_Name: ChannelMixer
   m_EditorClassIdentifier: 
   active: 1
-  m_AdvancedMode: 0
   redOutRedIn:
     m_OverrideState: 1
     m_Value: 88
-    min: -200
-    max: 200
   redOutGreenIn:
     m_OverrideState: 0
     m_Value: 0
-    min: -200
-    max: 200
   redOutBlueIn:
     m_OverrideState: 0
     m_Value: 0
-    min: -200
-    max: 200
   greenOutRedIn:
     m_OverrideState: 0
     m_Value: 0
-    min: -200
-    max: 200
   greenOutGreenIn:
     m_OverrideState: 0
     m_Value: 100
-    min: -200
-    max: 200
   greenOutBlueIn:
     m_OverrideState: 0
     m_Value: 0
-    min: -200
-    max: 200
   blueOutRedIn:
     m_OverrideState: 0
     m_Value: 0
-    min: -200
-    max: 200
   blueOutGreenIn:
     m_OverrideState: 0
     m_Value: 0
-    min: -200
-    max: 200
   blueOutBlueIn:
     m_OverrideState: 0
     m_Value: 100
-    min: -200
-    max: 200
