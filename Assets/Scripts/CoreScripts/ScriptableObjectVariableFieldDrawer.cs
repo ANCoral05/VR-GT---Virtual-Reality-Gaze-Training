@@ -11,6 +11,7 @@ namespace VRK_BuildingBlocks
     [CustomPropertyDrawer(typeof(Vector3Variable))]
     [CustomPropertyDrawer(typeof(Vector4Variable))]
     [CustomPropertyDrawer(typeof(ArrayVariable<>))]
+    [CustomPropertyDrawer(typeof(PooledGameObjectVariable))]
     public class VariablePropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

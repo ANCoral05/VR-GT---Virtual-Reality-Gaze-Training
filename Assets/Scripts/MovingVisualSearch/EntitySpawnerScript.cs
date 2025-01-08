@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRK_BuildingBlocks;
@@ -33,7 +32,7 @@ public class EntitySpawnerScript : MonoBehaviour
     private bool randomSpawnFieldOrder;
 
     [SerializeField, Tooltip("Set the target pool containers to add the targets to after spawning.")]
-    private List<ListVariable> targetPoolContainers;
+    private List<PooledGameObjectVariable> targetPoolContainers;
 
     [SerializeField, Tooltip("Toggle on to disable the spawner after spawning.")]
     private bool disableAfterSpawning = true;

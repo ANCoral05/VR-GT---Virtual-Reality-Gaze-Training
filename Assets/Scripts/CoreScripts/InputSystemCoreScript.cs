@@ -29,6 +29,7 @@ public enum ActiveControllerSelection
 
 public class InputSystemCoreScript : MonoBehaviour
 {
+    public PooledGameObjectVariable pooledGameObject;
     public ArrayVariable<string> testArray2;
     public StringVariable testString;
     public Vector4Variable testVector4;
