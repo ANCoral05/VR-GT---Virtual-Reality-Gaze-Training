@@ -5,17 +5,39 @@ namespace VRK_BuildingBlocks
 {
     public class EntityMovementScript : MonoBehaviour
     {
+        public bool movementActive = true;
+
         public enum TransformationMethod
         {
             StaticTransformation,
             TargetKeys,
             RandomizedTransformation
         }
-
-        public bool movementActive = true;
-
         public TransformationMethod movementMethod = TransformationMethod.StaticTransformation;
-        
+
+        public enum CurrentMovementState
+        {
+            Starting,
+            Moving,
+            Break
+        }
+        public CurrentMovementState currentMovementState;
+
+        public class BreakEvent
+        {
+            public float breakTime;
+            public Vector3 breakPosition;
+            public Vector3 breakVelocity;
+
+            public BreakEvent(float breakTime, Vector3 breakPosition, Vector3 breakVelocity)
+            {
+                this.breakTime = breakTime;
+                this.breakPosition = breakPosition;
+                this.breakVelocity = breakVelocity;
+            }
+        }
+        private BreakEvent breakEvent = new BreakEvent(0, Vector3.zero, Vector3.zero);
+
         [Header("Movement")]
         [Tooltip("Speed which the entity aims to move at.")]
         public float targetSpeed = 1;
@@ -29,15 +51,23 @@ namespace VRK_BuildingBlocks
         [Tooltip("Maximum turn speed (in degree per second) of the entity. Set to -1 for infinite turn speed.")]
         public float maxTurnSpeed = -1;
 
-        [Tooltip("The amount of 'bounce' or oscillation when stopping movement. 0 means no oscillation, 1 means endless oscillation.")]
-        public float movementOscillation = 0;
+        public float breakDuration = 0.75f;
 
-        public float currentSpeed { get; private set; }
+        public float oscillationAmplitude = 0.1f;
 
-        public Vector3 currentDirection { get; private set; }
+        public float oscillationDuration = 0.5f;
+
+        public float currentSpeed;
+
+        public Vector3 currentDirection;
+
+        public Transform movementTarget;
 
         [SerializeField, Tooltip("If activated, the target will face in moving direction.")]
         private bool faceTowardsMovementDirection = false;
+
+        [Tooltip("The threshold for the difference between target speed and actual speed at which a 'break' maneuver will be executed. Set to -1 to disable this.")]
+        public float velocityBreakThreshold = -1f;
 
         [Header("Static Transform")]
         [Tooltip("Targeted direction of the movement.")]
@@ -47,36 +77,92 @@ namespace VRK_BuildingBlocks
         [Tooltip("The keys towards which the entity will move.")]
         public List<Transform> targetKeys = new List<Transform>();
 
+        [Tooltip("If activated, the next target location will be selected randomly from the list each time.")]
+        public bool randomizeTargetKeys;
+
+        [Tooltip("Set a fixed travel time between the target keys which will overwrite the speed variable. Set to -1 for no fixed travel time.")]
+        public float fixedTravelTime = -1;
+
+        [Tooltip("The maximum number of steps the entity will take before stopping. Set to -1 for infinite steps.")]
+        public int maxStepNumber = -1;
+
+        private float targetSpeedBackup;
+
         private int currentKeyIndex = 0;
 
+        private bool targetReached;
+
+        private void Awake()
+        {
+            if(movementTarget == null)
+            {
+                movementTarget = new GameObject(this.gameObject.name + "_MovementTarget").transform;
+                movementTarget.position = this.transform.position;
+            }
+        }
 
         public void StaticTransformationMovement()
         {
-            this.transform.position += currentDirection * currentSpeed * Time.deltaTime;
+            this.transform.position += currentDirection.normalized * currentSpeed * Time.deltaTime;
         }
 
-        public void TargetKeysMovement()
+        public void SetNewTargetCourse(Transform movementTarget)
+        {
+            if (fixedTravelTime < 0)
+            {
+                targetSpeed = targetSpeed;
+            }
+            else if (fixedTravelTime > 0)
+            {
+                float distanceToTarget = (movementTarget.position - this.transform.position).magnitude;
+
+                targetSpeed = distanceToTarget / fixedTravelTime;
+            }
+        }
+
+        public void TargetMovement()
+        {
+            targetDirection = movementTarget.position - this.transform.position;
+
+            float distanceToTarget = (movementTarget.position - this.transform.position).magnitude;
+
+            if (distanceToTarget <= 0.01f || distanceToTarget < currentSpeed * Time.deltaTime)
+            {
+                GoalReached();
+            }
+        }
+
+        public void GoalReached()
+        {
+            MovementBreak();
+
+            movementTarget = TargetKeysSelection();
+        }
+
+        public Transform TargetKeysSelection()
         {
             if (targetKeys.Count == 0)
             {
-                return;
+                return null;
             }
 
-            Vector3 targetPosition = targetKeys[currentKeyIndex].position;
+            this.transform.position = movementTarget.position;
 
-            targetDirection = targetPosition - this.transform.position;
-
-            // if the target is reached, move to the next target
-            float distance = (targetPosition - this.transform.position).magnitude;
-
-            if (distance < 0.01f)
+            if (randomizeTargetKeys)
             {
-                this.transform.position = targetPosition;
-                currentKeyIndex = (currentKeyIndex + 1) % targetKeys.Count;
+                currentKeyIndex += Random.Range(1, targetKeys.Count);
             }
-        }
+            else
+            {
+                currentKeyIndex++;
+            }
+            currentKeyIndex %= targetKeys.Count;
 
-        public void CurrentSpeedAndDirection()
+            return targetKeys[currentKeyIndex];
+        }
+        
+
+        public void CalculateCurrentSpeedAndDirection()
         {
             if (currentSpeed < targetSpeed)
             {
@@ -98,37 +184,97 @@ namespace VRK_BuildingBlocks
                 }
                 else
                 {
-                    currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, movementDampening * Time.deltaTime);
+                    if (currentSpeed - targetSpeed >= velocityBreakThreshold)
+                    {
+                        MovementBreak();
+                    }
+                    else
+                    {
+                        currentSpeed = Mathf.MoveTowards(currentSpeed, targetSpeed, movementDampening * Time.deltaTime);
+                    }
                 }
             }
 
-            if (currentDirection != targetDirection)
+            if (!targetReached && currentDirection != targetDirection)
             {
-                currentDirection = Vector3.RotateTowards(currentDirection, targetDirection, maxTurnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0);
+                if (currentDirection == Vector3.zero)
+                {
+                    currentDirection = targetDirection;
+                }
+                else if (maxTurnSpeed < 0)
+                {
+                    currentDirection = targetDirection;
+                }
+                else
+                {
+                    currentDirection = Vector3.RotateTowards(currentDirection, targetDirection, maxTurnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0);
+                }
             }
 
             // move the entity
-            this.transform.position += currentDirection * currentSpeed * Time.deltaTime;
-        }
+            this.transform.position += currentDirection.normalized * currentSpeed * Time.deltaTime;
 
-        // function to face the entity towards the movement direction
-        public void FaceTowardsMovementDirection()
-        {
             if (faceTowardsMovementDirection)
             {
                 this.transform.rotation = Quaternion.LookRotation(currentDirection);
             }
         }
 
-        public void RandomizedTransformationMovement()
+        public void MovementStart()
         {
-            // TODO
+            currentMovementState = CurrentMovementState.Moving;
         }
 
-        // Update is called once per frame
+        public void MovementBreak()
+        {
+            currentMovementState = CurrentMovementState.Break;
+
+            breakEvent.breakTime = Time.time;
+            breakEvent.breakPosition = this.transform.position;
+            breakEvent.breakVelocity = currentDirection.normalized * currentSpeed;
+
+            currentSpeed = 0;
+        }
+
+        public void Stopped()
+        {
+            Oscillation(breakEvent, oscillationAmplitude, oscillationDuration);
+
+            if(Time.time >= breakEvent.breakTime + breakDuration)
+            {
+                currentMovementState = CurrentMovementState.Starting;
+            }
+        }
+
+        public void RandomizedTransformationMovement()
+        {
+            
+        }
+
+        public void Oscillation(BreakEvent breakEvent, float maxAmplitude, float duration)
+        {
+            float elapsedTime = Time.time - breakEvent.breakTime;
+
+            if (elapsedTime < duration)
+            {
+                float oscillation = maxAmplitude * Mathf.Sin(elapsedTime * (breakEvent.breakVelocity.magnitude / maxAmplitude)) * (1 - elapsedTime / duration);
+                
+                this.transform.position = breakEvent.breakPosition + breakEvent.breakVelocity.normalized * oscillation;
+            }
+            else
+            {
+                this.transform.position = breakEvent.breakPosition;
+            }
+        }
+
         void Update()
         {
-            if (movementActive)
+            if (currentMovementState == CurrentMovementState.Starting)
+            {
+                MovementStart();
+            }
+
+            if (movementActive && currentMovementState == CurrentMovementState.Moving)
             {
                 switch (movementMethod)
                 {
@@ -136,16 +282,19 @@ namespace VRK_BuildingBlocks
                         StaticTransformationMovement();
                         break;
                     case TransformationMethod.TargetKeys:
-                        TargetKeysMovement();
+                        TargetMovement();
                         break;
                     case TransformationMethod.RandomizedTransformation:
                         RandomizedTransformationMovement();
                         break;
                 }
-                CurrentSpeedAndDirection();
-                FaceTowardsMovementDirection();
+                CalculateCurrentSpeedAndDirection();
             }
 
+            if (currentMovementState == CurrentMovementState.Break)
+            {
+                Stopped();
+            }
         }
     }
 }

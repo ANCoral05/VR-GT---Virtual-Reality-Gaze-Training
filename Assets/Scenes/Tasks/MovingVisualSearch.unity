@@ -1956,14 +1956,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 406021423}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: 0.7071068, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 12.5, y: 12.5, z: 12.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 800307884}
   m_Father: {fileID: 1287988002}
-  m_LocalEulerAnglesHint: {x: 90, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: -90, z: 0}
 --- !u!1 &418209884
 GameObject:
   m_ObjectHideFlags: 0
@@ -7590,18 +7590,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementActive: 1
   movementMethod: 1
-  targetSpeed: 5
-  movementAcceleration: 5
+  currentMovementState: 0
+  targetSpeed: 25
+  movementAcceleration: 250
   movementDampening: 5
   maxTurnSpeed: -1
-  movementOscillation: 0
+  breakDuration: 1
+  oscillationAmplitude: 0.2
+  oscillationDuration: 0.75
+  currentSpeed: 0
+  currentDirection: {x: 0, y: 0, z: 0}
+  movementTarget: {fileID: 0}
   faceTowardsMovementDirection: 1
+  velocityBreakThreshold: 2
   targetDirection: {x: 0, y: 0, z: 1}
   targetKeys:
   - {fileID: 1872434592}
   - {fileID: 1158387937}
   - {fileID: 1122939614}
   - {fileID: 971695840}
+  randomizeTargetKeys: 0
+  fixedTravelTime: -1
+  maxStepNumber: -1
 --- !u!1 &1295852294
 GameObject:
   m_ObjectHideFlags: 0
