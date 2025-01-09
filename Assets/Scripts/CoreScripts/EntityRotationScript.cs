@@ -39,7 +39,8 @@ namespace VRK_BuildingBlocks
         private int currentKeyIndex = 0;
 
         [Header("Randomized Transform")] // TODO
-        [Tooltip("The step frequency at which the rotation is changed.")]
+        [Tooltip("The step frequency (in 1 per second) at which the rotation is changed.")]
+        public float stepFrequency = 1;
 
         [Tooltip("The maximum eulerAngle change per step.")]
         public Vector3 maxAngleChange = Vector3.one;
