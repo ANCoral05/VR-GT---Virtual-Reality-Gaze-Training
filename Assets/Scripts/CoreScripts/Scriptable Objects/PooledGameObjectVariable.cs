@@ -7,7 +7,7 @@ namespace VRK_BuildingBlocks
     [CreateAssetMenu(menuName = "Pooled Game Object")]
     public class PooledGameObjectVariable : ScriptableObject
     {
-        public GameObject gameObjectPrefab { get => gameObjectPrefab; set { gameObjectPrefab = value;  ClearList(); } }
+        public GameObject gameObjectPrefab;
 
         private List<GameObject> pooledObjects = new List<GameObject>();
 
