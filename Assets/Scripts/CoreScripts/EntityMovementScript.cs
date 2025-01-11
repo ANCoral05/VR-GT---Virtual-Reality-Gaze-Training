@@ -86,7 +86,7 @@ namespace VRK_BuildingBlocks
         [Tooltip("The maximum number of steps the entity will take before stopping. Set to -1 for infinite steps.")]
         public int maxStepNumber = -1;
 
-        private float targetSpeedBackup;
+        private float targetSpeedBackup = -1;
 
         private int currentKeyIndex = 0;
 
@@ -106,16 +106,31 @@ namespace VRK_BuildingBlocks
             this.transform.position += currentDirection.normalized * currentSpeed * Time.deltaTime;
         }
 
-        public void SetNewTargetCourse(Transform movementTarget)
+        public void SetNewTargetCourse(Transform targetTransform)
         {
-            if (fixedTravelTime < 0)
-            {
-                targetSpeed = targetSpeed;
-            }
-            else if (fixedTravelTime > 0)
-            {
-                float distanceToTarget = (movementTarget.position - this.transform.position).magnitude;
+            movementTarget = targetTransform;
 
+            SetTravelSpeed();
+
+            currentMovementState = CurrentMovementState.Starting;
+        }
+
+        private void SetTravelSpeed()
+        {
+            if (fixedTravelTime < 0 && targetSpeedBackup >= 0)
+            {
+                targetSpeed = targetSpeedBackup;
+
+                targetSpeedBackup = -1;
+            }
+            if (fixedTravelTime >= 0)
+            {
+                if (targetSpeedBackup <= 0)
+                {
+                    targetSpeedBackup = targetSpeed;
+                }
+
+                float distanceToTarget = (movementTarget.position - this.transform.position).magnitude;
                 targetSpeed = distanceToTarget / fixedTravelTime;
             }
         }
@@ -137,6 +152,8 @@ namespace VRK_BuildingBlocks
             MovementBreak();
 
             movementTarget = TargetKeysSelection();
+
+            SetTravelSpeed();
         }
 
         public Transform TargetKeysSelection()
