@@ -54,6 +54,10 @@ namespace VRK_BuildingBlocks
                 obj.transform.rotation = spawnTransform.rotation;
                 obj.transform.localScale = spawnTransform.localScale;
                 obj.transform.SetParent(parent);
+                if (obj.GetComponent<PooledObjectComponent>() != null)
+                {
+                    obj.GetComponent<PooledObjectComponent>().OnSpawn();
+                }
             }
 
             return obj;

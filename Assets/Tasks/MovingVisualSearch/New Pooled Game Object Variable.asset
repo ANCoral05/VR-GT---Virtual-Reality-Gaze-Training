@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc7cf0680627e4349afd2daf42c29385, type: 3}
   m_Name: New Pooled Game Object Variable
   m_EditorClassIdentifier: 
-  gameObjectPrefab: {fileID: 6798905386575472010, guid: 54d9e60807bd09d4e8025dee506bc5c6,
+  gameObjectPrefab: {fileID: 1184811859338379102, guid: 0d2c0fddebc0d3f4b9cc5e77048b9cfe,
     type: 3}

@@ -24,6 +24,9 @@ public class TargetSelectionScript : MonoBehaviour
     [SerializeField]
     private List<Vector2> lineGraph = new List<Vector2>();
 
+    [SerializeField]
+    private ParticleSystem chargeParticles;
+
     public Material material;
 
     private Color baseColor = new Color();
@@ -38,6 +41,29 @@ public class TargetSelectionScript : MonoBehaviour
 
     public void Start()
     {
+        Initialize(this);
+    }
+
+    public void Initialize(TargetSelectionScript prefabSettings)
+    {
+        // Set all serialized or public fields to the prefab settings
+        foreach (var field in prefabSettings.GetType().GetFields())
+        {
+            field.SetValue(this, field.GetValue(prefabSettings));
+        }
+
+        // Set private fields to starting values
+        baseColor = new Color();
+
+        baseEmissionColor = new Color();
+
+        chargeLevel = 0;
+
+        chargeEventTime = 0;
+
+        childrenInHierarchy = new List<GameObject>();
+
+        // Call starting methods
         AddDescendantsWithTag(this.transform, childrenInHierarchy);
 
         SetChildMaterials();
@@ -127,6 +153,8 @@ public class TargetSelectionScript : MonoBehaviour
 
             material.color = baseColor;
             material.SetColor("_EmissionColor", baseEmissionColor);
+
+            chargeParticles.Play();
 
             // check if the material has the emission enabled
             if (materials[chargeLevel].IsKeywordEnabled("_EMISSION"))
