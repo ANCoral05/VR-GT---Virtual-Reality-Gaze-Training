@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Reflection;
-using UnityEngine.InputSystem.LowLevel;
+using GazeQuestUtils;
 
 namespace VRK_BuildingBlocks
 {
@@ -12,12 +12,17 @@ namespace VRK_BuildingBlocks
         [SerializeField]
         private GameObject gameObjectPrefab;
 
-        private GameObject initialGameObject;
+        private GameObject prevGameObjectPrefab;
+
+        private Dictionary<string, object> initialValues = new Dictionary<string, object>();
 
         private List<GameObject> pooledObjects = new List<GameObject>();
 
         [SerializeField, Tooltip("Add all components from the gameObjectPrefab that should be reset upon recycling.")]
         private List<Component> componentsToReset = new List<Component>();
+
+        [SerializeField, Tooltip("If true, all fields will be reset upon recycling. If false, only fields with the NonSerialized attribute will be reset.")]
+        private bool resetNonSerializedFields = true;
 
         private void OnEnable()
         {
@@ -34,13 +39,15 @@ namespace VRK_BuildingBlocks
             ClearList();
         }
 
-        public GameObject InstantiateOrRecycle(Transform spawnTransform, Transform parent = null)
+        public GameObject InstantiateOrRecycle(Transform spawnTransform = null, Transform parent = null)
         {
-
-            if (initialGameObject == null)
+            if (initialValues == null)
             {
-                initialGameObject = Instantiate(gameObjectPrefab);
-                initialGameObject.SetActive(false);
+                GameObject initialGameObject = Instantiate(gameObjectPrefab);
+
+                CreateInitialValueDict(initialGameObject);
+
+                Destroy(initialGameObject);
             }
 
             GameObject obj = null;
@@ -56,121 +63,154 @@ namespace VRK_BuildingBlocks
             if (obj == null)
             {
                 obj = Instantiate(gameObjectPrefab);
-                pooledObjects.Add(obj);
+
+                Transform objTransform = null;
 
                 if (spawnTransform != null)
                 {
-                    obj.transform.position = spawnTransform.position;
-                    obj.transform.rotation = spawnTransform.rotation;
-                    obj.transform.localScale = spawnTransform.localScale;
+                    objTransform = spawnTransform;
                 }
+                else
+                {
+                    objTransform = gameObjectPrefab.transform;
+                }
+
+                obj.transform.position = objTransform.position;
+                obj.transform.rotation = objTransform.rotation;
+                obj.transform.localScale = objTransform.localScale;
 
                 if (parent != null)
                 {
                     obj.transform.SetParent(parent);
                 }
 
+                pooledObjects.Add(obj);
             }
             else
             {
+                float startTime = Time.realtimeSinceStartup;
+
+                RetrieveStoredComponentStates(obj);
+
                 obj.SetActive(true);
-                obj.transform.position = spawnTransform.position;
-                obj.transform.rotation = spawnTransform.rotation;
-                obj.transform.localScale = spawnTransform.localScale;
-                obj.transform.SetParent(parent);
-                if (obj.GetComponent<PooledObjectComponent>() != null)
-                {
-                    obj.GetComponent<PooledObjectComponent>().OnSpawn();
-                }
             }
 
             return obj;
         }
 
+        private void CreateInitialValueDict(GameObject obj)
+        {
+            initialValues = new Dictionary<string, object>();
+
+            int componentIndex = 0;
+
+            foreach (Component component in componentsToReset)
+            {
+                StoreInitialValuesOfComponent(component, componentIndex);
+
+                componentIndex++;
+            }
+        }
+
+        private void StoreInitialValuesOfComponent(Component component, int componentIndex)
+        {
+            if (component == null)
+            {
+                return;
+            }
+
+            var type = component.GetType();
+            var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            // add fields to dictionary
+            string gameObjectName = component.gameObject.name;
+            string componentName = type.Name;
+
+            foreach (var field in fields)
+            {
+                string fieldKey = $"{gameObjectName}_{componentName}_{componentIndex}_{field.Name}";
+
+                Debug.Log(componentName + "_" + field.Name + ": " + field.GetValue(component).ToString());
+
+                if (!initialValues.ContainsKey(fieldKey))
+                {
+                    initialValues[fieldKey] = field.GetValue(component);
+                }
+            }
+        }
+
         public void ClearList()
         {
-            initialGameObject = null;
+            initialValues = null;
 
             pooledObjects = new List<GameObject>();
         }
 
-        public void ResetState(GameObject gameObject, bool resetNonSerializedFields = true)
+        private void RetrieveStoredComponentStates(GameObject target)
         {
-            // write the code to reset the state of the object using reflection
-            // if resetNonSerializedFields is true, reset all fields
-            // if resetNonSerializedFields is false, reset only fields with the NonSerialized attribute
-            CopyComponentsToTarget(gameObject, initialGameObject, resetNonSerializedFields);
+            int componentIndex = 0;
+
+            foreach (var component in componentsToReset)
+            {
+                RetrieveInitialValuesOfComponent(component, componentIndex);
+                
+                componentIndex++;
+            }
         }
 
-        public void CopyComponentFieldsToTarget(Component targetComponent, Component sourceComponent, bool resetNonSerializedFields = true)
+        public void RetrieveInitialValuesOfComponent(Component component, int componentIndex)
         {
-            if (targetComponent.GetType() != sourceComponent.GetType())
+            if (component == null)
             {
-                Debug.LogError($"Component types do not match: {targetComponent.GetType()} vs {sourceComponent.GetType()}");
                 return;
             }
 
-            var type = sourceComponent.GetType();
+            var type = component.GetType();
             var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            string gameObjectName = component.gameObject.name;
+            string componentName = type.Name;
 
             foreach (var field in fields)
             {
-                if (resetNonSerializedFields || field.IsPublic || field.GetCustomAttribute<SerializeField>() != null)
+                string fieldKey = $"{gameObjectName}_{componentName}_{componentIndex}_{field.Name}";
+
+                if (!initialValues.ContainsKey(fieldKey))
                 {
-                    try
-                    {
-                        var value = field.GetValue(sourceComponent);
-                        field.SetValue(targetComponent, value);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        Debug.LogError($"Failed to copy field '{field.Name}' from {sourceComponent} to {targetComponent}: {ex.Message}");
-                    }
+                    Debug.LogError("Initial values not found for " + fieldKey);
+                }
+                else
+                {
+                    field.SetValue(component, initialValues[fieldKey]);
                 }
             }
         }
 
-        private void CopyComponentsToTarget(GameObject target, GameObject source, bool resetNonSerializedFields = true)
+        private void GenerateComponentList(GameObject obj)
         {
-            foreach (var component in componentsToReset)
+            if (obj == null)
             {
-                var targetComponent = target.GetComponent(component.GetType());
-                var sourceComponent = source.GetComponent(component.GetType());
-                if (targetComponent != null && sourceComponent != null)
-                {
-                    CopyComponentFieldsToTarget(targetComponent, sourceComponent, resetNonSerializedFields);
-                }
-                else
-                {
-                    Debug.LogError($"Component not found in target or source: {component.GetType()}");
-                }
+                componentsToReset = new List<Component>();
+                return;
+            }
+
+            List<GameObject> children = GazeQuestUtilityFunctions.GetDescendents(obj);
+
+            componentsToReset = new List<Component>(obj.GetComponents<Component>());
+
+            foreach (GameObject child in children)
+            {
+                componentsToReset.AddRange(child.GetComponents<Component>());
             }
         }
 
-        public void matchByName()
+        private void OnValidate()
         {
-            // a function that will compare two lists with strings and write ("match found: name) for each found pair and (no match found: name in list) for each name that has no match
-            List<string> list1 = new List<string> { "name1", "name2", "name3", "name4" };
-            List<string> list2 = new List<string> { "name1", "name3", "name4", "name5" };
-
-            foreach (var name in list1)
+            if (gameObjectPrefab != prevGameObjectPrefab)
             {
-                if (list2.Contains(name))
-                {
-                    Debug.Log($"match found: {name}");
-                }
-                else
-                {
-                    Debug.Log($"no match found for: {name} in list1");
-                }
-            }
+                GenerateComponentList(gameObjectPrefab);
 
-            foreach (var name in list2)
-            {
-                if (!list1.Contains(name))
-                {
-                    Debug.Log($"no match found for: {name} in list2");
-                }
+                prevGameObjectPrefab = gameObjectPrefab;
             }
         }
     }

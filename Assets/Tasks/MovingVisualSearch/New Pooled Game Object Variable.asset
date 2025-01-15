@@ -14,3 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameObjectPrefab: {fileID: 1184811859338379102, guid: 0d2c0fddebc0d3f4b9cc5e77048b9cfe,
     type: 3}
+  componentsToReset:
+  - {fileID: 2664928675793950997, guid: 0d2c0fddebc0d3f4b9cc5e77048b9cfe, type: 3}
+  - {fileID: 2326961928215250295, guid: 0d2c0fddebc0d3f4b9cc5e77048b9cfe, type: 3}
+  - {fileID: 4413864063408867396, guid: 0d2c0fddebc0d3f4b9cc5e77048b9cfe, type: 3}
+  - {fileID: 974405930762332965, guid: 0d2c0fddebc0d3f4b9cc5e77048b9cfe, type: 3}
+  - {fileID: 8861044012734149338, guid: 0d2c0fddebc0d3f4b9cc5e77048b9cfe, type: 3}
+  resetNonSerializedFields: 1

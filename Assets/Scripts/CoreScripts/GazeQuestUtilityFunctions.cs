@@ -4,6 +4,24 @@ using UnityEngine;
 
 namespace GazeQuestUtils
 {
+    public static class GazeQuestUtilityFunctions
+    {
+        public static List<GameObject> GetDescendents(GameObject parentObject)
+        {
+            List<GameObject> list = new List<GameObject>();
+
+            foreach (Transform child in parentObject.transform)
+            {
+                list.Add(child.gameObject);
+                GetDescendents(child.gameObject);
+            }
+
+            return list;
+        }
+    }
+
+
+
     // Enum for controller keys
     public enum ControllerKey
     {

@@ -126,7 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingSphere: {fileID: 0}
   score: {fileID: 11400000, guid: da315ed3f5e60474b91493c9f02dd59d, type: 2}
-  chargeInterval: 0.16
+  chargeInterval: 0.5
   materials:
   - {fileID: 2100000, guid: ac7bbb56029d01e408092e7aefea87ad, type: 2}
   - {fileID: 2100000, guid: 6cd0199fe40ed264a8791937d85c73e4, type: 2}

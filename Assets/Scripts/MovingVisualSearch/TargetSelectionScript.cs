@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using VRK_BuildingBlocks;
+using GazeQuestUtils;
 
 public class TargetSelectionScript : MonoBehaviour
 {
-    [SerializeField] 
+    [SerializeField]
     private GameObject shootingSphere;
 
     [SerializeField]
@@ -61,24 +62,11 @@ public class TargetSelectionScript : MonoBehaviour
 
         chargeEventTime = 0;
 
-        childrenInHierarchy = new List<GameObject>();
-
-        // Call starting methods
-        AddDescendantsWithTag(this.transform, childrenInHierarchy);
+        childrenInHierarchy = GazeQuestUtilityFunctions.GetDescendents(this.gameObject);
 
         SetChildMaterials();
 
         UpdateMaterial();
-    }
-
-    private void AddDescendantsWithTag(Transform parent, List<GameObject> list)
-    {
-        foreach (Transform child in parent)
-        {
-            list.Add(child.gameObject);
-            
-            AddDescendantsWithTag(child, list);
-        }
     }
 
     private void SetChildMaterials()
@@ -182,14 +170,15 @@ public class TargetSelectionScript : MonoBehaviour
         float emissionIntensity = GetYFromLineGraph(lineGraph, chargeEventTime / chargeInterval);
 
         material.SetColor("_EmissionColor", baseEmissionColor * emissionIntensity);
-    
-        this.transform.localScale = new Vector3(0.9f + 0.1f*emissionIntensity, 0.9f + 0.1f * emissionIntensity, 0.9f + 0.1f * emissionIntensity);
+
+        this.transform.localScale = new Vector3(0.9f + 0.1f * emissionIntensity, 0.9f + 0.1f * emissionIntensity, 0.9f + 0.1f * emissionIntensity);
     }
 
     private float Pulsate(float pulseMin, float pulseMax, float pulseInterval, float timeOffset)
     {
         float pulsateValue = Mathf.Sin((Time.time + timeOffset) * 2 * Mathf.PI / pulseInterval) * (pulseMax - pulseMin) * 0.5f + pulseMin;
-    
+
         return pulsateValue;
     }
 }
+

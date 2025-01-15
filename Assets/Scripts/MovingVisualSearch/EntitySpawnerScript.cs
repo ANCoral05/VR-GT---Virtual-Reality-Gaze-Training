@@ -51,7 +51,6 @@ namespace VRK_BuildingBlocks
         {
             GameObject obj = gameObjectList[currentEntityIndex].InstantiateOrRecycle(this.transform, this.transform);
             obj.transform.position = GetPointInsideSpawnFieldCollider(spawnFields[currentSpawnFieldIndex]);
-            obj.transform.localScale = gameObjectList[currentEntityIndex].gameObjectPrefab.transform.localScale;
             SetIndices();
             timeSinceLastSpawn = 0f;
         }
