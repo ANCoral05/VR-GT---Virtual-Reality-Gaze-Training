@@ -62,7 +62,7 @@ public class TargetSelectionScript : MonoBehaviour
 
         chargeEventTime = 0;
 
-        childrenInHierarchy = GazeQuestUtilityFunctions.GetDescendents(this.gameObject);
+        childrenInHierarchy = GazeQuestUtilityFunctions.GetDescendants(this.gameObject);
 
         SetChildMaterials();
 

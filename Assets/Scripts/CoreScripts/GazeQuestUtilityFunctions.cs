@@ -6,17 +6,42 @@ namespace GazeQuestUtils
 {
     public static class GazeQuestUtilityFunctions
     {
-        public static List<GameObject> GetDescendents(GameObject parentObject)
+        public static List<GameObject> GetDescendants(GameObject rootObject)
         {
             List<GameObject> list = new List<GameObject>();
 
-            foreach (Transform child in parentObject.transform)
-            {
-                list.Add(child.gameObject);
-                GetDescendents(child.gameObject);
-            }
+            GetDescendantCycle(rootObject, list);
 
             return list;
+        }
+
+        private static void GetDescendantCycle(GameObject rootObject, List<GameObject> list)
+        {
+            foreach (Transform child in rootObject.transform)
+            {
+                list.Add(child.gameObject);
+                GetDescendantCycle(child.gameObject, list);
+            }
+        }
+
+        public static List<string> GetDescendantsRelativePaths(GameObject rootObject)
+        {
+            List<string> relativePathsList = new List<string>();
+
+            GetRelativePathCycle(rootObject, rootObject.name, relativePathsList);
+
+            return relativePathsList;
+        }
+
+        private static void GetRelativePathCycle(GameObject rootObject, string path, List<string> relativePaths)
+        {
+            for (int i = 0; i < rootObject.transform.childCount; i++)
+            {
+                Transform child = rootObject.transform.GetChild(i);
+                string currentPath = $"{path}[{i}]_{child.gameObject.name}";
+                relativePaths.Add(currentPath);
+                GetRelativePathCycle(child.gameObject, currentPath, relativePaths);
+            }
         }
     }
 

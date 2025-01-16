@@ -44,6 +44,10 @@ namespace VRK_BuildingBlocks
             if (initialValues == null)
             {
                 GameObject initialGameObject = Instantiate(gameObjectPrefab);
+                initialGameObject.transform.position = spawnTransform.position;
+                initialGameObject.transform.rotation = spawnTransform.rotation;
+                initialGameObject.transform.localScale = spawnTransform.localScale;
+                initialGameObject.transform.parent = parent;
 
                 CreateInitialValueDict(initialGameObject);
 
@@ -120,7 +124,14 @@ namespace VRK_BuildingBlocks
             }
 
             var type = component.GetType();
+
+            Debug.Log("Storing initial values for " + component.gameObject.name + "_" + type.Name);
+
             var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+            Debug.Log("Fields: " + fields.Length);
+            Debug.Log("Properties: " + properties.Length);
 
             // add fields to dictionary
             string gameObjectName = component.gameObject.name;
@@ -129,12 +140,32 @@ namespace VRK_BuildingBlocks
             foreach (var field in fields)
             {
                 string fieldKey = $"{gameObjectName}_{componentName}_{componentIndex}_{field.Name}";
+                // Debug.Log(componentName + "_" + field.Name + ": " + field.GetValue(component).ToString());
 
-                Debug.Log(componentName + "_" + field.Name + ": " + field.GetValue(component).ToString());
+                // Detect if the field is a reference type (excluding strings)
+                if (field.FieldType.IsClass && field.FieldType != typeof(string))
+                {
+                    Debug.LogWarning($"Warning: Field '{field.Name}' in component '{component.GetType().Name}' is a reference type. Changes to the referenced object won't be automatically reset upon recycling.", this);
+                }
 
                 if (!initialValues.ContainsKey(fieldKey))
                 {
                     initialValues[fieldKey] = field.GetValue(component);
+                }
+            }
+
+            foreach (var property in properties)
+            {
+                string propertyKey = $"{gameObjectName}_{componentName}_{componentIndex}_{property.Name}";
+                // Detect if the property is a reference type (excluding strings)
+                if (property.PropertyType.IsClass)
+                {
+                    Debug.LogWarning($"Warning: Property '{property.Name}' in component '{component.GetType().Name}' is a reference type. Changes to the referenced object won't be automatically reset upon recycling.", this);
+                }
+
+                if (!initialValues.ContainsKey(propertyKey))
+                {
+                    initialValues[propertyKey] = property.GetValue(component);
                 }
             }
         }
@@ -167,6 +198,7 @@ namespace VRK_BuildingBlocks
 
             var type = component.GetType();
             var fields = type.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+            var properties = type.GetProperties(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
 
             string gameObjectName = component.gameObject.name;
             string componentName = type.Name;
@@ -184,6 +216,19 @@ namespace VRK_BuildingBlocks
                     field.SetValue(component, initialValues[fieldKey]);
                 }
             }
+
+            foreach (var property in properties)
+            {
+                string propertyKey = $"{gameObjectName}_{componentName}_{componentIndex}_{property.Name}";
+                if (!initialValues.ContainsKey(propertyKey))
+                {
+                    Debug.LogError("Initial values not found for " + propertyKey);
+                }
+                else
+                {
+                    property.SetValue(component, initialValues[propertyKey]);
+                }
+            }
         }
 
         private void GenerateComponentList(GameObject obj)
@@ -194,7 +239,7 @@ namespace VRK_BuildingBlocks
                 return;
             }
 
-            List<GameObject> children = GazeQuestUtilityFunctions.GetDescendents(obj);
+            List<GameObject> children = GazeQuestUtilityFunctions.GetDescendants(obj);
 
             componentsToReset = new List<Component>(obj.GetComponents<Component>());
 
