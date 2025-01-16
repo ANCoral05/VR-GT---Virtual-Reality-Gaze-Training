@@ -29342,6 +29342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b5ef4d3dcc47641ab0de09223d1738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pooledGameObject: {fileID: 0}
   testArray2: {fileID: 0}
   testString: {fileID: 11400000, guid: 6edf5284a4d696e4aaa2edf9fe010de5, type: 2}
   testVector4: {fileID: 11400000, guid: 139fc395253f84949bfb1b5471b3f07d, type: 2}
@@ -72391,7 +72392,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1954daaa2f296a64a81c8328a88ab05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: ObstacleAvoidanceTask
+  sceneName: MovingVisualSearch
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
   fadeOutDuration: 1
   fadeInDuration: 1

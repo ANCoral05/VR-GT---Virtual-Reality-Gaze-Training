@@ -41,18 +41,18 @@ namespace VRK_BuildingBlocks
 
         public GameObject InstantiateOrRecycle(Transform spawnTransform = null, Transform parent = null)
         {
-            if (initialValues == null)
-            {
-                GameObject initialGameObject = Instantiate(gameObjectPrefab);
-                initialGameObject.transform.position = spawnTransform.position;
-                initialGameObject.transform.rotation = spawnTransform.rotation;
-                initialGameObject.transform.localScale = spawnTransform.localScale;
-                initialGameObject.transform.parent = parent;
+            //if (initialValues == null)
+            //{
+            //    GameObject initialGameObject = Instantiate(gameObjectPrefab);
+            //    initialGameObject.transform.position = spawnTransform.position;
+            //    initialGameObject.transform.rotation = spawnTransform.rotation;
+            //    initialGameObject.transform.localScale = spawnTransform.localScale;
+            //    initialGameObject.transform.parent = parent;
 
-                CreateInitialValueDict(initialGameObject);
+            //    CreateInitialValueDict(initialGameObject);
 
-                Destroy(initialGameObject);
-            }
+            //    Destroy(initialGameObject);
+            //}
 
             GameObject obj = null;
             for (int i = 0; i < pooledObjects.Count; i++)
@@ -92,9 +92,11 @@ namespace VRK_BuildingBlocks
             }
             else
             {
-                float startTime = Time.realtimeSinceStartup;
+                // RetrieveStoredComponentStates(obj);
 
-                RetrieveStoredComponentStates(obj);
+                obj.transform.position = spawnTransform.position;
+                obj.transform.rotation = spawnTransform.rotation;
+                obj.transform.localScale = spawnTransform.localScale;
 
                 obj.SetActive(true);
             }
