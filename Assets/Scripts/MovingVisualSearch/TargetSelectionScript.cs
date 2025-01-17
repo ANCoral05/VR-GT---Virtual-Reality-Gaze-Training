@@ -64,6 +64,11 @@ public class TargetSelectionScript : MonoBehaviour
             baseEmissionColor = new Color();
         }
 
+        if (shootingSphere == null)
+        {
+            shootingSphere = GameObject.Find("ShooterSphere");
+        }
+
         chargeLevel = 0;
 
         chargeEventTime = 0;
@@ -93,7 +98,8 @@ public class TargetSelectionScript : MonoBehaviour
     public void OnHit()
     {
         score.value++;
-        shootingSphere.GetComponent<EntityMovementScript>().SetNewTargetCourse(this.transform);
+
+        this.gameObject.SetActive(false);
     }
 
     private void UpdateMaterialProperties()
@@ -105,8 +111,6 @@ public class TargetSelectionScript : MonoBehaviour
 
             // set color of the material property block
             mpb.SetColor("_BaseColor", baseColor);
-
-            Debug.Log("Base color: " + mpb.GetColor("_BaseColor"));
 
             chargeParticles.Play();
         }
@@ -128,6 +132,11 @@ public class TargetSelectionScript : MonoBehaviour
             ApplyMaterialPropertyBlock();
 
             chargeEventTime = 0;
+        }
+
+        if((shootingSphere.transform.position - this.transform.position).magnitude <= 0.1f)
+        {
+            OnHit();
         }
 
         UpdateEmissionIntensity();

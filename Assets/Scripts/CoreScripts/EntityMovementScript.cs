@@ -137,6 +137,11 @@ namespace VRK_BuildingBlocks
 
         public void TargetMovement()
         {
+            if(movementTarget == null)
+            {
+                return;
+            }
+
             targetDirection = movementTarget.position - this.transform.position;
 
             float distanceToTarget = (movementTarget.position - this.transform.position).magnitude;
@@ -231,7 +236,7 @@ namespace VRK_BuildingBlocks
             // move the entity
             this.transform.position += currentDirection.normalized * currentSpeed * Time.deltaTime;
 
-            if (faceTowardsMovementDirection)
+            if (faceTowardsMovementDirection && currentDirection != Vector3.zero)
             {
                 this.transform.rotation = Quaternion.LookRotation(currentDirection);
             }

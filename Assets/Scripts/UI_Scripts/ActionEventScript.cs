@@ -8,10 +8,18 @@ public class ActionEventScript : MonoBehaviour
 {
     [Header("Input variables")]
     [Tooltip("Choose the script and function to run when this button is activated/toggled on.")]
-    public UnityEvent triggeredFunction;
+    public UnityEvent onClick;
+
+    public UnityEvent onClickRelease;
+
+    public UnityEvent onHoverStart;
+
+    public UnityEvent onHoverEnd;
+
+    public UnityEvent onToggleOn;
 
     [Tooltip("Choose the script and function to run when this button is toggled off.")]
-    public UnityEvent toggleOffFunction;
+    public UnityEvent onToggleOff;
 
     [Tooltip("Choose the controller key (or multiple keys) that will activate this button's function if pressed while hovering over the button.")]
     public List<ControllerKey> directInteractionKey = new List<ControllerKey>();
@@ -84,7 +92,7 @@ public class ActionEventScript : MonoBehaviour
             {
                 if(inputKey == testKey)
                 {
-                    triggeredFunction.Invoke();
+                    onClick.Invoke();
                 }
             }
         }
@@ -93,7 +101,7 @@ public class ActionEventScript : MonoBehaviour
         {
             if (inputKey == testKey)
             {
-                triggeredFunction.Invoke();
+                onClick.Invoke();
             }
         }
     }
@@ -107,22 +115,23 @@ public class ActionEventScript : MonoBehaviour
 
     public void OnHover()
     {
-        DeactivateAllVisuals();
-
-        GazeQuest_Methods.ActivateObject(hoverItem);
+        onHoverStart.Invoke();
 
         hoverRayCount += 1;
+
+        if(hoverRayCount == 1)
+        {
+            onHoverStart.Invoke();
+        }
     }
 
-    public void OnHoverLeave()
+    public void OnHoverEnd()
     {
         hoverRayCount -= 1;
 
         if (hoverRayCount == 0)
         {
-            DeactivateAllVisuals();
-
-            GazeQuest_Methods.ActivateObject(defaultItem);
+            onHoverEnd.Invoke();
         }
     }
 
@@ -147,5 +156,19 @@ public class ActionEventScript : MonoBehaviour
     private void OnDisable()
     {
         inputManagerScript.inputListeners.Remove(this);
+    }
+
+    public void ChangeObjectOnHover()
+    {
+        DeactivateAllVisuals();
+
+        GazeQuest_Methods.ActivateObject(hoverItem);
+    }
+
+    public void ChangeObjectOnHoverBack()
+    {
+        DeactivateAllVisuals();
+
+        GazeQuest_Methods.ActivateObject(defaultItem);
     }
 }

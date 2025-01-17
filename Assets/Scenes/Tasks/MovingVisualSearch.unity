@@ -372,7 +372,6 @@ GameObject:
   - component: {fileID: 63873969}
   - component: {fileID: 63873972}
   - component: {fileID: 63873971}
-  - component: {fileID: 63873970}
   m_Layer: 0
   m_Name: ClearDebugLog
   m_TagString: Untagged
@@ -398,19 +397,6 @@ Transform:
   - {fileID: 1814537986}
   m_Father: {fileID: 904882348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &63873970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 63873968}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: affd48014bda586499c66caaa12de389, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inputSystemCoreScript: {fileID: 689102631}
 --- !u!114 &63873971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,7 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d77b8eb558ddd8489d752fb42c5cc3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggeredFunction:
+  onClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 904882349}
@@ -438,7 +424,43 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  toggleOffFunction:
+  onClickRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 63873971}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: ChangeObjectOnHover
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHoverEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 63873971}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: ChangeObjectOnHoverBack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onToggleOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onToggleOff:
     m_PersistentCalls:
       m_Calls: []
   directInteractionKey: 0000000001000000
@@ -1230,7 +1252,7 @@ MonoBehaviour:
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
   m_RenderPostProcessing: 1
-  m_Antialiasing: 1
+  m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
   m_Dithering: 0
@@ -5035,7 +5057,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d77b8eb558ddd8489d752fb42c5cc3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggeredFunction:
+  onClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1439908880}
@@ -5050,7 +5072,43 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  toggleOffFunction:
+  onClickRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 815051898}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: ChangeObjectOnHover
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHoverEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 815051898}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: ChangeObjectOnHoverBack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onToggleOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onToggleOff:
     m_PersistentCalls:
       m_Calls: []
   directInteractionKey: 0000000001000000
@@ -5059,7 +5117,7 @@ MonoBehaviour:
   hoverHapticFeedback: 0.315
   activateHapticFeedback: 1
   isToggle: 0
-  inputManagerScript: {fileID: 0}
+  inputManagerScript: {fileID: 689102631}
   defaultItem: {fileID: 1327516715}
   hoverItem: {fileID: 1566140319}
   isPressedItem: {fileID: 0}
@@ -8338,11 +8396,7 @@ MonoBehaviour:
   faceTowardsMovementDirection: 1
   velocityBreakThreshold: 2
   targetDirection: {x: 0, y: 0, z: 1}
-  targetKeys:
-  - {fileID: 1872434592}
-  - {fileID: 1158387937}
-  - {fileID: 1122939614}
-  - {fileID: 971695840}
+  targetKeys: []
   randomizeTargetKeys: 0
   fixedTravelTime: -1
   maxStepNumber: -1
@@ -8689,7 +8743,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d77b8eb558ddd8489d752fb42c5cc3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggeredFunction:
+  onClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 904882349}
@@ -8704,7 +8758,43 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  toggleOffFunction:
+  onClickRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverStart:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1311940807}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: ChangeObjectOnHover
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onHoverEnd:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1311940807}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: ChangeObjectOnHoverBack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onToggleOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onToggleOff:
     m_PersistentCalls:
       m_Calls: []
   directInteractionKey: 0000000001000000

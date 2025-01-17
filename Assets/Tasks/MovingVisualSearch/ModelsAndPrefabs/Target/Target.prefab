@@ -262,6 +262,7 @@ GameObject:
   - component: {fileID: 4413864063408867396}
   - component: {fileID: 974405930762332965}
   - component: {fileID: 8861044012734149338}
+  - component: {fileID: -4464651866625139183}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -446,6 +447,51 @@ MonoBehaviour:
   chargeParticles: {fileID: 367254063651602753}
   modifiedMeshRenderers:
   - {fileID: 5621896939178129241}
+--- !u!114 &-4464651866625139183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184811859338379102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d77b8eb558ddd8489d752fb42c5cc3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls: []
+  onClickRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  onToggleOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onToggleOff:
+    m_PersistentCalls:
+      m_Calls: []
+  directInteractionKey: 
+  shortcutKey: 
+  delayTime: 0
+  hoverHapticFeedback: 0
+  activateHapticFeedback: 0
+  isToggle: 0
+  inputManagerScript: {fileID: 0}
+  defaultItem: {fileID: 0}
+  hoverItem: {fileID: 0}
+  isPressedItem: {fileID: 0}
+  isToggledOnItem: {fileID: 0}
+  isDisabledItem: {fileID: 0}
+  buttonActivateSoundClip: {fileID: 0}
+  buttonHoverSoundClip: {fileID: 0}
+  hoverRayCount: 0
 --- !u!1 &1517759267966713155
 GameObject:
   m_ObjectHideFlags: 0

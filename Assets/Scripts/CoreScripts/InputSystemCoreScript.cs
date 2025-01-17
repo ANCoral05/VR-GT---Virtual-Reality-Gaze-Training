@@ -320,7 +320,7 @@ public class InputSystemCoreScript : MonoBehaviour
 
         ActionEventScript newActionEventScript = newRaycastTarget?.GetComponent<ActionEventScript>();
 
-        previousActionEventScript?.OnHoverLeave();
+        previousActionEventScript?.OnHoverEnd();
 
         newActionEventScript?.OnHover();
 
