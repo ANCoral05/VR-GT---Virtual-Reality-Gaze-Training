@@ -38,6 +38,9 @@ namespace VRK_BuildingBlocks
         [SerializeField, Tooltip("Toggle on to disable the spawner after spawning.")]
         private bool disableAfterSpawning = true;
 
+        [SerializeField]
+        private FloatVariable difficultyMultiplier;
+
         private int currentEntityIndex = 0;
 
         private int currentIntervalIndex = 0;
@@ -53,6 +56,10 @@ namespace VRK_BuildingBlocks
             obj.transform.position = GetPointInsideSpawnFieldCollider(spawnFields[currentSpawnFieldIndex]);
             SetIndices();
             timeSinceLastSpawn = 0f;
+            float newSpeed = 0.75f * difficultyMultiplier.value;
+
+            obj.GetComponent<EntityMovementScript>().targetSpeed = 0.5f * difficultyMultiplier.value;
+            obj.GetComponent<TargetSelectionScript>().chargeInterval = 2f / difficultyMultiplier.value;
         }
 
         private void SetIndices()
@@ -132,7 +139,7 @@ namespace VRK_BuildingBlocks
         {
             timeSinceLastSpawn += Time.deltaTime;
 
-            if (timeSinceLastSpawn > spawnIntervals[currentIntervalIndex])
+            if (timeSinceLastSpawn > spawnIntervals[currentIntervalIndex]/difficultyMultiplier.value)
             {
                 SpawnObject();
             }

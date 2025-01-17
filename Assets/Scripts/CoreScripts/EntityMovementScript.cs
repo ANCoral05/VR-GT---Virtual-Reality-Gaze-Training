@@ -106,9 +106,20 @@ namespace VRK_BuildingBlocks
             this.transform.position += currentDirection.normalized * currentSpeed * Time.deltaTime;
         }
 
-        public void SetNewTargetCourse(Transform targetTransform)
+        public void SetNewTargetCourse(Transform targetTransform, float speed = -1)
         {
+            if(targetTransform == null)
+            {
+                return;
+            }
             movementTarget = targetTransform;
+
+            movementActive = true;
+
+            if (speed >= 0)
+            {
+                targetSpeed = speed;
+            }
 
             SetTravelSpeed();
 
@@ -146,8 +157,10 @@ namespace VRK_BuildingBlocks
 
             float distanceToTarget = (movementTarget.position - this.transform.position).magnitude;
 
-            if (distanceToTarget <= 0.01f || distanceToTarget < currentSpeed * Time.deltaTime)
+            if (distanceToTarget <= 0.01f || distanceToTarget < currentSpeed * Time.deltaTime || !movementTarget.gameObject.activeSelf)
             {
+                this.transform.position = movementTarget.position;
+
                 GoalReached();
             }
         }
@@ -165,6 +178,8 @@ namespace VRK_BuildingBlocks
         {
             if (targetKeys.Count == 0)
             {
+                movementActive = false;
+
                 return null;
             }
 

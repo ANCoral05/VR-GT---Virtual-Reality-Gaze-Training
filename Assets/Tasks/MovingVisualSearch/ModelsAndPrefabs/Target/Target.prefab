@@ -263,6 +263,7 @@ GameObject:
   - component: {fileID: 974405930762332965}
   - component: {fileID: 8861044012734149338}
   - component: {fileID: -4464651866625139183}
+  - component: {fileID: 6638058714439069496}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -330,6 +331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06bff7bf7ef6d504ebd065bd37a4230b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lives: {fileID: 11400000, guid: 0f862061f1d4d634995bfa2cdbde37a1, type: 2}
 --- !u!114 &974405930762332965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -345,7 +347,7 @@ MonoBehaviour:
   movementActive: 1
   movementMethod: 0
   currentMovementState: 0
-  targetSpeed: 0.5
+  targetSpeed: 1.5
   movementAcceleration: -1
   movementDampening: -1
   maxTurnSpeed: -1
@@ -376,7 +378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shootingSphere: {fileID: 0}
   score: {fileID: 11400000, guid: da315ed3f5e60474b91493c9f02dd59d, type: 2}
-  chargeInterval: 2
+  chargeInterval: 0.75
   materials:
   - {fileID: 2100000, guid: ac7bbb56029d01e408092e7aefea87ad, type: 2}
   - {fileID: 2100000, guid: 6cd0199fe40ed264a8791937d85c73e4, type: 2}
@@ -444,6 +446,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   emissionStrength: 4
+  speedIncreasePerMinute: 300
   chargeParticles: {fileID: 367254063651602753}
   modifiedMeshRenderers:
   - {fileID: 5621896939178129241}
@@ -461,7 +464,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 8861044012734149338}
+        m_TargetAssemblyTypeName: TargetSelectionScript, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onClickRelease:
     m_PersistentCalls:
       m_Calls: []
@@ -477,7 +492,7 @@ MonoBehaviour:
   onToggleOff:
     m_PersistentCalls:
       m_Calls: []
-  directInteractionKey: 
+  directInteractionKey: 0000000001000000
   shortcutKey: 
   delayTime: 0
   hoverHapticFeedback: 0
@@ -492,6 +507,27 @@ MonoBehaviour:
   buttonActivateSoundClip: {fileID: 0}
   buttonHoverSoundClip: {fileID: 0}
   hoverRayCount: 0
+--- !u!135 &6638058714439069496
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184811859338379102}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.23
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1517759267966713155
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,8 +11,7 @@ public class TargetSelectionScript : MonoBehaviour
     [SerializeField]
     private IntVariable score;
 
-    [SerializeField]
-    private float chargeInterval = 0.75f;
+    public float chargeInterval = 0.75f;
 
     [SerializeField]
     private List<Material> materials = new List<Material>();
@@ -25,6 +24,9 @@ public class TargetSelectionScript : MonoBehaviour
 
     [SerializeField]
     private float emissionStrength = 2f;
+
+    [SerializeField, Range(0f, 300f)]
+    private int speedIncreasePerMinute = 20;
 
     [SerializeField]
     private ParticleSystem chargeParticles;
@@ -97,7 +99,7 @@ public class TargetSelectionScript : MonoBehaviour
 
     public void OnHit()
     {
-        score.value++;
+        score.value += chargeLevel;
 
         this.gameObject.SetActive(false);
     }
@@ -112,7 +114,10 @@ public class TargetSelectionScript : MonoBehaviour
             // set color of the material property block
             mpb.SetColor("_BaseColor", baseColor);
 
-            chargeParticles.Play();
+            if (chargeLevel != 0)
+            {
+                chargeParticles.Play();
+            }
         }
     }
 
@@ -134,7 +139,7 @@ public class TargetSelectionScript : MonoBehaviour
             chargeEventTime = 0;
         }
 
-        if((shootingSphere.transform.position - this.transform.position).magnitude <= 0.1f)
+        if((shootingSphere.transform.position - this.transform.position).magnitude <= 0.07f)
         {
             OnHit();
         }

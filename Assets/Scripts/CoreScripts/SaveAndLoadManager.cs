@@ -18,15 +18,15 @@ public class SaveAndLoadManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            CreateNewSave();
-        }
+        //if (Input.GetKeyDown(KeyCode.S))
+        //{
+        //    CreateNewSave();
+        //}
 
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            LoadSave();
-        }
+        //if (Input.GetKeyDown(KeyCode.L))
+        //{
+        //    LoadSave();
+        //}
     }
 
     // A function that takes data from scriptable objects and saves it to a json file
