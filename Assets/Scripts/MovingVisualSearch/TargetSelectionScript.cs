@@ -32,7 +32,13 @@ public class TargetSelectionScript : MonoBehaviour
     private ParticleSystem chargeParticles;
 
     [SerializeField]
-    MeshRenderer[] modifiedMeshRenderers = new MeshRenderer[0];
+    private MeshRenderer[] modifiedMeshRenderers = new MeshRenderer[0];
+
+    [SerializeField]
+    private GameObject unshatteredObject;
+
+    [SerializeField]
+    private GameObject shatteredObject;
 
     private MaterialPropertyBlock mpb;
 
@@ -48,9 +54,29 @@ public class TargetSelectionScript : MonoBehaviour
 
     private float rotationSpeed;
 
+    private List<Transform> shatteredObjectChildren = new List<Transform>();
+
     public void Start()
     {
         Initialize();
+
+        foreach (Transform child in shatteredObject.transform)
+        {
+            if (child != null)
+            {
+                shatteredObjectChildren.Add(child);
+
+                Rigidbody rb = child.gameObject.GetComponent<Rigidbody>();
+                if (rb == null)
+                {
+                    rb = child.gameObject.AddComponent<Rigidbody>();
+                    if (rb != null)
+                    {
+                        rb.useGravity = false;
+                    }
+                }
+            }
+        }
     }
 
     public void Initialize()
@@ -82,6 +108,17 @@ public class TargetSelectionScript : MonoBehaviour
         UpdateMaterialProperties();
     }
 
+    // set the transform of all children of the shattered object to the stored values
+    public void SetShatteredObjectChildrenTransforms()
+    {
+        for (int i = 0; i < shatteredObject.transform.childCount; i++)
+        {
+            Transform child = shatteredObject.transform.GetChild(i);
+            child.position = shatteredObjectChildren[i].position;
+            child.rotation = shatteredObjectChildren[i].rotation;
+        }
+    }
+
     private void SetMaterialPropertyBlock()
     {
         if(mpb == null)
@@ -101,6 +138,33 @@ public class TargetSelectionScript : MonoBehaviour
     {
         score.value += chargeLevel;
 
+        // disable unshattered object and enable shattered object
+        unshatteredObject.SetActive(false);
+        shatteredObject.SetActive(true);
+
+        chargeParticles.Play();
+
+        // add force to all sub-objects of the shattered object, originating from the point of the shooting sphere
+        foreach (Transform child in shatteredObject.transform)
+        {
+            Rigidbody rb = child.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce((child.position - shootingSphere.transform.position).normalized * 10f, ForceMode.Impulse);
+            }
+        }
+
+        // disable this object after 3 seconds
+        StartCoroutine(DisableAfterSeconds(3f));
+    }
+
+    // ienumerator that disables this object after 3 seconds
+    public IEnumerator DisableAfterSeconds(float time)
+    {
+        yield return new WaitForSeconds(time);
+
+        shatteredObject.SetActive(false);
+        unshatteredObject.SetActive(true);
         this.gameObject.SetActive(false);
     }
 

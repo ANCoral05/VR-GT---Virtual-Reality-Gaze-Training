@@ -66,8 +66,6 @@ public class InputSystemCoreScript : MonoBehaviour
 
     [Header("Test parameters")]
     public GameObject testCube;
-    public GameObject leftTestCube;
-    public GameObject rightTestCube;
 
     [Header("Public variables")]
     [HideInInspector, Tooltip("List of subscribed listeners that are informed whenever a controller hovers over a new object.")]
@@ -333,6 +331,7 @@ public class InputSystemCoreScript : MonoBehaviour
 
     public void ToggleCube()
     {
-        testCube.SetActive(!testCube.activeSelf);
+        if(testCube != null)
+            testCube.SetActive(!testCube.activeSelf);
     }
 }

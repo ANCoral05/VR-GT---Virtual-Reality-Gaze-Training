@@ -4162,9 +4162,7 @@ MonoBehaviour:
     type: 2}
   leftControllerObject: {fileID: 1907599969}
   rightControllerObject: {fileID: 1295852294}
-  testCube: {fileID: 844704923}
-  leftTestCube: {fileID: 844704923}
-  rightTestCube: {fileID: 844704923}
+  testCube: {fileID: 0}
   hoverListeners: []
   inputListeners: []
   pressedKeys: 
@@ -5834,7 +5832,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!135 &844704924
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -8523,7 +8521,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: b43e9535de0233047b2a1a5f32d8368a, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -14918,6 +14916,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: TargetSphere
       objectReference: {fileID: 0}
+    - target: {fileID: 6798905386575472010, guid: 54d9e60807bd09d4e8025dee506bc5c6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7323547295854228462, guid: 54d9e60807bd09d4e8025dee506bc5c6,
         type: 3}
       propertyPath: inputManagerScript
@@ -14991,6 +14994,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Target
+      objectReference: {fileID: 0}
+    - target: {fileID: 2236555673554601992, guid: 093fce8bb83fbd94c8429699c33f8420,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3135386119179382339, guid: 093fce8bb83fbd94c8429699c33f8420,
         type: 3}
