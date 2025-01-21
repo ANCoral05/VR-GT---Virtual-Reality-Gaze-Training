@@ -71,6 +71,17 @@
                 },
                 {
                     "name": "",
+                    "id": "604307bf-c3b1-407c-8dfa-7da445b46055",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "3e416e71-d44e-4ff7-85bf-362f832b83a6",
                     "path": "<EyeGaze>/{LeftEyePosition}",
                     "interactions": "",

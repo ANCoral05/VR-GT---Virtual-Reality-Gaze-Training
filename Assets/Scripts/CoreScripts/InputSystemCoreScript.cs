@@ -115,6 +115,8 @@ public class InputSystemCoreScript : MonoBehaviour
 
         AssignFunctionToAction(thumbstickPressActionLeft, ThumbstickPressFunctionLeft);
         AssignFunctionToAction(thumbstickPressActionRight, ThumbstickPressFunctionRight);
+
+        
     }
 
     void Start()
@@ -261,8 +263,6 @@ public class InputSystemCoreScript : MonoBehaviour
     private void TriggerFunctionRight(InputAction.CallbackContext context)
     {
         ControllerKeyEvent(ControllerKey.Trigger_Right, rightController);
-
-        ToggleCube();
     }
 
     private void PrimaryFunctionLeft(InputAction.CallbackContext context)

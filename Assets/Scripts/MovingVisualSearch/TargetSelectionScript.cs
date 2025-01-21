@@ -35,6 +35,9 @@ public class TargetSelectionScript : MonoBehaviour
     private MeshRenderer[] modifiedMeshRenderers = new MeshRenderer[0];
 
     [SerializeField]
+    private PooledGameObjectVariable shatteredObjectPool;
+
+    [SerializeField]
     private GameObject unshatteredObject;
 
     [SerializeField]
@@ -134,15 +137,11 @@ public class TargetSelectionScript : MonoBehaviour
         shootingSphere.GetComponent<EntityMovementScript>().SetNewTargetCourse(this.transform);
     }
 
-    public void OnHit()
+    public void OnHit(Collision collision)
     {
         score.value += chargeLevel;
 
-        // disable unshattered object and enable shattered object
-        unshatteredObject.SetActive(false);
-        shatteredObject.SetActive(true);
-
-        chargeParticles.Play();
+        shatteredObject = shatteredObjectPool.InstantiateOrRecycle(this.transform);
 
         // add force to all sub-objects of the shattered object, originating from the point of the shooting sphere
         foreach (Transform child in shatteredObject.transform)
@@ -150,22 +149,9 @@ public class TargetSelectionScript : MonoBehaviour
             Rigidbody rb = child.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce((child.position - shootingSphere.transform.position).normalized * 10f, ForceMode.Impulse);
+                rb.AddForce((child.position - collision.GetContact(0).point).normalized * 10f, ForceMode.Impulse);
             }
         }
-
-        // disable this object after 3 seconds
-        StartCoroutine(DisableAfterSeconds(3f));
-    }
-
-    // ienumerator that disables this object after 3 seconds
-    public IEnumerator DisableAfterSeconds(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        shatteredObject.SetActive(false);
-        unshatteredObject.SetActive(true);
-        this.gameObject.SetActive(false);
     }
 
     private void UpdateMaterialProperties()
@@ -205,7 +191,7 @@ public class TargetSelectionScript : MonoBehaviour
 
         if((shootingSphere.transform.position - this.transform.position).magnitude <= 0.07f)
         {
-            OnHit();
+            //OnHit();
         }
 
         UpdateEmissionIntensity();
@@ -214,6 +200,15 @@ public class TargetSelectionScript : MonoBehaviour
 
         this.transform.Rotate(rotationAxis, rotationSpeed * Time.deltaTime);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == shootingSphere)
+        {
+            OnHit(collision);
+        }
+    }
+
 
     // Function that lets the object rotate along a random axis
     public void SetRotation()
