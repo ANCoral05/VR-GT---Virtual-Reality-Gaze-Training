@@ -9662,7 +9662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1954daaa2f296a64a81c8328a88ab05f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneName: SampleScene
+  sceneName: MainMenu
   fadeColor: {r: 0, g: 0, b: 0, a: 1}
   fadeOutDuration: 1
   fadeInDuration: 1
