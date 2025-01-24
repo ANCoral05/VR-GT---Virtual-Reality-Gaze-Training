@@ -4117,6 +4117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 689102634}
+  - component: {fileID: 689102635}
   - component: {fileID: 689102631}
   - component: {fileID: 689102633}
   - component: {fileID: 689102632}
@@ -4253,6 +4254,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &689102635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 689102630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 112454e75978cc14f8acc153c3e5e4cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickAction: {fileID: 3001919216989983466, guid: ca9f5fa95ffab41fb9a615ab714db018,
+    type: 3}
 --- !u!1 &737002931
 GameObject:
   m_ObjectHideFlags: 0
@@ -8583,13 +8598,13 @@ MonoBehaviour:
   movementActive: 1
   movementMethod: 1
   currentMovementState: 0
-  targetSpeed: 40
-  movementAcceleration: 500
+  targetSpeed: 50
+  movementAcceleration: 1000
   movementDampening: 5
   maxTurnSpeed: -1
   breakDuration: 1
-  oscillationAmplitude: 0.4
-  oscillationDuration: 0.25
+  oscillationAmplitude: 0.7
+  oscillationDuration: 0.4
   currentSpeed: 0
   currentDirection: {x: 0, y: 0, z: 0}
   movementTarget: {fileID: 0}

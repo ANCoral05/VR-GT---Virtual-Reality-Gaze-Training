@@ -37,12 +37,6 @@ public class TargetSelectionScript : MonoBehaviour
     [SerializeField]
     private PooledGameObjectVariable shatteredObjectPool;
 
-    [SerializeField]
-    private GameObject unshatteredObject;
-
-    [SerializeField]
-    private GameObject shatteredObject;
-
     private MaterialPropertyBlock mpb;
 
     private Color baseColor = new Color();
@@ -59,27 +53,14 @@ public class TargetSelectionScript : MonoBehaviour
 
     private List<Transform> shatteredObjectChildren = new List<Transform>();
 
+    private GameObject shatteredObject;
+
+    [SerializeField]
+    private GameObject shatteredObjectReference;
+
     public void Start()
     {
         Initialize();
-
-        foreach (Transform child in shatteredObject.transform)
-        {
-            if (child != null)
-            {
-                shatteredObjectChildren.Add(child);
-
-                Rigidbody rb = child.gameObject.GetComponent<Rigidbody>();
-                if (rb == null)
-                {
-                    rb = child.gameObject.AddComponent<Rigidbody>();
-                    if (rb != null)
-                    {
-                        rb.useGravity = false;
-                    }
-                }
-            }
-        }
     }
 
     public void Initialize()
@@ -114,11 +95,19 @@ public class TargetSelectionScript : MonoBehaviour
     // set the transform of all children of the shattered object to the stored values
     public void SetShatteredObjectChildrenTransforms()
     {
+        Transform[] referenceChildren = shatteredObjectReference.GetComponentsInChildren<Transform>();
+
         for (int i = 0; i < shatteredObject.transform.childCount; i++)
         {
             Transform child = shatteredObject.transform.GetChild(i);
-            child.position = shatteredObjectChildren[i].position;
-            child.rotation = shatteredObjectChildren[i].rotation;
+            child.localPosition = referenceChildren[i].position;
+            child.localRotation = referenceChildren[i].rotation;
+
+            if(child.GetComponent<Rigidbody>() != null)
+            {
+                child.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                child.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            }
         }
     }
 
@@ -143,15 +132,25 @@ public class TargetSelectionScript : MonoBehaviour
 
         shatteredObject = shatteredObjectPool.InstantiateOrRecycle(this.transform);
 
-        // add force to all sub-objects of the shattered object, originating from the point of the shooting sphere
+        shatteredObject.transform.localScale = this.gameObject.transform.localScale;
+
+        SetShatteredObjectChildrenTransforms();
+
+        Vector3 approximateImpactPoint = (this.transform.position - 0.2f * shootingSphere.GetComponent<EntityMovementScript>().currentDirection.normalized);
+
+         // add force to all sub-objects of the shattered object, originating from the point of the shooting sphere
         foreach (Transform child in shatteredObject.transform)
         {
             Rigidbody rb = child.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.AddForce((child.position - collision.GetContact(0).point).normalized * 10f, ForceMode.Impulse);
+                // rb.AddForce((child.position - collision.GetContact(0).point).normalized * 10f, ForceMode.Impulse);            
+            
+                rb.AddForce((child.transform.position - approximateImpactPoint).normalized * 10f, ForceMode.Impulse);
             }
         }
+
+        this.gameObject.SetActive(false);
     }
 
     private void UpdateMaterialProperties()

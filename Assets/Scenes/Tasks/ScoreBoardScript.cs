@@ -22,9 +22,6 @@ public class ScoreBoardScript : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI livesTextMesh;
 
-    [SerializeField]
-    private bool backToMenuOnGameLost = false;
-
     public UnityEvent onGameLost;
 
     private void Start()
@@ -47,13 +44,13 @@ public class ScoreBoardScript : MonoBehaviour
             scoreTextMesh.text = "Score: " + score.value;
 
             difficultyMultiplier.value = 1 + (score.value / 100f);
+
+            livesTextMesh.text = "Lives remaining: " + lives.value;
         }
 
-        livesTextMesh.text = "Lives remaining: " + lives.value;
-
-        if (lives.value <= 0 && backToMenuOnGameLost)
+        if (lives.value <= 0)
         {
-            onGameLost.Invoke();
+            livesTextMesh.text = "Game Over!";
         }
     }
 
