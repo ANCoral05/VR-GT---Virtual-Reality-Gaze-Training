@@ -277,7 +277,7 @@ public class InputSystemCoreScript : MonoBehaviour
 
     private void SecondaryFunctionLeft(InputAction.CallbackContext context)
     {
-        //event
+        ControllerKeyEvent(ControllerKey.Secondary_Left, leftController);
     }
 
     private void SecondaryFunctionRight(InputAction.CallbackContext context)

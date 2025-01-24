@@ -1851,6 +1851,7 @@ Transform:
   - {fileID: 2124998130}
   - {fileID: 910801109}
   - {fileID: 997557951}
+  - {fileID: 1190755648}
   m_Father: {fileID: 727372667}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &188172652
@@ -7567,7 +7568,8 @@ MonoBehaviour:
   triggerActionLeft: {fileID: -5982496924579745919, guid: c348712bda248c246b8c49b3db54643f,
     type: 3}
   primaryActionLeft: {fileID: 0}
-  secondaryActionLeft: {fileID: 0}
+  secondaryActionLeft: {fileID: 4277583647160846293, guid: c348712bda248c246b8c49b3db54643f,
+    type: 3}
   gripActionLeft: {fileID: 0}
   thumbstickPressActionLeft: {fileID: 0}
   triggerActionRight: {fileID: 83097790271614945, guid: c348712bda248c246b8c49b3db54643f,
@@ -13236,7 +13238,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &997557951
 Transform:
   m_ObjectHideFlags: 0
@@ -15990,6 +15992,109 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1187129109}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1190755647
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1190755648}
+  - component: {fileID: 1190755650}
+  - component: {fileID: 1190755649}
+  m_Layer: 0
+  m_Name: DebugAssetToggle
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1190755648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190755647}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 188172651}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1190755649
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190755647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d77b8eb558ddd8489d752fb42c5cc3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1190755650}
+        m_TargetAssemblyTypeName: ToggleDebug, Assembly-CSharp
+        m_MethodName: ToggleDebugFunction
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  onClickRelease:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverStart:
+    m_PersistentCalls:
+      m_Calls: []
+  onHoverEnd:
+    m_PersistentCalls:
+      m_Calls: []
+  onToggleOn:
+    m_PersistentCalls:
+      m_Calls: []
+  onToggleOff:
+    m_PersistentCalls:
+      m_Calls: []
+  directInteractionKey: 
+  shortcutKey: 04000000
+  delayTime: 0
+  hoverHapticFeedback: 0
+  activateHapticFeedback: 0
+  isToggle: 0
+  inputManagerScript: {fileID: 635333338}
+  defaultItem: {fileID: 0}
+  hoverItem: {fileID: 0}
+  isPressedItem: {fileID: 0}
+  isToggledOnItem: {fileID: 0}
+  isDisabledItem: {fileID: 0}
+  buttonActivateSoundClip: {fileID: 0}
+  buttonHoverSoundClip: {fileID: 0}
+  hoverRayCount: 0
+--- !u!114 &1190755650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1190755647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46b5c693a080f564891ec8f65b6b862f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  debugCanvas: {fileID: 997557950}
 --- !u!1 &1191686306
 GameObject:
   m_ObjectHideFlags: 0
@@ -17489,8 +17594,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.6182334, y: 0.40000033, z: 0.20000124}
-  m_Center: {x: -0.02950701, y: 0, z: -0.00000005955193}
+  m_Size: {x: 0.974399, y: 0.40000033, z: 0.20000316}
+  m_Center: {x: -0.011562183, y: 0, z: -0.000000052129636}
 --- !u!4 &1305038670
 Transform:
   m_ObjectHideFlags: 0

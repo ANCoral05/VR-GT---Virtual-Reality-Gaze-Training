@@ -59,20 +59,17 @@ public class Relocate : MonoBehaviour
             fadeImage.rectTransform.offsetMax = Vector2.zero;
             fadeImage.color = new Color(0f, 0f, 0f, 0f);
         }
-
-        this.transform.SetParent(null);
-
-        DontDestroyOnLoad(this.gameObject);
     }
 
     public void RelocatePlayer()
     {
-        FadeOutAndIn(fadeColor, 1f, 1f);
-
+        StartCoroutine(FadeOutAndIn(fadeColor, 1f, 1f));
     }
 
     private IEnumerator FadeOutAndIn(Color fadeColor, float fadeOutDuration, float fadeInDuration)
     {
+        canvasObject.SetActive(true);
+
         if (fadeOutDuration > 0f)
         {
             canvasObject.SetActive(true);
