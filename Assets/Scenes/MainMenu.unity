@@ -7489,11 +7489,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6bd991db5009443a95083f0dde3be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveTrigger: 2
   storedParameterList:
-  - {fileID: 11400000, guid: 91dcd7ffef9d33c4e965e7550167553f, type: 2}
-  - {fileID: 11400000, guid: 0c00fb13b4e848741aefb77b11a24fe3, type: 2}
-  saveFileName: 
-  loadFileName: 
+  - {fileID: 11400000, guid: f303a13a478a1a6428c603e9a4b8d619, type: 2}
+  - {fileID: 11400000, guid: da315ed3f5e60474b91493c9f02dd59d, type: 2}
+  - {fileID: 11400000, guid: 01d253dc36d696f4bb8622329d2f4729, type: 2}
+  saveFileName: GazeQuest_SaveData
+  loadFileName: GazeQuest_SaveData
 --- !u!114 &635333337
 MonoBehaviour:
   m_ObjectHideFlags: 0
