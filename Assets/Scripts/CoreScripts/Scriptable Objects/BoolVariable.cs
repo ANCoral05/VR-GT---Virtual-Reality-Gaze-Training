@@ -46,14 +46,13 @@ namespace VRK_BuildingBlocks
 
         #endregion
 
-
+        // This method can be used by external scripts instead of setting the value directly to provide additional information about the cause of the value change (using tags).
         public void SetValueWithTag(bool newValue, string tag = "")
         {
             value = newValue;
             if (value != previousValue)
             {
                 HasValueChanged(value, tag);
-                
             }
         }
 
@@ -112,6 +111,7 @@ namespace VRK_BuildingBlocks
                 Application.quitting += Reset;
         }
 
+        // Remark: This method is required, as it is not possible to subscribe Reset() to the SceneManager.sceneLoaded event directly.
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
             Reset();
