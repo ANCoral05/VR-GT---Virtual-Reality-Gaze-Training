@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a75876f9c205d647b94b03631e4afad, type: 3}
   m_Name: TestFloat
   m_EditorClassIdentifier: 
-  value: 6
-  resetMethod: 2
+  value: 4
+  resetMethod: 1
   showChangesInDebugLog: 1

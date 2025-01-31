@@ -9,7 +9,7 @@ namespace VRK_BuildingBlocks
     public enum ResetMethod
     {
         NoneOrCustom,
-        OnSceneChange,
+        OnSceneEnd,
         OnGameEnd
     }
 
@@ -90,30 +90,44 @@ namespace VRK_BuildingBlocks
         {
             UnsubscribeResetMethod();
 
-            if (resetMethod == ResetMethod.OnGameEnd)
+            if(resetMethod == ResetMethod.NoneOrCustom)
             {
-                Application.quitting += Reset;
+                Application.quitting += SetResetValue;
             }
-            else if (resetMethod == ResetMethod.OnSceneChange)
+            else if (resetMethod == ResetMethod.OnSceneEnd)
             {
                 SceneManager.activeSceneChanged += OnSceneChanged;
+                Application.quitting += Reset;
+            }
+            else if (resetMethod == ResetMethod.OnGameEnd)
+            {
+                Application.quitting += Reset;
             }
         }
 
         private void UnsubscribeResetMethod()
         {
-            Application.quitting -= Reset;
+            Application.quitting -= SetResetValue;
             SceneManager.activeSceneChanged -= OnSceneChanged;
+            Application.quitting -= Reset;
         }
 
         private void OnValidate()
         {
-            if (!Application.isPlaying && !Equals(value, resetValue))
+            if (!Application.isPlaying)
             {
-                resetValue = value;
+                SetResetValue();
             }
 
             SubscribeResetMethod();
+        }
+
+        private void SetResetValue()
+        {
+            if (!Equals(value, resetValue))
+            {
+                resetValue = value;
+            }
         }
 
         private void OnSceneChanged(Scene oldScene, Scene newScene)
