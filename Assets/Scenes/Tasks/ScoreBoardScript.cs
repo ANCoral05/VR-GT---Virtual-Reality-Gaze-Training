@@ -28,27 +28,27 @@ public class ScoreBoardScript : MonoBehaviour
     {
         if(lives != null)
         {
-            lives.value = 3;
+            lives.Value = 3;
         }
 
         if (score != null)
         {
-            score.value = 0;
+            score.Value = 0;
         }
     }
 
     public void UpdateScore()
     {
-        if(lives.value > 0)
+        if(lives.Value > 0)
         {
-            scoreTextMesh.text = "Score: " + score.value;
+            scoreTextMesh.text = "Score: " + score.Value;
 
-            difficultyMultiplier.value = 1 + (score.value / 100f);
+            difficultyMultiplier.Value = 1 + (score.Value / 100f);
 
-            livesTextMesh.text = "Lives remaining: " + lives.value;
+            livesTextMesh.text = "Lives remaining: " + lives.Value;
         }
 
-        if (lives.value <= 0)
+        if (lives.Value <= 0)
         {
             livesTextMesh.text = "Game Over!";
         }

@@ -56,10 +56,10 @@ namespace VRK_BuildingBlocks
             obj.transform.position = GetPointInsideSpawnFieldCollider(spawnFields[currentSpawnFieldIndex]);
             SetIndices();
             timeSinceLastSpawn = 0f;
-            float newSpeed = 0.75f * difficultyMultiplier.value;
+            float newSpeed = 0.75f * difficultyMultiplier.Value;
 
-            obj.GetComponent<EntityMovementScript>().targetSpeed = 0.5f * difficultyMultiplier.value;
-            obj.GetComponent<TargetSelectionScript>().chargeInterval = 2f / difficultyMultiplier.value;
+            obj.GetComponent<EntityMovementScript>().targetSpeed = 0.5f * difficultyMultiplier.Value;
+            obj.GetComponent<TargetSelectionScript>().chargeInterval = 2f / difficultyMultiplier.Value;
         }
 
         private void SetIndices()
@@ -139,7 +139,7 @@ namespace VRK_BuildingBlocks
         {
             timeSinceLastSpawn += Time.deltaTime;
 
-            if (timeSinceLastSpawn > spawnIntervals[currentIntervalIndex]/difficultyMultiplier.value)
+            if (timeSinceLastSpawn > spawnIntervals[currentIntervalIndex]/difficultyMultiplier.Value)
             {
                 SpawnObject();
             }

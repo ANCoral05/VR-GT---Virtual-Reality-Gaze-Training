@@ -14,8 +14,8 @@ public class DisableTargetOnGround : MonoBehaviour
     {
         if (this.transform.position.y < groundLevel)
         {
-            if (lives != null && lives.value > 0)
-                lives.value -= 1;
+            if (lives != null && lives.Value > 0)
+                lives.Value -= 1;
 
             this.gameObject.SetActive(false);
         }

@@ -21,14 +21,14 @@ public class SaveAndLoadManager : MonoBehaviour
     // an enum to determine when to save or load, with options for "On variable change", "At fixed intervals", and "Manually"
     public enum SaveTrigger
     {
+        Manually,
         OnVariableChange,
         AtFixedTimeIntervals,
-        AtFixedFrameIntervals,
-        Manually
+        AtFixedFrameIntervals
     }
 
     [Header("Save and Load Settings")]
-    [SerializeField, Tooltip("When to save or load data")]
+    [SerializeField, Tooltip("Set when to save the data. \nManually: Only when calling the CreateNewSave() method. \nOn Variable Change: Whenever one of the variables in the Stored Parameter List is changed. \nAt Fixed Time Intervals: Creates a save file every X seconds, determined in fixedTimeInterval. \nAt Fixed Frame Intervals: Creates a save file every X frames, determined in fixedFrameInterval.")]
     private SaveTrigger saveTrigger = SaveTrigger.Manually;
 
     [SerializeField, Tooltip("List of ScriptableObjects to be saved")]
@@ -40,13 +40,13 @@ public class SaveAndLoadManager : MonoBehaviour
     [SerializeField, Tooltip("Load File Name (If not set, default Load File Name is used)")]
     private string loadFileName;
 
-    [SerializeField, Tooltip("Fixed time interval to store the save file.")]
+    [SerializeField, Tooltip("Fixed time interval (in seconds) to store the save file.")]
     private float fixedTimeInterval = 10f;
 
     [SerializeField, Tooltip("Fixed frame interval to store the save file.")]
     private int fixedFrameInterval = 1;
 
-    [SerializeField, Tooltip("If checked, a save file will created on initialization. Otherwise, the first save file will be created as soon as the save trigger is met.")]
+    [SerializeField, Tooltip("If checked, a save file will be created on initialization. Otherwise, the first save file will be created as soon as the save trigger is met.")]
     private bool saveOnInitialization;
 
     private float fixedTimeStamp;

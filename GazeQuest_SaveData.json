@@ -1,0 +1,12 @@
+ScriptableObject: TimeStamp
+Value: 0
+name: TimeStamp
+hideFlags: None
+ScriptableObject: Score
+Value: 0
+name: Score
+hideFlags: None
+ScriptableObject: DifficultyMultiplier
+Value: 1
+name: DifficultyMultiplier
+hideFlags: None

@@ -16,7 +16,7 @@ public class ShootingStarGame : MonoBehaviour
 
     private void Update()
     {
-        if (lives.value <= 0)
+        if (lives.Value <= 0)
         {
             GameLost();
         }
@@ -26,9 +26,9 @@ public class ShootingStarGame : MonoBehaviour
     {
         spawner.gameObject.SetActive(true);
 
-        lives.value = 3;
+        lives.Value = 3;
 
-        score.value = 0;
+        score.Value = 0;
     }
 
     public void GameLost()

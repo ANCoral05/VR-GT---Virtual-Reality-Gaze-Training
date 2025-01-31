@@ -128,7 +128,7 @@ public class TargetSelectionScript : MonoBehaviour
 
     public void OnHit(Collision collision)
     {
-        score.value += chargeLevel;
+        score.Value += chargeLevel;
 
         shatteredObject = shatteredObjectPool.InstantiateOrRecycle(this.transform);
 

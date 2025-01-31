@@ -7489,13 +7489,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa6bd991db5009443a95083f0dde3be8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveTrigger: 2
+  saveTrigger: 0
   storedParameterList:
   - {fileID: 11400000, guid: f303a13a478a1a6428c603e9a4b8d619, type: 2}
   - {fileID: 11400000, guid: da315ed3f5e60474b91493c9f02dd59d, type: 2}
   - {fileID: 11400000, guid: 01d253dc36d696f4bb8622329d2f4729, type: 2}
   saveFileName: GazeQuest_SaveData
   loadFileName: GazeQuest_SaveData
+  fixedTimeInterval: 10
+  fixedFrameInterval: 1
+  saveOnInitialization: 0
 --- !u!114 &635333337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7563,6 +7566,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b5ef4d3dcc47641ab0de09223d1738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testFloat: {fileID: 11400000, guid: 92cadc69d85bd674a8bca19ddfdc4d8e, type: 2}
   pooledGameObject: {fileID: 0}
   testArray2: {fileID: 0}
   testString: {fileID: 0}
