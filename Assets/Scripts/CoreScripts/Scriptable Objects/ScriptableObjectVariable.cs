@@ -16,7 +16,7 @@ namespace VRK_BuildingBlocks
     public abstract class ScriptableObjectVariable<T> : ScriptableObject
     {
         [SerializeField] private T value;
-        [SerializeField] private ResetMethod resetMethod = ResetMethod.NoneOrCustom;
+        [SerializeField] private ResetMethod resetMethod = ResetMethod.OnSceneEnd;
         [SerializeField] private bool showChangesInDebugLog;
 
         public event Action<T, T, string> OnValueChanged;

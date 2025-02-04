@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace VRK_BuildingBlocks
 {
-    [CreateAssetMenu(menuName = "Variables/Vector2 Variable")]
-    public class Vector2Variable : ScriptableObject
+    [CreateAssetMenu(menuName = "ScriptableObjectVariables/Vector2 Variable")]
+    public class Vector2Variable : ScriptableObjectVariable<Vector2>
     {
-        public Vector2 vector;
     }
 }

@@ -12,6 +12,7 @@ namespace VRK_BuildingBlocks
     [CustomPropertyDrawer(typeof(Vector4Variable))]
     [CustomPropertyDrawer(typeof(ArrayVariable<>))]
     [CustomPropertyDrawer(typeof(PooledGameObjectVariable))]
+    [CustomPropertyDrawer(typeof(ListVariable<>))]
     public class VariablePropertyDrawer : PropertyDrawer
     {
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
@@ -41,9 +42,13 @@ namespace VRK_BuildingBlocks
             System.Type type = fieldInfo.FieldType;
 
             // Handle generic types
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArrayVariable<>))
+            if (type.IsGenericType)
             {
-                type = typeof(ArrayVariable<>).MakeGenericType(type.GetGenericArguments());
+                var genericDef = type.GetGenericTypeDefinition();
+                if (genericDef == typeof(ArrayVariable<>) || genericDef == typeof(ListVariable<>))
+                {
+                    type = genericDef;
+                }
             }
 
             // Ensure the type is a ScriptableObject
@@ -67,9 +72,14 @@ namespace VRK_BuildingBlocks
             }
 
             string folderPath;
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(ArrayVariable<>))
+            var genericTypeDef = type.IsGenericType ? type.GetGenericTypeDefinition() : null;
+            if (genericTypeDef == typeof(ArrayVariable<>))
             {
                 folderPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(scriptPath), "ArrayVariableAssets");
+            }
+            else if (genericTypeDef == typeof(ListVariable<>))
+            {
+                folderPath = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(scriptPath), "ListVariableAssets");
             }
             else
             {
