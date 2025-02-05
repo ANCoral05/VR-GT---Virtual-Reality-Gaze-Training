@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
   m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+  m_FogColor: {r: 0.18614274, g: 0.24010882, b: 0.4433962, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.01
   m_LinearFogStart: 0
@@ -3058,16 +3058,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 997557952}
+        m_TargetAssemblyTypeName: DebugInterfaceScript, Assembly-CSharp
+        m_MethodName: ToggleStackTrace
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onClickRelease:
     m_PersistentCalls:
       m_Calls: []
   onHoverStart:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 283070080}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: OnHover
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHoverEnd:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 283070080}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: OnHoverEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onToggleOn:
     m_PersistentCalls:
       m_Calls: []
@@ -7566,6 +7602,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b5ef4d3dcc47641ab0de09223d1738, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testList: {fileID: 0}
   testFloat: {fileID: 11400000, guid: 92cadc69d85bd674a8bca19ddfdc4d8e, type: 2}
   pooledGameObject: {fileID: 0}
   testArray2: {fileID: 0}
@@ -18664,16 +18701,52 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   onClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 997557952}
+        m_TargetAssemblyTypeName: DebugInterfaceScript, Assembly-CSharp
+        m_MethodName: ClearDebugLog
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onClickRelease:
     m_PersistentCalls:
       m_Calls: []
   onHoverStart:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1395503433}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: OnHover
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onHoverEnd:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1395503433}
+        m_TargetAssemblyTypeName: ActionEventScript, Assembly-CSharp
+        m_MethodName: OnHoverEnd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   onToggleOn:
     m_PersistentCalls:
       m_Calls: []
