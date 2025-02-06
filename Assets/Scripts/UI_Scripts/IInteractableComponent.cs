@@ -9,5 +9,6 @@ namespace VRK_BuildingBlocks
     {
         void OnConditionStart(IControllerComponent controller);
         void OnConditionEnd(IControllerComponent controller);
+        bool ConditionActive { get; }
     }
 }
