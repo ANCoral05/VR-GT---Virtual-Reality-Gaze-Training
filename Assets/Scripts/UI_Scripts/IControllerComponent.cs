@@ -6,6 +6,5 @@ namespace VRK_BuildingBlocks
 {
     public interface IControllerComponent
     {
-
     }
 }
