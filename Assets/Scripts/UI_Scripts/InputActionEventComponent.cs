@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace VRK_BuildingBlocks
 {
-    public class InpuActionEventComponent : MonoBehaviour
+    public class InputActionEventComponent : MonoBehaviour
     {
         [SerializeField] private InputAction inputAction;
 

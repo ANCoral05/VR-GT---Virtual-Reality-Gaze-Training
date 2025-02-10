@@ -8,19 +8,31 @@ namespace VRK_BuildingBlocks
     {
         [SerializeField] private Transform raycastOrigin;
 
+        [SerializeField] private GameObject raycastVisualizer;
+
         [SerializeField] private LayerMask layerMask;
 
         public bool isActiveController;
 
         private Transform raycastTarget;
 
+        private void Update()
+        {
+            if (isActiveController)
+            {
+                GetRaycastTarget();
+            }
+        }
+
+        public void SetControllerActiveState(bool isActive)
+        {
+            isActiveController = isActive;
+
+            raycastVisualizer.SetActive(isActive);
+        }
+
         private void GetRaycastTarget()
         {
-            if (!isActiveController)
-            {
-                return;
-            }
-
             if (Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out RaycastHit hit, 100, layerMask))
             {
                 if(raycastTarget != hit.transform)

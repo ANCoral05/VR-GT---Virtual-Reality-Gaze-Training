@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace VRK_BuildingBlocks
 {
-    public interface IInteractionComponent
+    public interface IInteractionCondition
     {
         void OnConditionStart(IControllerComponent controller);
         void OnConditionEnd(IControllerComponent controller);
