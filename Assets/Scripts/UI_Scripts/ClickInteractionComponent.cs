@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace VRK_BuildingBlocks
 {
-    public class ClickInteractionComponent : MonoBehaviour, IInteractionComponent
+    public class ClickInteractionComponent : MonoBehaviour, IInteractionCondition
     {
         public UnityEvent OnHoverStart;
         public UnityEvent OnHoverEnd;

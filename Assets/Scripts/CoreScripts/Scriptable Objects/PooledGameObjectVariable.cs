@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Reflection;
 using GazeQuestUtils;
+using JetBrains.Annotations;
 
 namespace VRK_BuildingBlocks
 {
@@ -63,6 +64,14 @@ namespace VRK_BuildingBlocks
                     break;
                 }
             }
+
+            string LayerName = "Default";
+
+            // function to do a sphere cast from this object downwards, colldiing with layer LayerName
+
+
+
+
 
             if (obj == null)
             {

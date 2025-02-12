@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 
 namespace VRK_BuildingBlocks
 {
-    public class ProximityInteractionComponent : MonoBehaviour, IInteractionComponent
+    public class ProximityInteractionComponent : MonoBehaviour, IInteractionCondition
     {
         public UnityEvent OnDistanceReached;
         public UnityEvent OnDistanceLeft;

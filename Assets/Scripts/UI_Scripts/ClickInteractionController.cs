@@ -58,7 +58,7 @@ namespace VRK_BuildingBlocks
         {
             if (newTarget != null)
             {
-                if (newTarget.TryGetComponent(out IInteractionComponent interactionComponent))
+                if (newTarget.TryGetComponent(out IInteractionCondition interactionComponent))
                 {
                     interactionComponent.OnConditionStart(this);
                 }
@@ -66,7 +66,7 @@ namespace VRK_BuildingBlocks
             
             if (previousTarget != null)
             {
-                if (previousTarget.TryGetComponent(out IInteractionComponent interactionComponent))
+                if (previousTarget.TryGetComponent(out IInteractionCondition interactionComponent))
                 {
                     interactionComponent.OnConditionEnd(this);
                 }

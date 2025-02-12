@@ -86,6 +86,18 @@ namespace VRK_BuildingBlocks
         [Tooltip("The maximum number of steps the entity will take before stopping. Set to -1 for infinite steps.")]
         public int maxStepNumber = -1;
 
+        [Header("Randomized Transform")]
+        [Tooltip("The transform around which the entity will move randomly.")]
+        public Transform randomAreaOrigin;
+
+        [Tooltip("The area around the movement box origin in which the entity will move randomly.")]
+        public Vector3 randomArea = Vector3.one;
+
+        [Tooltip("The interval in which the entity will change its direction. Set to -1 to only change direction when reaching the previous random target position.")]
+        public float randomDirectionChangeInterval = -1;
+
+        private float randomDirectionChangeTime = 0;
+
         private float targetSpeedBackup = -1;
 
         private int currentKeyIndex = 0;
@@ -285,7 +297,24 @@ namespace VRK_BuildingBlocks
 
         public void RandomizedTransformationMovement()
         {
-            
+
+            if (movementTarget == null)
+            {
+                return;
+            }
+
+            if (randomDirectionChangeInterval >= 0 && (Time.time - randomDirectionChangeTime >= randomDirectionChangeInterval || (this.transform.position - movementTarget.position).magnitude < 0.01f))
+            {
+                movementTarget.position = randomAreaOrigin.position + randomAreaOrigin.rotation * new Vector3(Random.Range(-randomArea.x, randomArea.x), Random.Range(-randomArea.y, randomArea.y), Random.Range(-randomArea.z, randomArea.z));
+                // show the area as a gizmo
+                Debug.DrawLine(randomAreaOrigin.position + new Vector3(randomArea.x, randomArea.y, randomArea.z), randomAreaOrigin.position + new Vector3(-randomArea.x, randomArea.y, randomArea.z), Color.red);
+                randomDirectionChangeTime = Time.time;
+                SetNewTargetCourse(movementTarget);
+            }
+
+            targetDirection = movementTarget.position - this.transform.position;
+
+            float distanceToTarget = (movementTarget.position - this.transform.position).magnitude;
         }
 
         public void Oscillation(BreakEvent breakEvent, float maxAmplitude, float duration)
