@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc7cf0680627e4349afd2daf42c29385, type: 3}
-  m_Name: MovingTargetTrackingPool
+  m_Script: {fileID: 11500000, guid: 17f27b95fb00c3e4a8f69acc4efba8fe, type: 3}
+  m_Name: Origin
   m_EditorClassIdentifier: 
-  gameObjectPrefab: {fileID: 3654904663799024956, guid: 26fda89e6aed2e045a87a9187100a201,
-    type: 3}
-  componentsToReset: []
-  resetNonSerializedFields: 0
+  value: {fileID: 0}
+  resetMethod: 1
+  showChangesInDebugLog: 1

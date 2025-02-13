@@ -115,6 +115,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1261500551380057547}
   - component: {fileID: 3213337043933526150}
+  - component: {fileID: 4183310651865315503}
   m_Layer: 0
   m_Name: MovingTarget
   m_TagString: Untagged
@@ -170,3 +171,19 @@ MonoBehaviour:
   randomizeTargetKeys: 0
   fixedTravelTime: -1
   maxStepNumber: -1
+  randomAreaOrigin: {fileID: 0}
+  randomArea: {x: 0.1, y: 3, z: 3}
+  randomDirectionChangeInterval: 0.2
+--- !u!114 &4183310651865315503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3654904663799024956}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e91f848b05a80274eb306854b161db59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  origin: {fileID: 11400000, guid: b52b4bcbcc42ac14d974c85c4f5e12f7, type: 2}

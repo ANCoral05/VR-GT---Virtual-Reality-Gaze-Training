@@ -49,6 +49,8 @@ namespace VRK_BuildingBlocks
 
         private float timeSinceLastSpawn = 0;
 
+        private int currentLoop = 0;
+
 
         private void SpawnObject()
         {
@@ -59,7 +61,8 @@ namespace VRK_BuildingBlocks
             float newSpeed = 0.75f * difficultyMultiplier.Value;
 
             obj.GetComponent<EntityMovementScript>().targetSpeed = 0.5f * difficultyMultiplier.Value;
-            obj.GetComponent<TargetSelectionScript>().chargeInterval = 2f / difficultyMultiplier.Value;
+            if(obj.GetComponent<TargetSelectionScript>() != null)
+                obj.GetComponent<TargetSelectionScript>().chargeInterval = 2f / difficultyMultiplier.Value;
         }
 
         private void SetIndices()
@@ -139,9 +142,10 @@ namespace VRK_BuildingBlocks
         {
             timeSinceLastSpawn += Time.deltaTime;
 
-            if (timeSinceLastSpawn > spawnIntervals[currentIntervalIndex]/difficultyMultiplier.Value)
+            if (timeSinceLastSpawn > spawnIntervals[currentIntervalIndex]/difficultyMultiplier.Value && currentLoop < numberOfLoops)
             {
                 SpawnObject();
+                currentLoop++;
             }
         }
     }

@@ -6503,6 +6503,8 @@ GameObject:
   m_Component:
   - component: {fileID: 545277971}
   - component: {fileID: 545277972}
+  - component: {fileID: 545277973}
+  - component: {fileID: 545277974}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -6519,7 +6521,7 @@ Transform:
   m_GameObject: {fileID: 545277970}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -1.71, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6532,23 +6534,61 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545277970}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c13720e8fc675e840b6d32076e26198f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameObjectList: []
-  spawnIntervals: []
-  spawnFields: []
-  numberOfSpawnedEntities: 
-  minDistanceBetweenEntities: 0
-  numberOfLoops: -1
+  gameObjectList:
+  - {fileID: 11400000, guid: c688f9e8352b93e44937a483d971517a, type: 2}
+  spawnIntervals:
+  - 0
+  spawnFields:
+  - {fileID: 545277971}
+  numberOfSpawnedEntities: 08000000
+  minDistanceBetweenEntities: 0.2
+  numberOfLoops: 1
   randomEntityOrder: 0
   randomIntervalOrder: 0
   randomSpawnFieldOrder: 0
   targetPoolContainers: []
-  disableAfterSpawning: 1
-  difficultyMultiplier: {fileID: 0}
+  disableAfterSpawning: 0
+  difficultyMultiplier: {fileID: 11400000, guid: 01d253dc36d696f4bb8622329d2f4729,
+    type: 2}
+--- !u!65 &545277973
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545277970}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.1, y: 3, z: 3}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &545277974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545277970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f676ba4d0e05324694ea1b00ad02ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  origin: {fileID: 11400000, guid: b52b4bcbcc42ac14d974c85c4f5e12f7, type: 2}
 --- !u!1 &574149038
 GameObject:
   m_ObjectHideFlags: 0
