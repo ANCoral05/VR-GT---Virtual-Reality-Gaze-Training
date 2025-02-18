@@ -12,18 +12,15 @@ public class PooledGameObjectComponent : MonoBehaviour
 
     [SerializeField] private bool showInDebugLog = false;
 
-    private GameObjectPool pool;
+    [SerializeField] private string poolID;
 
-    private void Awake()
-    {
-        InstantiatePoolObject();
-    }
+    private GameObjectPool pool;
 
     private void InstantiatePoolObject()
     {
         if (pool == null)
         {
-            pool = GameObject.Find($"{this.GetInstanceID()}_Pool")?.GetComponent<GameObjectPool>();
+            pool = GameObject.Find($"{poolID}_Pool")?.GetComponent<GameObjectPool>();
 
             if (pool != null)
             {
@@ -31,7 +28,7 @@ public class PooledGameObjectComponent : MonoBehaviour
             }
 
             GameObject poolObject = new GameObject();
-            poolObject.name = $"{this.GetInstanceID()}_Pool";
+            poolObject.name = $"{poolID}_Pool";
             pool = poolObject.AddComponent<GameObjectPool>();
         }
     }
@@ -70,6 +67,14 @@ public class PooledGameObjectComponent : MonoBehaviour
         }
 
         return instanciatedObject;
+    }
+
+    private void OnValidate()
+    {
+        if(poolID == null)
+        {
+            poolID = this.GetInstanceID().ToString();
+        }
     }
 
     private void OnEnable()
