@@ -6,7 +6,7 @@ namespace VRK_BuildingBlocks
     public class EntitySpawnerScript : MonoBehaviour
     {
         [SerializeField, Tooltip("The entitíes to spawn (can also include new EntitySpawners).")]
-        private List<PooledGameObjectVariable> gameObjectList;
+        private List<GameObject> gameObjectList;
 
         [SerializeField, Tooltip("List of intervals after which the entities will be spawned.")]
         private List<float> spawnIntervals;
@@ -32,6 +32,9 @@ namespace VRK_BuildingBlocks
         [SerializeField, Tooltip("Toggle on to use spawn fields in random order instead of looping through the list.")]
         private bool randomSpawnFieldOrder;
 
+        [SerializeField, Tooltip("Toggle on to use number of spawned entities in random order instead of looping through the list.")]
+        private bool randomNumberOfSpawnedEntitiesOrder;
+
         [SerializeField, Tooltip("Set the target pool containers to add the targets to after spawning.")]
         private List<PooledGameObjectVariable> targetPoolContainers;
 
@@ -47,6 +50,8 @@ namespace VRK_BuildingBlocks
 
         private int currentSpawnFieldIndex = 0;
 
+        private int currentNumberOfSpawnedEntitiesIndex = 0;
+
         private float timeSinceLastSpawn = 0;
 
         private int currentLoop = 0;
@@ -54,7 +59,16 @@ namespace VRK_BuildingBlocks
 
         private void SpawnObject()
         {
-            GameObject obj = gameObjectList[currentEntityIndex].InstantiateOrRecycle(this.transform, this.transform);
+            GameObject obj = null;
+
+            if (gameObjectList[currentEntityIndex].GetComponent<PooledGameObjectComponent>() != null)
+            {
+                obj = gameObjectList[currentEntityIndex].GetComponent<PooledGameObjectComponent>().GetInstance();
+            }
+            else
+            {
+                obj = Instantiate(gameObjectList[currentEntityIndex]);
+            }
             obj.transform.position = GetPointInsideSpawnFieldCollider(spawnFields[currentSpawnFieldIndex]);
             SetIndices();
             timeSinceLastSpawn = 0f;
@@ -67,7 +81,7 @@ namespace VRK_BuildingBlocks
 
         private void SetIndices()
         {
-            if(randomEntityOrder)
+            if (randomEntityOrder)
             {
                 currentEntityIndex = Random.Range(0, gameObjectList.Count);
             }
@@ -92,6 +106,19 @@ namespace VRK_BuildingBlocks
             else
             {
                 currentSpawnFieldIndex = (currentSpawnFieldIndex + 1) % spawnFields.Count;
+            }
+
+            if(numberOfSpawnedEntities.Count == 0)
+            {
+                return;
+            }
+            if (randomNumberOfSpawnedEntitiesOrder)
+            {
+                currentNumberOfSpawnedEntitiesIndex = Random.Range(0, numberOfSpawnedEntities.Count);
+            }
+            else
+            {
+                currentNumberOfSpawnedEntitiesIndex = (currentNumberOfSpawnedEntitiesIndex + 1) % numberOfSpawnedEntities.Count;
             }
         }
 
@@ -142,9 +169,12 @@ namespace VRK_BuildingBlocks
         {
             timeSinceLastSpawn += Time.deltaTime;
 
-            if (timeSinceLastSpawn > spawnIntervals[currentIntervalIndex]/difficultyMultiplier.Value && currentLoop < numberOfLoops)
+            if (timeSinceLastSpawn > spawnIntervals[currentIntervalIndex]/difficultyMultiplier.Value && (currentLoop < numberOfLoops || numberOfLoops < 0))
             {
-                SpawnObject();
+                for (int i = 0; i < numberOfSpawnedEntities[currentNumberOfSpawnedEntitiesIndex]; i++)
+                {
+                    SpawnObject();
+                }
                 currentLoop++;
             }
         }

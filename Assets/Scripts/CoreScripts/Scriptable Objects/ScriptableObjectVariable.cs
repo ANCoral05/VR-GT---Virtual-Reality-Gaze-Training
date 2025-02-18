@@ -17,11 +17,11 @@ namespace VRK_BuildingBlocks
     {
         [SerializeField] private T value;
         [SerializeField] private ResetMethod resetMethod = ResetMethod.OnSceneEnd;
-        [SerializeField] private bool showChangesInDebugLog;
+        [SerializeField] protected bool showChangesInDebugLog;
 
         public event Action<T, T, string> OnValueChanged;
 
-        private T resetValue;
+        protected T resetValue;
 
         public T Value
         {
@@ -35,7 +35,7 @@ namespace VRK_BuildingBlocks
             }
         }
 
-        protected void ValueChanged(T newValue, T previousValue, string tag)
+        private void ValueChanged(T newValue, T previousValue, string tag)
         {
             this.value = newValue;
 
@@ -59,12 +59,12 @@ namespace VRK_BuildingBlocks
             }
         }
 
-        public void SetValueWithTag(T newValue, string tag)
+        private void SetValueWithTag(T newValue, string tag)
         {
             ValueChanged(newValue, value, tag);
         }
 
-        public void Reset()
+        protected virtual void Reset()
         {
             Value = resetValue;
 
@@ -96,7 +96,7 @@ namespace VRK_BuildingBlocks
             }
             else if (resetMethod == ResetMethod.OnSceneEnd)
             {
-                SceneManager.activeSceneChanged += OnSceneChanged;
+                SceneManager.sceneUnloaded += OnSceneChanged;
                 Application.quitting += Reset;
             }
             else if (resetMethod == ResetMethod.OnGameEnd)
@@ -108,7 +108,7 @@ namespace VRK_BuildingBlocks
         private void UnsubscribeResetMethod()
         {
             Application.quitting -= SetResetValue;
-            SceneManager.activeSceneChanged -= OnSceneChanged;
+            SceneManager.sceneUnloaded -= OnSceneChanged;
             Application.quitting -= Reset;
         }
 
@@ -122,15 +122,15 @@ namespace VRK_BuildingBlocks
             SubscribeResetMethod();
         }
 
-        private void SetResetValue()
+        protected virtual void SetResetValue()
         {
-            if (!Equals(value, resetValue))
+            if (!Equals(Value, resetValue))
             {
-                resetValue = value;
+                resetValue = Value;
             }
         }
 
-        private void OnSceneChanged(Scene oldScene, Scene newScene)
+        private void OnSceneChanged(Scene scene)
         {
             Reset();
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using GazeQuestUtils;
+using Unity.VisualScripting.ReorderableList.Element_Adder_Menu;
 
 public class ActionEventScript : MonoBehaviour
 {
@@ -82,6 +83,12 @@ public class ActionEventScript : MonoBehaviour
     void Update()
     {
         
+    }
+
+    [ContextMenu("Activate Button")]
+    public void ContextMenuClick()
+    {
+        onClick.Invoke();
     }
 
     public void OnPressed(ControllerKey inputKey)

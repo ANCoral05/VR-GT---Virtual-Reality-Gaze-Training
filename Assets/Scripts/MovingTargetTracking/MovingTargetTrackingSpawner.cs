@@ -8,9 +8,20 @@ namespace VRK_BuildingBlocks
     {
         [SerializeField] private GameObjectVariable origin;
 
+        private void Awake()
+        {
+            if (origin.Value == null)
+            {
+                origin.Value = this.gameObject;
+            }
+        }
+
         private void OnEnable()
         {
-            origin.Value = this.gameObject;
+            if (origin.Value == null)
+            {
+                origin.Value = this.gameObject;
+            }
         }
     }
 }

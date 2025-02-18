@@ -347,6 +347,7 @@ GameObject:
   - component: {fileID: 8861044012734149338}
   - component: {fileID: -4464651866625139183}
   - component: {fileID: 6638058714439069496}
+  - component: {fileID: 7124021039137130611}
   m_Layer: 0
   m_Name: Target
   m_TagString: Untagged
@@ -390,10 +391,10 @@ MonoBehaviour:
       - m_Target: {fileID: 8861044012734149338}
         m_TargetAssemblyTypeName: TargetSelectionScript, Assembly-CSharp
         m_MethodName: Initialize
-        m_Mode: 2
+        m_Mode: 1
         m_Arguments:
-          m_ObjectArgument: {fileID: 8861044012734149338}
-          m_ObjectArgumentAssemblyTypeName: TargetSelectionScript, Assembly-CSharp
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -448,6 +449,9 @@ MonoBehaviour:
   randomizeTargetKeys: 0
   fixedTravelTime: -1
   maxStepNumber: -1
+  randomAreaOrigin: {fileID: 0}
+  randomArea: {x: 1, y: 1, z: 1}
+  randomDirectionChangeInterval: -1
 --- !u!114 &8861044012734149338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -616,6 +620,25 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.23
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7124021039137130611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184811859338379102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b34397a7788a3d04eaeaf8ad8c05f4e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnSpawn:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDespawn:
+    m_PersistentCalls:
+      m_Calls: []
+  showInDebugLog: 1
 --- !u!1 &1392056827581294586
 GameObject:
   m_ObjectHideFlags: 0
