@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using VRK_BuildingBlocks;
+using TMPro;
 
 public class ShootingStarGame : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class ShootingStarGame : MonoBehaviour
 
     [SerializeField]
     private IntVariable lives;
+
+    [SerializeField]
+    private TextMeshPro signText;
 
     private void Update()
     {
@@ -29,6 +33,8 @@ public class ShootingStarGame : MonoBehaviour
         lives.Value = 3;
 
         score.Value = 0;
+
+        signText.text = "Game started!";
     }
 
     public void GameLost()
@@ -39,5 +45,7 @@ public class ShootingStarGame : MonoBehaviour
         }
 
         spawner.gameObject.SetActive(false);
+
+        signText.text = "Start new game!";
     }
 }
